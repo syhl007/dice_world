@@ -1,0 +1,10 @@
+{% if character_list %}
+    <ul>
+        {% for character in character_list %}
+            <li><img src={{ character.head }}><a href="{'characters:detail' character.uuid}/">{{ character.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No character are available.</p>
+{% endif %}
