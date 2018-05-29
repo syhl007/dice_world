@@ -51,7 +51,7 @@ class Character(models.Model):
     user = models.ForeignKey(verbose_name=u"上传者", to=User, on_delete=models.CASCADE)
     add_time = models.DateTimeField(verbose_name=u"创建时间", default=datetime.now)
     update_user = models.ForeignKey(verbose_name=u"修改者", to=User, on_delete=models.CASCADE)
-    update_time = models.DateTimeField(verbose_name=u"更新时间", default=datetime.now)
+    update_time = models.DateTimeField(verbose_name=u"更新时间", auto_now=True)
 
     def __str__(self):
         return self.name
@@ -79,7 +79,7 @@ class GameTxt(models.Model):
     id = models.CharField(verbose_name="UUID", max_length=64, primary_key=True, default=create_uuid)
     user = models.ForeignKey(verbose_name=u"上传者", to=User, on_delete=models.CASCADE)
     file = models.FileField(verbose_name=u"游戏记录文件")
-    add_time = models.DateTimeField(verbose_name=u"加入时间", default=datetime.now)
+    add_time = models.DateTimeField(verbose_name=u"创建时间", default=datetime.now)
 
     class Meta:
         verbose_name = u"游戏文本信息"

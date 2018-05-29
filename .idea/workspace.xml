@@ -2,28 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7cbbf86d-dca6-4027-ad2b-0d5a1d1b4f02" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/apps/game_manager/__init__.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/apps/game_manager/admin.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/apps/game_manager/apps.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/apps/game_manager/character_urls.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/apps/game_manager/migrations/__init__.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/apps/game_manager/models.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/apps/game_manager/room_urls.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/apps/game_manager/tests.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/apps/game_manager/views.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/apps/user_manager/__init__.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/apps/user_manager/admin.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/apps/user_manager/apps.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/apps/user_manager/migrations/__init__.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/apps/user_manager/models.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/apps/user_manager/tests.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/apps/user_manager/views.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/templates/room/character_list.html" />
-      <change beforePath="$PROJECT_DIR$/.idea/dice_world.iml" afterPath="$PROJECT_DIR$/.idea/dice_world.iml" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/dice_world/settings.py" afterPath="$PROJECT_DIR$/dice_world/settings.py" />
-      <change beforePath="$PROJECT_DIR$/dice_world/urls.py" afterPath="$PROJECT_DIR$/dice_world/urls.py" />
+      <change beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
+      <change beforePath="$PROJECT_DIR$/apps/game_manager/models.py" afterPath="$PROJECT_DIR$/apps/game_manager/models.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -52,8 +32,8 @@
       <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/apps/game_manager/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="477">
-              <caret line="86" column="0" lean-forward="true" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
+            <state relative-caret-position="-1075">
+              <caret line="33" column="86" lean-forward="false" selection-start-line="33" selection-start-column="75" selection-end-line="33" selection-end-column="86" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -61,70 +41,12 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/apps/game_manager/views.py">
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#35#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="character_list.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/room/character_list.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+            <state relative-caret-position="324">
+              <caret line="9" column="26" lean-forward="true" selection-start-line="9" selection-start-column="26" selection-end-line="9" selection-end-column="26" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/dice_world/urls.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="307">
-              <caret line="22" column="54" lean-forward="false" selection-start-line="22" selection-start-column="54" selection-end-line="22" selection-end-column="54" />
-              <folding>
-                <element signature="e#634#666#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="character_urls.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/apps/game_manager/character_urls.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="8" column="1" lean-forward="true" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="room_urls.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/apps/game_manager/room_urls.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="211">
-              <caret line="10" column="35" lean-forward="true" selection-start-line="10" selection-start-column="35" selection-end-line="10" selection-end-column="35" />
-              <folding>
-                <element signature="e#0#32#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/apps/user_manager/models.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="5" column="0" lean-forward="true" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#51#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -139,6 +61,11 @@
       </list>
     </option>
   </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>GroupMember</find>
+    </findStrings>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -152,10 +79,11 @@
         <option value="$PROJECT_DIR$/apps/chat_room/apps.py" />
         <option value="$PROJECT_DIR$/dice_world/urls.py" />
         <option value="$PROJECT_DIR$/templates/room/character_list.html" />
-        <option value="$PROJECT_DIR$/apps/game_manager/models.py" />
         <option value="$PROJECT_DIR$/apps/game_manager/room_urls.py" />
         <option value="$PROJECT_DIR$/apps/game_manager/character_urls.py" />
         <option value="$PROJECT_DIR$/dice_world/settings.py" />
+        <option value="$PROJECT_DIR$/apps/game_manager/models.py" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -400,31 +328,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dice_world/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-63">
-          <caret line="84" column="13" lean-forward="true" selection-start-line="84" selection-start-column="13" selection-end-line="84" selection-end-column="13" />
-          <folding>
-            <element signature="e#311#320#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/urls/conf.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="81">
           <caret line="70" column="47" lean-forward="true" selection-start-line="70" selection-start-column="47" selection-end-line="70" selection-end-column="47" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/game_manager/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="477">
-          <caret line="86" column="0" lean-forward="true" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -448,11 +356,53 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/game_manager/room_urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="211">
-          <caret line="10" column="35" lean-forward="true" selection-start-line="10" selection-start-column="35" selection-end-line="10" selection-end-column="35" />
+        <state relative-caret-position="333">
+          <caret line="13" column="0" lean-forward="true" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
           <folding>
             <element signature="e#0#32#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dice_world/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-63">
+          <caret line="84" column="13" lean-forward="true" selection-start-line="84" selection-start-column="13" selection-end-line="84" selection-end-column="13" />
+          <folding>
+            <element signature="e#311#320#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/db/models/fields/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-325">
+          <caret line="1288" column="6" lean-forward="false" selection-start-line="1288" selection-start-column="6" selection-end-line="1288" selection-end-column="6" />
+          <folding>
+            <element signature="e#48447#48951#0" expanded="false" />
+            <element signature="e#49085#50810#0" expanded="false" />
+            <element signature="e#50853#50875#0" expanded="false" />
+            <element signature="e#50917#52773#0" expanded="false" />
+            <element signature="e#52828#53064#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/game_manager/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1075">
+          <caret line="33" column="86" lean-forward="false" selection-start-line="33" selection-start-column="75" selection-end-line="33" selection-end-column="86" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="9" column="26" lean-forward="true" selection-start-line="9" selection-start-column="26" selection-end-line="9" selection-end-column="26" />
+          <folding />
         </state>
       </provider>
     </entry>
