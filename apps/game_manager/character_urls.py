@@ -5,5 +5,5 @@ from game_manager import views
 
 app_name = 'characters'
 urlpatterns = [
-    # path('<str:character_uuid>/', None, name='detail'),
+    # path('<uuid:character_uuid>/', None, name='detail'),
 ]
