@@ -39,9 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'game_manager',
     'user_manager',
+    'game_manager',
 ]
+
+# 用户类
+AUTH_USER_MODEL = 'user_manager.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -83,7 +86,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'dice_world',
         'USER': 'root',
-        'PASSWORD': '1234',
+        'PASSWORD': '123456',
         'HOST': '127.0.0.1',
         'POST': '3306'
     }
@@ -120,7 +123,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
