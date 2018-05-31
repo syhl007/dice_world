@@ -1,5 +1,6 @@
 import uuid
 
+import time
 from django.db import IntegrityError
 from django.test import TestCase
 
@@ -16,7 +17,6 @@ class RoomModelTest(TestCase):
         user = User.objects.all()[0]
         Room.objects.create(gm=user)
         test_room = Room.objects.all()[0]
-        print("[count_1]", Room.objects.all().count())
         try:
             Room.objects.create(gm=user, num=test_room.num)
         except Exception as e:
@@ -27,7 +27,6 @@ class RoomModelTest(TestCase):
         user = User()
         user.save()
         Room.objects.create(gm=user)
-        print("[count_2]", Room.objects.all().count())
         test_room_1 = Room.objects.all()[0]
         str_uuid = str(test_room_1.id)
         test_room_2 = Room.objects.get(id=str_uuid)
@@ -43,14 +42,27 @@ class RoomModelTest(TestCase):
     def test_json_field(self):
         User.objects.create()
         user = User.objects.all()[0]
-        str_test = "{'a': 1, 'b':'test'}"
+        str_test_1 = '{"a": 1, "b":"test"}'
         dict_test = {'c': 2, 'd': 'test'}
-        Room.objects.create(gm=user, tag=str_test)
+        str_test_2 = '["a","b",2,5,2.5,"2.5"]'
+        list_test = ["c", "d", 1, 3, 1.3, "1.3"]
+        Room.objects.create(gm=user, tag=str_test_1)
+        time.sleep(1)
         Room.objects.create(gm=user, tag=dict_test)
+        time.sleep(1)
+        Room.objects.create(gm=user, tag=str_test_2)
+        time.sleep(1)
+        Room.objects.create(gm=user, tag=list_test)
+        print('_________')
         room_1 = Room.objects.all()[0]
         room_2 = Room.objects.all()[1]
-        print(type(room_1.tag))
-        print(type(room_2.tag))
+        room_3 = Room.objects.all()[2]
+        room_4 = Room.objects.all()[3]
+        print(room_1.tag)
+        print(room_2.tag)
+        print(room_3.tag)
+        print(room_4.tag)
         self.assertIs(isinstance(room_1.tag, dict), True)
         self.assertIs(isinstance(room_2.tag, dict), True)
-
+        self.assertIs(isinstance(room_3.tag, list), True)
+        self.assertIs(isinstance(room_4.tag, list), True)
