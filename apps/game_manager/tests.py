@@ -53,6 +53,7 @@ class RoomModelTest(TestCase):
         Room.objects.create(gm=user, tag=str_test_2)
         time.sleep(1)
         Room.objects.create(gm=user, tag=list_test)
+        time.sleep(1)
         print('_________')
         room_1 = Room.objects.all()[0]
         room_2 = Room.objects.all()[1]

@@ -146,6 +146,58 @@ class JSONField(models.Field):
 >'invalid': _("'%(value)s' is not a valid UUID."),
 
 其中，_似乎与延迟加载有关，指向：
+>from django.utils.translation import gettext_lazy as _
+
+一路找下去
 >gettext_lazy = ugettext_lazy = lazy(gettext, str)
 
 需要研究一下。
+
+##2018.06.01
+Django中延迟加载如之前所述，核心实现在lazy函数，该函数的包为`django.utils.functional`
+里面很绕。。。实际上，lazy方法返回的就是一个装饰器，所以平时也可以使用@lazy来装饰需要延迟的函数，这里直接使用lazy(gettext, str)实际上就是把gettext给装饰了，返回一个代理对象，之后调用的都是这个代理对象了。
+这个对象修改了自身的`__str__`函数，因为是调用是才会执行对象的`__str__`函数，所以实现了延迟加载，即调用时加载。
+另外，gettext是python国际化函数，即翻译成不同语言的函数。
+（是真的绕。。。。。）
+实际的lazy函数为：
+>def lazy(func, *resultclasses):
+
+涉及这么几个知识点：
+
+* （核心）返回的是一个代理类，而不再func运行结果（哪怕本来返回的就是一个类）
+ 1. 代理类的`@total_ordering`装饰器
+    * 表示对象可进行比较大小，需要对象实现`__lt__`、`__eq__`等方法。实现后，该装饰器会解析允许对象实例进行<、=等运算符号操作。
+    * 这样返回的代理类就可以进行运算符比较了，用于实现原本返回结果的运算符比较
+ 2. 代理类初始化的`__prepare_class__(cls)`方法
+    * 这个方法在代理类被初始化时被调用。这个方法主要的作用，就是将resultclasses，即返回对象，的方法函数全部拷贝到这个代理类中
+    * 另外就是确定返回对象的序列化方式，`str` or `bytes`
+    * 这样就可以直接通过代理类调用原本返回对象的方法函数（而且调用方式一致，对外看不出区别）
+    * ~~不得不说这里面是真的绕，在这里看了好久才大致理清逻辑~~
+ 3. lazy返回装饰器上的`@wraps(func)`装饰器
+    * 这个装饰器属于Python内置包`functools`，作用就是把func的属性拷贝到装饰器对象中，避免了一些如`__name__`等属性调用异常
+    * ~~这个是拷贝原本func的属性方法，`__prepare_class__`是拷贝返回对象的属性方法，你们真是够了~~
+
+————（今天完全在看源码了。。说些看的过程中涉及的觉得需要记一下的东西）————
+
+* mro()
+    * 这个方法是获取类的继承列表的，类调用，实例不具有该方法
+    * python中的继承是列表式，在类、实例调用自身不具有的方法或属性时，会依次查找该基础表，由左至右返回第一个找到的调用结果。所以在python可以是用多继承，实际继承结果按照此规则实现。
+* `hasattr(cls, method_name)`、`getattr(cls, method_name)`、 `setattr(cls, method_name, meth)`
+    * 判断类是否具有对应名称的属性/方法、获取对应名称的属性/方法、动态绑定属性/方法到类对应名称上。
+    * 上面那些拷贝操作基本就是靠这三个方法实现的。~~秀我一脸~~
+* 另外有个比较在意的地方，lazy不能作用于同时返回str和bytes的func，这个应该是由于lazy自身`__cast(self)`方法通过if单分歧返回导致，该部分源码如下：
+```python
+        def __text_cast(self):
+            return func(*self.__args, **self.__kw)
+
+        def __bytes_cast(self):
+            return bytes(func(*self.__args, **self.__kw))
+            
+        def __cast(self):
+            if self._delegate_bytes:
+                return self.__bytes_cast()
+            elif self._delegate_text:
+                return self.__text_cast()
+            else:
+                return func(*self.__args, **self.__kw)
+```

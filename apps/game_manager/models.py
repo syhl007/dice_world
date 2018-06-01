@@ -4,7 +4,7 @@ import uuid
 import time
 
 from datetime import datetime
-
+from django.utils.translation import gettext_lazy as _
 from django.core.exceptions import ValidationError
 from django.db import models
 
@@ -23,6 +23,9 @@ def create_uuid(key=None):
 
 
 class JSONField(models.Field):
+    default_error_messages = {
+        'invalid': _("'%(value)s' is not a valid JSON."),
+    }
     description = "field to store json obj(list/dict)"
 
     def __init__(self, verbose_name=None, **kwargs):
@@ -35,6 +38,7 @@ class JSONField(models.Field):
      ·若返回None，则会让SQL语句生成器忽略这个字段
      ·rel_db_type与这个类似，只是是用于外键连接时说明字段类型
     '''
+
     def db_type(self, connection):
         return 'longtext'
 
@@ -44,6 +48,7 @@ class JSONField(models.Field):
       ·json字段就是string转对象
       ·因为和to_python处理数据逻辑一致，可以通过to_python来实现
     '''
+
     def from_db_value(self, value, expression, connection):
         print("[from_db_value]", value)
         if value is None:
@@ -55,6 +60,7 @@ class JSONField(models.Field):
       ·clean()方法是用于验证反序列化值并返回正确值
       ·对一切异常均需要抛出ValidationError
     '''
+
     def to_python(self, value):
         if value is not None and isinstance(value, str):
             try:
@@ -62,7 +68,9 @@ class JSONField(models.Field):
                 return json.loads(value)
             except Exception as e:
                 raise ValidationError(
-                    "'%s' is not a valid UUID." % value,
+                    self.error_messages['invalid'],
+                    code='invalid',
+                    params={'value': value},
                 )
         else:
             return value
@@ -73,10 +81,11 @@ class JSONField(models.Field):
      ·默认的父类方法是直接调用get_prep_value()
      ·用于保存时需要特殊转换的字段
     '''
+
     def get_db_prep_value(self, value, connection, prepared=False):
         value = super().get_db_prep_value(value, connection, prepared)
-        if isinstance(value, str):
-            return json.loads(value)
+        if not isinstance(value, str):
+            return json.dumps(value)
         else:
             return value
 
@@ -84,10 +93,11 @@ class JSONField(models.Field):
      Python值转数据库字段存储值
      ·请返回数据库支持的字段类型，如string
     '''
+
     def get_prep_value(self, value):
         print("[get_prep_value]", value)
-        if isinstance(value, str):
-            return json.loads(value)
+        if not isinstance(value, str):
+            return json.dumps(value)
         else:
             return value
 
@@ -114,8 +124,8 @@ class Room(models.Model):
     tag = JSONField(verbose_name=u"标签", null=True, blank=True)
     add_time = models.DateTimeField(verbose_name=u"创建时间", default=datetime.now)
 
-    # def __str__(self):
-    #     return self.name
+    def __str__(self):
+        return "[" + self.num + "]" + self.name
 
     class Meta:
         verbose_name = u"房间"
