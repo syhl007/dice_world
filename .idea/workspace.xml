@@ -2,10 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7cbbf86d-dca6-4027-ad2b-0d5a1d1b4f02" name="Default" comment="">
+      <change beforePath="" afterPath="$PROJECT_DIR$/templates/room/room_detail.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/templates/room/room_list.html" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
       <change beforePath="$PROJECT_DIR$/apps/game_manager/models.py" afterPath="$PROJECT_DIR$/apps/game_manager/models.py" />
+      <change beforePath="$PROJECT_DIR$/apps/game_manager/room_urls.py" afterPath="$PROJECT_DIR$/apps/game_manager/room_urls.py" />
       <change beforePath="$PROJECT_DIR$/apps/game_manager/tests.py" afterPath="$PROJECT_DIR$/apps/game_manager/tests.py" />
+      <change beforePath="$PROJECT_DIR$/apps/game_manager/views.py" afterPath="$PROJECT_DIR$/apps/game_manager/views.py" />
+      <change beforePath="$PROJECT_DIR$/templates/room/character_list.html" afterPath="$PROJECT_DIR$/templates/room/character_list.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -15,103 +20,35 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/dice_world$Test__game_manager.coverage" NAME="Test: game_manager Coverage Results" MODIFIED="1527842332649" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/dice_world$Test__game_manager.coverage" NAME="Test: game_manager Coverage Results" MODIFIED="1528112050417" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
   <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
     <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/dice_world/settings.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="84" column="13" lean-forward="false" selection-start-line="84" selection-start-column="13" selection-end-line="84" selection-end-column="13" />
-              <folding>
-                <element signature="e#311#320#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/apps/game_manager/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="78">
-              <caret line="119" column="17" lean-forward="false" selection-start-line="119" selection-start-column="17" selection-end-line="119" selection-end-column="17" />
+            <state relative-caret-position="144">
+              <caret line="125" column="17" lean-forward="false" selection-start-line="125" selection-start-column="17" selection-end-line="125" selection-end-column="17" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
-                <element signature="e#582#2933#0" expanded="false" />
+                <element signature="e#582#2852#0" expanded="false" />
                 <element signature="e#790#830#0" expanded="false" />
                 <element signature="e#836#1004#1" expanded="false" />
                 <element signature="e#1049#1066#0" expanded="false" />
                 <element signature="e#1072#1221#1" expanded="false" />
-                <element signature="e#1291#1410#0" expanded="false" />
-                <element signature="e#1416#1523#1" expanded="false" />
-                <element signature="e#1989#2094#1" expanded="false" />
-                <element signature="e#2172#2349#0" expanded="false" />
-                <element signature="e#2616#2665#1" expanded="false" />
-                <element signature="e#2670#2712#0" expanded="false" />
-                <element signature="e#2733#2766#1" expanded="false" />
-                <element signature="e#2771#2803#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="true">
-        <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/db/models/fields/__init__.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="266">
-              <caret line="2333" column="5" lean-forward="true" selection-start-line="2333" selection-start-column="5" selection-end-line="2333" selection-end-column="5" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
-                <element signature="e#4511#4616#0" expanded="false" />
-                <element signature="e#37504#37847#0" expanded="false" />
-                <element signature="e#38807#39247#0" expanded="false" />
-                <element signature="e#39278#41448#0" expanded="false" />
-                <element signature="e#41500#41964#0" expanded="false" />
-                <element signature="e#41998#43089#0" expanded="false" />
-                <element signature="e#43140#48349#0" expanded="false" />
-                <element signature="e#49085#50810#0" expanded="false" />
-                <element signature="e#50853#50875#0" expanded="false" />
-                <element signature="e#50917#52773#0" expanded="false" />
-                <element signature="e#53222#54135#0" expanded="false" />
-                <element signature="e#54740#59577#0" expanded="false" />
-                <element signature="e#61554#62372#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/utils/translation/__init__.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="194">
-              <caret line="99" column="34" lean-forward="false" selection-start-line="99" selection-start-column="34" selection-end-line="99" selection-end-column="34" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="functional.py" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/utils/functional.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="78">
-              <caret line="110" column="0" lean-forward="false" selection-start-line="110" selection-start-column="0" selection-end-line="114" selection-end-column="57" />
-              <folding>
-                <element signature="e#2185#2342#0" expanded="false" />
-                <element signature="e#2386#2509#0" expanded="false" />
-                <element signature="e#2551#2577#0" expanded="false" />
-                <element signature="e#2698#3144#0" expanded="false" />
-                <element signature="e#3649#4032#0" expanded="false" />
-                <element signature="e#4260#4307#0" expanded="false" />
-                <element signature="e#4815#4926#0" expanded="false" />
-                <element signature="e#4973#5083#0" expanded="false" />
-                <element signature="e#5125#5151#0" expanded="false" />
-                <element signature="e#5197#5298#0" expanded="false" />
-                <element signature="e#5350#5582#0" expanded="false" />
-                <element signature="e#5643#5734#0" expanded="false" />
+                <element signature="e#1291#1370#0" expanded="false" />
+                <element signature="e#1376#1483#1" expanded="false" />
+                <element signature="e#1525#1943#0" expanded="false" />
+                <element signature="e#1949#2054#1" expanded="false" />
+                <element signature="e#2132#2309#0" expanded="false" />
+                <element signature="e#2423#2529#0" expanded="false" />
+                <element signature="e#2535#2584#1" expanded="false" />
+                <element signature="e#2589#2631#0" expanded="false" />
+                <element signature="e#2652#2685#1" expanded="false" />
+                <element signature="e#2690#2722#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -120,9 +57,34 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/apps/game_manager/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="8" column="46" lean-forward="true" selection-start-line="8" selection-start-column="46" selection-end-line="8" selection-end-column="46" />
+            <state relative-caret-position="270">
+              <caret line="16" column="48" lean-forward="false" selection-start-line="16" selection-start-column="48" selection-end-line="16" selection-end-column="48" />
+              <folding>
+                <element signature="e#0#35#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="room_urls.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/apps/game_manager/room_urls.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="136">
+              <caret line="7" column="6" lean-forward="true" selection-start-line="7" selection-start-column="6" selection-end-line="7" selection-end-column="6" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="297">
+                <caret line="240" column="61" lean-forward="false" selection-start-line="240" selection-start-column="61" selection-end-line="240" selection-end-column="61" />
+                <folding />
+              </first_editor>
+              <second_editor />
             </state>
           </provider>
         </entry>
@@ -130,13 +92,21 @@
       <file leaf-file-name="tests.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/apps/game_manager/tests.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="400">
-              <caret line="41" column="30" lean-forward="false" selection-start-line="41" selection-start-column="30" selection-end-line="41" selection-end-column="30" />
+            <state relative-caret-position="184">
+              <caret line="89" column="49" lean-forward="false" selection-start-line="89" selection-start-column="49" selection-end-line="89" selection-end-column="49" />
               <folding>
-                <element signature="e#0#11#0" expanded="true" />
-                <element signature="e#652#1271#0" expanded="false" />
-                <element signature="e#1330#2387#0" expanded="false" />
+                <element signature="e#0#13#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="room_list.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/room/room_list.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="108">
+              <caret line="3" column="50" lean-forward="false" selection-start-line="3" selection-start-column="39" selection-end-line="3" selection-end-column="50" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -167,6 +137,7 @@
       <find>gettext</find>
       <find>_trans</find>
       <find>default_error_messages</find>
+      <find>post</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -182,12 +153,15 @@
         <option value="$PROJECT_DIR$/apps/chat_room/urls.py" />
         <option value="$PROJECT_DIR$/apps/chat_room/apps.py" />
         <option value="$PROJECT_DIR$/dice_world/urls.py" />
-        <option value="$PROJECT_DIR$/templates/room/character_list.html" />
-        <option value="$PROJECT_DIR$/apps/game_manager/room_urls.py" />
         <option value="$PROJECT_DIR$/apps/game_manager/character_urls.py" />
         <option value="$PROJECT_DIR$/dice_world/settings.py" />
-        <option value="$PROJECT_DIR$/apps/game_manager/tests.py" />
+        <option value="$PROJECT_DIR$/templates/room/character_list.html" />
+        <option value="$PROJECT_DIR$/templates/room/room_detail.html" />
+        <option value="$PROJECT_DIR$/templates/room/room_list.html" />
+        <option value="$PROJECT_DIR$/apps/game_manager/room_urls.py" />
         <option value="$PROJECT_DIR$/apps/game_manager/models.py" />
+        <option value="$PROJECT_DIR$/apps/game_manager/tests.py" />
+        <option value="$PROJECT_DIR$/apps/game_manager/views.py" />
         <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
@@ -247,12 +221,18 @@
               <item name="dice_world" type="462c0819:PsiDirectoryNode" />
               <item name="templates" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="dice_world" type="b2602c69:ProjectViewProjectNode" />
+              <item name="dice_world" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="room" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -263,11 +243,12 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="G:\兴趣使然\Django2\dice_world\apps\chat_room" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="G:\兴趣使然\Django2\dice_world\apps" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="G:\兴趣使然\Django2\dice_world\templates\room" />
+      <recent name="G:\兴趣使然\Django2\dice_world\apps\chat_room" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -324,61 +305,69 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="Test__game_manager - 2018.06.01 at 10h 26m 17s.xml">
+    <history-entry file="Test__game_manager - 2018.06.04 at 19h 17m 49s.xml">
       <configuration name="Test: game_manager" configurationId="DjangoTestsConfigurationType" />
     </history-entry>
-    <history-entry file="Test__game_manager - 2018.06.01 at 10h 30m 57s.xml">
+    <history-entry file="Test__game_manager - 2018.06.04 at 19h 22m 27s.xml">
       <configuration name="Test: game_manager" configurationId="DjangoTestsConfigurationType" />
     </history-entry>
-    <history-entry file="Test__game_manager - 2018.06.01 at 10h 58m 44s.xml">
+    <history-entry file="Test__game_manager - 2018.06.04 at 19h 23m 41s.xml">
       <configuration name="Test: game_manager" configurationId="DjangoTestsConfigurationType" />
     </history-entry>
-    <history-entry file="Test__game_manager - 2018.06.01 at 11h 04m 53s.xml">
+    <history-entry file="Test__game_manager - 2018.06.04 at 19h 26m 36s.xml">
       <configuration name="Test: game_manager" configurationId="DjangoTestsConfigurationType" />
     </history-entry>
-    <history-entry file="Test__game_manager - 2018.06.01 at 11h 07m 34s.xml">
+    <history-entry file="Test__game_manager - 2018.06.04 at 19h 28m 48s.xml">
       <configuration name="Test: game_manager" configurationId="DjangoTestsConfigurationType" />
     </history-entry>
-    <history-entry file="Test__game_manager - 2018.06.01 at 11h 08m 35s.xml">
+    <history-entry file="Test__game_manager - 2018.06.04 at 19h 29m 58s.xml">
       <configuration name="Test: game_manager" configurationId="DjangoTestsConfigurationType" />
     </history-entry>
-    <history-entry file="Test__game_manager - 2018.06.01 at 16h 30m 28s.xml">
+    <history-entry file="Test__game_manager - 2018.06.04 at 19h 30m 31s.xml">
       <configuration name="Test: game_manager" configurationId="DjangoTestsConfigurationType" />
     </history-entry>
-    <history-entry file="Test__game_manager - 2018.06.01 at 16h 33m 24s.xml">
+    <history-entry file="Test__game_manager - 2018.06.04 at 19h 31m 33s.xml">
       <configuration name="Test: game_manager" configurationId="DjangoTestsConfigurationType" />
     </history-entry>
-    <history-entry file="Test__game_manager - 2018.06.01 at 16h 36m 14s.xml">
+    <history-entry file="Test__game_manager - 2018.06.04 at 19h 32m 46s.xml">
       <configuration name="Test: game_manager" configurationId="DjangoTestsConfigurationType" />
     </history-entry>
-    <history-entry file="Test__game_manager - 2018.06.01 at 16h 39m 34s.xml">
+    <history-entry file="Test__game_manager - 2018.06.04 at 19h 34m 52s.xml">
       <configuration name="Test: game_manager" configurationId="DjangoTestsConfigurationType" />
     </history-entry>
   </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32978722" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32733223" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.507365" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.61702126" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.58919805" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18154311" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18381241" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="manage.py@dice_world" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.7119476" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="SciView" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3986711" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39770868" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -390,11 +379,109 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="1" />
+      <option name="time" value="8" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/apps/game_manager/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4284">
+          <caret line="119" column="17" lean-forward="false" selection-start-line="119" selection-start-column="17" selection-end-line="119" selection-end-column="17" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+            <element signature="e#582#2852#0" expanded="false" />
+            <element signature="e#790#830#0" expanded="false" />
+            <element signature="e#836#1004#1" expanded="false" />
+            <element signature="e#1049#1066#0" expanded="false" />
+            <element signature="e#1072#1221#1" expanded="false" />
+            <element signature="e#1291#1370#0" expanded="false" />
+            <element signature="e#1376#1483#1" expanded="false" />
+            <element signature="e#1525#1943#0" expanded="false" />
+            <element signature="e#1949#2054#1" expanded="false" />
+            <element signature="e#2132#2309#0" expanded="false" />
+            <element signature="e#2423#2529#0" expanded="false" />
+            <element signature="e#2535#2584#1" expanded="false" />
+            <element signature="e#2589#2631#0" expanded="false" />
+            <element signature="e#2652#2685#1" expanded="false" />
+            <element signature="e#2690#2722#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/utils/translation/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3384">
+          <caret line="99" column="34" lean-forward="false" selection-start-line="99" selection-start-column="34" selection-end-line="99" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/utils/functional.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2988">
+          <caret line="110" column="0" lean-forward="false" selection-start-line="110" selection-start-column="0" selection-end-line="114" selection-end-column="57" />
+          <folding>
+            <element signature="e#2185#2342#0" expanded="false" />
+            <element signature="e#2386#2509#0" expanded="false" />
+            <element signature="e#2551#2577#0" expanded="false" />
+            <element signature="e#2698#3144#0" expanded="false" />
+            <element signature="e#3649#4032#0" expanded="false" />
+            <element signature="e#4260#4307#0" expanded="false" />
+            <element signature="e#4815#4926#0" expanded="false" />
+            <element signature="e#4973#5083#0" expanded="false" />
+            <element signature="e#5125#5151#0" expanded="false" />
+            <element signature="e#5197#5298#0" expanded="false" />
+            <element signature="e#5350#5582#0" expanded="false" />
+            <element signature="e#5643#5734#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/game_manager/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="8" column="46" lean-forward="true" selection-start-line="8" selection-start-column="46" selection-end-line="8" selection-end-column="46" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/game_manager/tests.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1008">
+          <caret line="41" column="30" lean-forward="false" selection-start-line="41" selection-start-column="30" selection-end-line="41" selection-end-column="30" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/db/models/fields/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="83880">
+          <caret line="2330" column="23" lean-forward="true" selection-start-line="2330" selection-start-column="23" selection-end-line="2330" selection-end-column="23" />
+          <folding>
+            <element signature="e#0#18#0" expanded="false" />
+            <element signature="e#4511#4616#0" expanded="false" />
+            <element signature="e#37504#37847#0" expanded="false" />
+            <element signature="e#38807#39247#0" expanded="false" />
+            <element signature="e#39278#41448#0" expanded="false" />
+            <element signature="e#41500#41964#0" expanded="false" />
+            <element signature="e#41998#43089#0" expanded="false" />
+            <element signature="e#43140#48349#0" expanded="false" />
+            <element signature="e#49085#50810#0" expanded="false" />
+            <element signature="e#50853#50875#0" expanded="false" />
+            <element signature="e#50917#52773#0" expanded="false" />
+            <element signature="e#53222#54135#0" expanded="false" />
+            <element signature="e#54740#59577#0" expanded="false" />
+            <element signature="e#61554#62372#0" expanded="false" />
+            <element signature="e#84457#85913#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/dice_world/settings.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2988">
@@ -410,9 +497,7 @@
         <state relative-caret-position="1620">
           <caret line="52" column="51" lean-forward="false" selection-start-line="52" selection-start-column="51" selection-end-line="52" selection-end-column="51" />
           <folding>
-            <element signature="e#0#11#0" expanded="true" />
-            <element signature="e#652#1271#0" expanded="false" />
-            <element signature="e#1330#2387#0" expanded="false" />
+            <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -423,19 +508,21 @@
           <caret line="47" column="29" lean-forward="false" selection-start-line="47" selection-start-column="29" selection-end-line="47" selection-end-column="29" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
-            <element signature="e#582#2933#0" expanded="false" />
+            <element signature="e#582#2852#0" expanded="false" />
             <element signature="e#790#830#0" expanded="false" />
             <element signature="e#836#1004#1" expanded="false" />
             <element signature="e#1049#1066#0" expanded="false" />
             <element signature="e#1072#1221#1" expanded="false" />
-            <element signature="e#1291#1410#0" expanded="false" />
-            <element signature="e#1416#1523#1" expanded="false" />
-            <element signature="e#1989#2094#1" expanded="false" />
-            <element signature="e#2172#2349#0" expanded="false" />
-            <element signature="e#2616#2665#1" expanded="false" />
-            <element signature="e#2670#2712#0" expanded="false" />
-            <element signature="e#2733#2766#1" expanded="false" />
-            <element signature="e#2771#2803#0" expanded="false" />
+            <element signature="e#1291#1370#0" expanded="false" />
+            <element signature="e#1376#1483#1" expanded="false" />
+            <element signature="e#1525#1943#0" expanded="false" />
+            <element signature="e#1949#2054#1" expanded="false" />
+            <element signature="e#2132#2309#0" expanded="false" />
+            <element signature="e#2423#2529#0" expanded="false" />
+            <element signature="e#2535#2584#1" expanded="false" />
+            <element signature="e#2589#2631#0" expanded="false" />
+            <element signature="e#2652#2685#1" expanded="false" />
+            <element signature="e#2690#2722#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -467,19 +554,21 @@
           <caret line="85" column="42" lean-forward="true" selection-start-line="85" selection-start-column="42" selection-end-line="85" selection-end-column="42" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
-            <element signature="e#582#2933#0" expanded="false" />
+            <element signature="e#582#2852#0" expanded="false" />
             <element signature="e#790#830#0" expanded="false" />
             <element signature="e#836#1004#1" expanded="false" />
             <element signature="e#1049#1066#0" expanded="false" />
             <element signature="e#1072#1221#1" expanded="false" />
-            <element signature="e#1291#1410#0" expanded="false" />
-            <element signature="e#1416#1523#1" expanded="false" />
-            <element signature="e#1989#2094#1" expanded="false" />
-            <element signature="e#2172#2349#0" expanded="false" />
-            <element signature="e#2616#2665#1" expanded="false" />
-            <element signature="e#2670#2712#0" expanded="false" />
-            <element signature="e#2733#2766#1" expanded="false" />
-            <element signature="e#2771#2803#0" expanded="false" />
+            <element signature="e#1291#1370#0" expanded="false" />
+            <element signature="e#1376#1483#1" expanded="false" />
+            <element signature="e#1525#1943#0" expanded="false" />
+            <element signature="e#1949#2054#1" expanded="false" />
+            <element signature="e#2132#2309#0" expanded="false" />
+            <element signature="e#2423#2529#0" expanded="false" />
+            <element signature="e#2535#2584#1" expanded="false" />
+            <element signature="e#2589#2631#0" expanded="false" />
+            <element signature="e#2652#2685#1" expanded="false" />
+            <element signature="e#2690#2722#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -511,19 +600,21 @@
           <caret line="33" column="86" lean-forward="false" selection-start-line="33" selection-start-column="75" selection-end-line="33" selection-end-column="86" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
-            <element signature="e#582#2933#0" expanded="false" />
+            <element signature="e#582#2852#0" expanded="false" />
             <element signature="e#790#830#0" expanded="false" />
             <element signature="e#836#1004#1" expanded="false" />
             <element signature="e#1049#1066#0" expanded="false" />
             <element signature="e#1072#1221#1" expanded="false" />
-            <element signature="e#1291#1410#0" expanded="false" />
-            <element signature="e#1416#1523#1" expanded="false" />
-            <element signature="e#1989#2094#1" expanded="false" />
-            <element signature="e#2172#2349#0" expanded="false" />
-            <element signature="e#2616#2665#1" expanded="false" />
-            <element signature="e#2670#2712#0" expanded="false" />
-            <element signature="e#2733#2766#1" expanded="false" />
-            <element signature="e#2771#2803#0" expanded="false" />
+            <element signature="e#1291#1370#0" expanded="false" />
+            <element signature="e#1376#1483#1" expanded="false" />
+            <element signature="e#1525#1943#0" expanded="false" />
+            <element signature="e#1949#2054#1" expanded="false" />
+            <element signature="e#2132#2309#0" expanded="false" />
+            <element signature="e#2423#2529#0" expanded="false" />
+            <element signature="e#2535#2584#1" expanded="false" />
+            <element signature="e#2589#2631#0" expanded="false" />
+            <element signature="e#2652#2685#1" expanded="false" />
+            <element signature="e#2690#2722#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -554,19 +645,21 @@
           <caret line="33" column="86" lean-forward="false" selection-start-line="33" selection-start-column="75" selection-end-line="33" selection-end-column="86" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
-            <element signature="e#582#2933#0" expanded="false" />
+            <element signature="e#582#2852#0" expanded="false" />
             <element signature="e#790#830#0" expanded="false" />
             <element signature="e#836#1004#1" expanded="false" />
             <element signature="e#1049#1066#0" expanded="false" />
             <element signature="e#1072#1221#1" expanded="false" />
-            <element signature="e#1291#1410#0" expanded="false" />
-            <element signature="e#1416#1523#1" expanded="false" />
-            <element signature="e#1989#2094#1" expanded="false" />
-            <element signature="e#2172#2349#0" expanded="false" />
-            <element signature="e#2616#2665#1" expanded="false" />
-            <element signature="e#2670#2712#0" expanded="false" />
-            <element signature="e#2733#2766#1" expanded="false" />
-            <element signature="e#2771#2803#0" expanded="false" />
+            <element signature="e#1291#1370#0" expanded="false" />
+            <element signature="e#1376#1483#1" expanded="false" />
+            <element signature="e#1525#1943#0" expanded="false" />
+            <element signature="e#1949#2054#1" expanded="false" />
+            <element signature="e#2132#2309#0" expanded="false" />
+            <element signature="e#2423#2529#0" expanded="false" />
+            <element signature="e#2535#2584#1" expanded="false" />
+            <element signature="e#2589#2631#0" expanded="false" />
+            <element signature="e#2652#2685#1" expanded="false" />
+            <element signature="e#2690#2722#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -600,33 +693,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dice_world/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="307">
-          <caret line="22" column="54" lean-forward="false" selection-start-line="22" selection-start-column="54" selection-end-line="22" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/room/character_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/apps/game_manager/character_urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
           <caret line="8" column="1" lean-forward="true" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/urls/conf.py" />
-    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/views/generic/list.py" />
-    <entry file="file://$PROJECT_DIR$/apps/game_manager/room_urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="333">
-          <caret line="13" column="0" lean-forward="true" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -657,7 +727,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="252">
           <caret line="53" column="26" lean-forward="true" selection-start-line="53" selection-start-column="26" selection-end-line="53" selection-end-column="26" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -669,31 +738,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/.PyCharm2017.3/system/python_stubs/32576052/builtins.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-238">
-          <caret line="4657" column="6" lean-forward="false" selection-start-line="4657" selection-start-column="6" selection-end-line="4657" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/utils/translation/trans_real.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-157">
           <caret line="296" column="11" lean-forward="false" selection-start-line="296" selection-start-column="4" selection-end-line="296" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/game_manager/tests.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="400">
-          <caret line="41" column="30" lean-forward="false" selection-start-line="41" selection-start-column="30" selection-end-line="41" selection-end-column="30" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-            <element signature="e#652#1271#0" expanded="false" />
-            <element signature="e#1330#2387#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -707,40 +755,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apps/game_manager/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="8" column="46" lean-forward="true" selection-start-line="8" selection-start-column="46" selection-end-line="8" selection-end-column="46" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/game_manager/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="78">
-          <caret line="119" column="17" lean-forward="false" selection-start-line="119" selection-start-column="17" selection-end-line="119" selection-end-column="17" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-            <element signature="e#582#2933#0" expanded="false" />
-            <element signature="e#790#830#0" expanded="false" />
-            <element signature="e#836#1004#1" expanded="false" />
-            <element signature="e#1049#1066#0" expanded="false" />
-            <element signature="e#1072#1221#1" expanded="false" />
-            <element signature="e#1291#1410#0" expanded="false" />
-            <element signature="e#1416#1523#1" expanded="false" />
-            <element signature="e#1989#2094#1" expanded="false" />
-            <element signature="e#2172#2349#0" expanded="false" />
-            <element signature="e#2616#2665#1" expanded="false" />
-            <element signature="e#2670#2712#0" expanded="false" />
-            <element signature="e#2733#2766#1" expanded="false" />
-            <element signature="e#2771#2803#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/utils/translation/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
+        <state relative-caret-position="3384">
           <caret line="99" column="34" lean-forward="false" selection-start-line="99" selection-start-column="34" selection-end-line="99" selection-end-column="34" />
           <folding />
         </state>
@@ -748,7 +765,7 @@
     </entry>
     <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/utils/functional.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="78">
+        <state relative-caret-position="2988">
           <caret line="110" column="0" lean-forward="false" selection-start-line="110" selection-start-column="0" selection-end-line="114" selection-end-column="57" />
           <folding>
             <element signature="e#2185#2342#0" expanded="false" />
@@ -767,28 +784,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="17" column="17" lean-forward="false" selection-start-line="17" selection-start-column="17" selection-end-line="17" selection-end-column="17" />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="995">
-            <caret line="202" column="3" lean-forward="false" selection-start-line="202" selection-start-column="3" selection-end-line="202" selection-end-column="3" />
-            <folding />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/db/models/fields/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="2333" column="5" lean-forward="true" selection-start-line="2333" selection-start-column="5" selection-end-line="2333" selection-end-column="5" />
+        <state relative-caret-position="292">
+          <caret line="2330" column="23" lean-forward="false" selection-start-line="2330" selection-start-column="23" selection-end-line="2330" selection-end-column="23" />
           <folding>
-            <element signature="e#0#18#0" expanded="true" />
+            <element signature="e#0#18#0" expanded="false" />
             <element signature="e#4511#4616#0" expanded="false" />
             <element signature="e#37504#37847#0" expanded="false" />
             <element signature="e#38807#39247#0" expanded="false" />
@@ -802,7 +803,182 @@
             <element signature="e#53222#54135#0" expanded="false" />
             <element signature="e#54740#59577#0" expanded="false" />
             <element signature="e#61554#62372#0" expanded="false" />
+            <element signature="e#84457#85913#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/room/character_list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="3" column="86" lean-forward="true" selection-start-line="3" selection-start-column="86" selection-end-line="3" selection-end-column="86" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/room/room_detail.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="5" column="35" lean-forward="false" selection-start-line="5" selection-start-column="35" selection-end-line="5" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dice_world/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="273">
+          <caret line="22" column="54" lean-forward="false" selection-start-line="22" selection-start-column="54" selection-end-line="22" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/test/client.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="78">
+          <caret line="324" column="28" lean-forward="false" selection-start-line="324" selection-start-column="24" selection-end-line="324" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/views/generic/detail.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="162" column="6" lean-forward="false" selection-start-line="162" selection-start-column="6" selection-end-line="162" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/core/handlers/base.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2273">
+          <caret line="125" column="0" lean-forward="false" selection-start-line="125" selection-start-column="0" selection-end-line="125" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/views/generic/base.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="167">
+          <caret line="195" column="12" lean-forward="false" selection-start-line="195" selection-start-column="8" selection-end-line="195" selection-end-column="12" />
+          <folding>
+            <element signature="e#1132#1457#0" expanded="false" />
+            <element signature="e#1524#2815#0" expanded="false" />
+            <element signature="e#2875#3335#0" expanded="false" />
+            <element signature="e#3410#3630#0" expanded="false" />
+            <element signature="e#3689#3913#0" expanded="false" />
+            <element signature="e#3955#4025#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/views/generic/list.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="138" column="42" lean-forward="false" selection-start-line="138" selection-start-column="42" selection-end-line="138" selection-end-column="42" />
+          <folding>
+            <element signature="e#5234#6049#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.PyCharm2017.3/system/python_stubs/32576052/builtins.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150408">
+          <caret line="4247" column="6" lean-forward="false" selection-start-line="4247" selection-start-column="6" selection-end-line="4247" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/urls/resolvers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="194">
+          <caret line="233" column="6" lean-forward="false" selection-start-line="233" selection-start-column="6" selection-end-line="233" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/urls/conf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="280">
+          <caret line="75" column="34" lean-forward="true" selection-start-line="75" selection-start-column="34" selection-end-line="75" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/room/room_list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="3" column="50" lean-forward="false" selection-start-line="3" selection-start-column="39" selection-end-line="3" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/game_manager/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="125" column="17" lean-forward="false" selection-start-line="125" selection-start-column="17" selection-end-line="125" selection-end-column="17" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+            <element signature="e#582#2852#0" expanded="false" />
+            <element signature="e#790#830#0" expanded="false" />
+            <element signature="e#836#1004#1" expanded="false" />
+            <element signature="e#1049#1066#0" expanded="false" />
+            <element signature="e#1072#1221#1" expanded="false" />
+            <element signature="e#1291#1370#0" expanded="false" />
+            <element signature="e#1376#1483#1" expanded="false" />
+            <element signature="e#1525#1943#0" expanded="false" />
+            <element signature="e#1949#2054#1" expanded="false" />
+            <element signature="e#2132#2309#0" expanded="false" />
+            <element signature="e#2423#2529#0" expanded="false" />
+            <element signature="e#2535#2584#1" expanded="false" />
+            <element signature="e#2589#2631#0" expanded="false" />
+            <element signature="e#2652#2685#1" expanded="false" />
+            <element signature="e#2690#2722#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/game_manager/tests.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="89" column="49" lean-forward="false" selection-start-line="89" selection-start-column="49" selection-end-line="89" selection-end-column="49" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/game_manager/room_urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="7" column="6" lean-forward="true" selection-start-line="7" selection-start-column="6" selection-end-line="7" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/game_manager/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="16" column="48" lean-forward="false" selection-start-line="16" selection-start-column="48" selection-end-line="16" selection-end-column="48" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="297">
+            <caret line="240" column="61" lean-forward="false" selection-start-line="240" selection-start-column="61" selection-end-line="240" selection-end-column="61" />
+            <folding />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="17" column="17" lean-forward="false" selection-start-line="17" selection-start-column="17" selection-end-line="17" selection-end-column="17" />
         </state>
       </provider>
     </entry>

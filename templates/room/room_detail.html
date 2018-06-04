@@ -1,0 +1,10 @@
+{% if room %}
+    <ul>
+        {{ room.num }}<br/>
+        {{ room.name }}<br/>
+        {{ room.add_time }}<br/>
+        {{ room.gm.username }}<br/>
+    </ul>
+{% else %}
+    <p>No room are available.</p>
+{% endif %}

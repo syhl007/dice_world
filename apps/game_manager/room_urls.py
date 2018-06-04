@@ -5,9 +5,9 @@ from game_manager import views
 
 app_name = 'rooms'
 urlpatterns = [
-    # path('list/', None, name='list'),
+    path('list/', views.ListRoom.as_view(), name='room_list'),
     # path('create/', None, name='create'),
     # path('drop/', None, name='drop'),
-    # path('<uuid:room_uuid>/', None, name='detail'),
-    path('<uuid:room_uuid>/list_character', views.ListCharacter.as_view(), name='list_character'),
+    path('<uuid:pk>/', views.RoomDetail.as_view(), name='room_detail'),
+    path('<uuid:pk>/list_character', views.ListCharacter.as_view(), name='list_character'),
 ]

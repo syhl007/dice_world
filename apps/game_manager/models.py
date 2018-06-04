@@ -50,7 +50,6 @@ class JSONField(models.Field):
     '''
 
     def from_db_value(self, value, expression, connection):
-        print("[from_db_value]", value)
         if value is None:
             return value
         return self.to_python(value)
@@ -95,7 +94,6 @@ class JSONField(models.Field):
     '''
 
     def get_prep_value(self, value):
-        print("[get_prep_value]", value)
         if not isinstance(value, str):
             return json.dumps(value)
         else:
@@ -125,7 +123,7 @@ class Room(models.Model):
     add_time = models.DateTimeField(verbose_name=u"创建时间", default=datetime.now)
 
     def __str__(self):
-        return "[" + self.num + "]" + self.name
+        return "1"
 
     class Meta:
         verbose_name = u"房间"

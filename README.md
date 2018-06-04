@@ -201,3 +201,41 @@ Django中延迟加载如之前所述，核心实现在lazy函数，该函数的�
             else:
                 return func(*self.__args, **self.__kw)
 ```
+
+##2018.06.04
+今天主要是看了下视图测试部分。
+因为之前项目使用的是前后端分离的开发技术，后台Django只用返回json数据给前端，所以使用了rest_framework框架做Rest数据层，开发起来倒是很方便，不过对前端就是一片白了。这次自己开发，抄着教程里面的前端代码，感觉Django自己对于前端的开发支持也是很给力的，开发起来很轻松（前提是我还没有加入样式等复杂的东西。。。）
+总之，先来总结一下Django里面关于视图的测试吧。
+ 
+* shell
+    还是从shell说起，首先要说的是：因为视图内容往往是加载数据库内容，而shell操作中，不会生成测试用数据库，所以__读写的都是实际数据库__。
+    测试环境加载：
+>from django.test.utils import setup_test_environment
+>setup_test_environment()
+>from django.test import Client
+>client = Client()
+    
+    之后就可以通过client实体对象的`get()`、`post()`方法进行模拟请求。
+    另外，对于url地址可以使用reverse('app_name:name')，（使用前需要通过`from django.urls import reverse`导入方法），来动态解析url地址，其中，`app_name`在每个`urls.py`中自定义，`name`为`path()`函数的可选参数
+    client对象请求后会返回一个response对象，通过response对象的属性来检查视图是否正确运行。
+    response对象中，比较重要的有如下属性：
+    * status_code
+    response状态码，int类型。200_OK，404_NOT_FOUND之类的([详细状态码说明](http://www.runoob.com/http/http-status-codes.html))，一般作为最初的判断页面是否已加载、权限认证之类的。
+    * context
+    response所包含的上下文信息，比如包含的列表信息等。dict类。一般的测试都是对这个里面的内容进行检测，检测返回内容是否正确。
+    * request
+    发送的request请求，dict类，可以看到请求信息
+* TestCast类
+    在测试类中，不用加载测试环境，TestCase类自带self.client对象用于测试请求，而且，在测试环境下使用的__测试数据库__不会再实际数据库中生成数据。
+    对于response对象的属性与shell中说明的一致。说下几种新的断言方法：
+    * assertEqual(a,b)
+    判断a与b是否相等，一般用于status_code值判断
+    * assertContains(response, str)
+    判断返回结果中是否包含str
+    * assertQuerysetEqual(responsec.context['key_word'], [])
+    判断返回上下文中数据列表是否与参数2相等（例子中是判断是否为空列）
+    __注意__：这个判断方式很神奇的使用的是str匹配的相等判断。。也就是，显示出来的数据库列表是`['< Model: model.__str_ _ >', '...']`，大小写不同、空格不同、字符不同都会导致匹配失败，很是神奇，个人觉得不好用。。。
+
+另外，在今天的测试中，测试的都是`get`接口，前端向后端传递的数据也是固定在`urls.py`中写死了的，目前还不清楚如何灵活的传递，而至于`post`接口，由于django自带的crsf_token机制，使用postman无法测试，client却可以避开这个机制，或者说，他本身就带有了crsf验证。后续需要在这几个方向做研究：
+* 尝试在client中添加新的数据信息，然后在TestCase中进行测试。
+* 重写基础视图，比如利用ListView实现接收post过滤信息返回过滤后的列表等自定义功能，而不影响原因的分页等功能。

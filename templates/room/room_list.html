@@ -1,0 +1,10 @@
+{% if room_list %}
+    <ul>
+        {% for room in room_list %}
+            <li><a href="{% url 'rooms:room_detail' room.id %}"> [{{ room.num }}]{{ room.name }}(creator:{{ room.gm.username }})————{{ room.add_time }} </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No room are available.</p>
+{% endif %}
