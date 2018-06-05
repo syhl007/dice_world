@@ -16,7 +16,8 @@
     * 目前只能生成uuid，但uuid太复杂不利于用户搜索
     * 考虑数据库递增，但是django设置自增似乎就直接是主键了。。
 
-----
+---
+
 ## 2018.05.30
 学习Django自动化测试中，一个测试例子写半天。。。而且因为每次测试都要全部建库所以，等待测试的时候依样画葫芦的写写markdown文档（真难写）。
 ————（另外，房间号采用uuid随机取3位+时间戳整数部分组成）————
@@ -42,7 +43,8 @@
         type(model_2.id)    # UUID
         type(model_3.id)    # UUID
 ```
-----
+---
+
 ##2018.05.31
 今天测试自定义Field。（参考[官方文档](https://docs.djangoproject.com/zh-hans/2.0/howto/custom-model-fields/#writing-a-field-subclass)）
 
@@ -153,6 +155,8 @@ class JSONField(models.Field):
 
 需要研究一下。
 
+---
+
 ##2018.06.01
 Django中延迟加载如之前所述，核心实现在lazy函数，该函数的包为`django.utils.functional`
 里面很绕。。。实际上，lazy方法返回的就是一个装饰器，所以平时也可以使用@lazy来装饰需要延迟的函数，这里直接使用lazy(gettext, str)实际上就是把gettext给装饰了，返回一个代理对象，之后调用的都是这个代理对象了。
@@ -202,6 +206,8 @@ Django中延迟加载如之前所述，核心实现在lazy函数，该函数的�
                 return func(*self.__args, **self.__kw)
 ```
 
+---
+
 ##2018.06.04
 今天主要是看了下视图测试部分。
 因为之前项目使用的是前后端分离的开发技术，后台Django只用返回json数据给前端，所以使用了rest_framework框架做Rest数据层，开发起来倒是很方便，不过对前端就是一片白了。这次自己开发，抄着教程里面的前端代码，感觉Django自己对于前端的开发支持也是很给力的，开发起来很轻松（前提是我还没有加入样式等复杂的东西。。。）
@@ -239,3 +245,134 @@ Django中延迟加载如之前所述，核心实现在lazy函数，该函数的�
 另外，在今天的测试中，测试的都是`get`接口，前端向后端传递的数据也是固定在`urls.py`中写死了的，目前还不清楚如何灵活的传递，而至于`post`接口，由于django自带的crsf_token机制，使用postman无法测试，client却可以避开这个机制，或者说，他本身就带有了crsf验证。后续需要在这几个方向做研究：
 * 尝试在client中添加新的数据信息，然后在TestCase中进行测试。
 * 重写基础视图，比如利用ListView实现接收post过滤信息返回过滤后的列表等自定义功能，而不影响原因的分页等功能。
+
+---
+
+## 2018.06.05
+
+从post视图说起走。首先，python的web开发是基于python的web接口——`WSGI`，这个接口的定义非常简单，如下：
+```python
+def application(environ, start_response):
+    start_response('200 OK', [('Content-Type', 'text/html')])
+    return [b'<h1>Hello, web!</h1>']
+```
+
+environ是存放HTTP请求信息的dict类，读取处理请求信息之后构造HTML，通过start_response()发送Header，最后返回Body。
+
+当然，在Django中对这基础框架进行了封装，Django中基础view类的结构为：
+```python
+# views.py
+def view(request, *args, **kwargs):
+....
+# urls.py 
+...
+# 注意，传递的是view这个函数
+path('test/', views.view, name='test')
+...
+```
+
+其中，request就是经过Django封装之后的HTTP请求类对象了，args和kwargs是用于解析urls中传递的参数。
+然而，每个视图都按照基础视图来书写，很费时费力，所以Django提供了通用视图，如ListView等，可以很快捷的实现视图书写。
+在使用通用视图时，对urls.py里视图的绑定需要进行修改，以上面的例子修改一下：
+```python
+# views.py
+class TestView(generic.ListView):
+....
+# urls.py 
+...
+# 注意，传递的是as_view()的结果值
+path('test/', views.TestView.as_view(), name='test')
+...
+```
+
+* `as_view()`函数
+    * 这个函数是View类的类函数，在启动Django服务，运行到urls.py时执行，用于初始化视图对象并进行绑定。
+    * 其他的流程暂时不管，主要的是其内部定义的一个内部函数`view`，源码如下，`as_view()`函数返回的就是加工后的内部view对象。
+```python
+        def view(request, *args, **kwargs):
+            self = cls(**initkwargs)
+            if hasattr(self, 'get') and not hasattr(self, 'head'):
+                self.head = self.get
+            self.request = request
+            self.args = args
+            self.kwargs = kwargs
+            return self.dispatch(request, *args, **kwargs)
+```
+
+* `dispatch()`函数
+    * 如上文所述，`urls.py`中绑定的是view方法和url地址，而不是view()函数结果。所以，通过`as_view()`绑定后，请求实际是传递到了view方法中，最终返回的实际是这个`dispatch()`函数的执行结果。
+    * 那么看`dispatch()`函数的源码，可以发现，请求到了TestView这一层时，才会根据其请求方式`request.method`来调用具体的执行方式，例如，GET请求调用`get()`方法。同时，可以通过修改`self.http_method_names`来限制请求，或在对应方法中自定义处理方式。
+```python
+def dispatch(self, request, *args, **kwargs):
+    if request.method.lower() in self.http_method_names:
+        handler = getattr(self, request.method.lower(), self.http_method_not_allowed)
+    else:
+        handler = self.http_method_not_allowed
+    return handler(request, *args, **kwargs)
+```
+
+~~说了一堆废话，其实就是想说明，就算通用视图不支持GET或POST请求，你也能自己写支持的方式~~
+在本次工程中，有这么需求：列出房间列表，并可以通过某些检索方式过滤房间列表。
+首先，列出房间列表，通过`generic.ListView`可以很简单的实现，而检索过滤就需要接收前端的额外参数，当然也可以复写`get()`函数，但是一是GET方式数据全在url里面；二是`generic.ListView`复写起来挺麻烦的~~（其实主要还是url太长不好看）~~
+于是，在视图中添加`post()`使其具有接收POST请求的方式，通过接收POST数据来进行筛选过滤。
+~~因为之前用的`rest_framework`框架，这个框架在中间数据交互上面做了处理，所以改写他的View类很方便，而Django自己带的View要差些~~
+总之借鉴一下`get()`函数源码：
+```python
+def get(self, request, *args, **kwargs):
+    self.object_list = self.get_queryset()
+    allow_empty = self.get_allow_empty()
+
+    if not allow_empty:
+        if self.get_paginate_by(self.object_list) is not None and hasattr(self.object_list, 'exists'):
+            is_empty = not self.object_list.exists()
+        else:
+            is_empty = len(self.object_list) == 0
+        if is_empty:
+            raise Http404(_("Empty list and '%(class_name)s.allow_empty' is False.") % {
+                'class_name': self.__class__.__name__,
+            })
+    context = self.get_context_data()
+    return self.render_to_response(context)
+```
+
+主要的地方有这么几个：
+
+* `self.object_list = self.get_queryset()`
+    其中，`self.get_queryset()`返回的是一个数据库结果集，若已定义`self.queryset`便返回自身（若设置排序，则返回排序后结果），若未定义`self.queryset`则检查`self.model`，并返回model的全部结果集（排序同上）。
+    `self.object_list`属性在后续的`self.get_context_data()`中将加载到返回的response的上下文context中。
+* `context = self.get_context_data()`
+    生成返回的上下文，是dict类型数据。
+    `object_list`默认为`self.object_list`，也可以在函数调用时传入。
+    检查视图是否设置分页，若设置分页，将返回分页处理后的数据。
+    若设置`context_object_name`属性，则会将数据额外赋值一份到该属性为key的字段中，供前端调用。
+* `self.render_to_response(context)`
+    通过context生成response。
+
+综上，忽视空集检查，post函数如下：
+```python
+    def post(self, request, *args, **kwargs):
+        filter = request.POST['filter']
+        print("[filter]", filter)
+        if filter is not None:
+            filter = json.loads(filter)
+            print("[filter_loads]", filter)
+        self.object_list = Room.objects.filter(**filter)
+        context = self.get_context_data()
+        return self.render_to_response(context)
+```
+
+说明：
+
+ 1. POST请求的数据，存放于request.POST中，是dict类数据，通过关键字获取，值一定是str类型。
+ 2. 这里我前端传递的是一个json格式字符串，通过python的json模块进行转换。
+ 3. Model.objects.filter()中的参数一般格式为(keyword=value)，根据python基础中的函数参数形式，其实等同于(**{'keyword':value})，所以，只要前端传递的格式正确，就可以一次筛选了。~~不过由于dict类型的key值唯一，所以每个key值的筛选只能进行一次~~
+
+
+存在问题：
+
+ 1. tag是一个自定义的JSONField数据，一般来说存放的应该是一个list的json化string，如何实现检索？
+ 2. **filter方式每个key值只能检索一次的问题。~~（虽然我觉得不是问题）~~
+ 
+
+---
+

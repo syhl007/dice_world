@@ -1,4 +1,5 @@
-from django.shortcuts import render
+import json
+
 from django.views import generic
 
 from game_manager.models import Character, Room
@@ -7,14 +8,21 @@ from game_manager.models import Character, Room
 class ListRoom(generic.ListView):
     model = Room
     template_name = 'room/room_list.html'
+    ordering = '-add_time'
 
-    def get_queryset(self):
-        print("[test]", self.kwargs)
-        return Room.objects.order_by('-add_time')
+    def get(self, request, *args, **kwargs):
+        return super(ListRoom, self).get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        print("test")
-        return self.get(request, *args, **kwargs)
+        filter = request.POST['filter']
+        print("[filter]", filter)
+        if filter is not None:
+            filter = json.loads(filter)
+            print("[filter_loads]", filter)
+        self.object_list = Room.objects.filter()
+        context = self.get_context_data()
+        response = self.render_to_response(context)
+        return response
 
 
 class RoomDetail(generic.DetailView):

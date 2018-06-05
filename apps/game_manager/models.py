@@ -123,7 +123,7 @@ class Room(models.Model):
     add_time = models.DateTimeField(verbose_name=u"创建时间", default=datetime.now)
 
     def __str__(self):
-        return "1"
+        return '[' + self.num + ']' + self.name
 
     class Meta:
         verbose_name = u"房间"
