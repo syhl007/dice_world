@@ -71,26 +71,26 @@ from user_manager.models import User
 
 
 class RoomViewTest(TestCase):
-    # def test_html_ready(self):
-    #     response = self.client.get(reverse('rooms:room_list'))
-    #     self.assertContains(response, 'No room are available.')
-    #     User.objects.create(username="atman")
-    #     user = User.objects.all()[0]
-    #     Room.objects.create(name="auto_test_001", gm=user)
-    #     time.sleep(1)
-    #     Room.objects.create(name="auto_test_002", gm=user)
-    #     time.sleep(1)
-    #     Room.objects.create(name="auto_test_003", gm=user)
-    #     response = self.client.get(reverse('rooms:room_list'))
-    #     self.assertIs(response.status_code == 200, True)
-    #     self.assertIs(len(response.context['room_list']) == Room.objects.all().count(), True)
-    #     print(response.context['room_list'])
-    #     self.assertQuerysetEqual(response.context['room_list'],
-    #                              ['<Room: 1>', '<room: 1>', '<Room：1 >'])
-    #     index = random.randint(0, len(response.context['room_list']) - 2)
-    #     room_a = response.context['room_list'][index]
-    #     room_b = response.context['room_list'][index + 1]
-    #     self.assertIs(room_b.add_time <= room_a.add_time, True)
+    def test_html_ready(self):
+        response = self.client.get(reverse('rooms:room_list'))
+        self.assertContains(response, 'No room are available.')
+        User.objects.create(username="atman")
+        user = User.objects.all()[0]
+        Room.objects.create(name="auto_test_001", gm=user)
+        time.sleep(1)
+        Room.objects.create(name="auto_test_002", gm=user)
+        time.sleep(1)
+        Room.objects.create(name="auto_test_003", gm=user)
+        response = self.client.get(reverse('rooms:room_list'))
+        self.assertIs(response.status_code == 200, True)
+        self.assertIs(len(response.context['room_list']) == Room.objects.all().count(), True)
+        print(response.context['room_list'])
+        self.assertQuerysetEqual(response.context['room_list'],
+                                 ['<Room: 1>', '<room: 1>', '<Room：1 >'])
+        index = random.randint(0, len(response.context['room_list']) - 2)
+        room_a = response.context['room_list'][index]
+        room_b = response.context['room_list'][index + 1]
+        self.assertIs(room_b.add_time <= room_a.add_time, True)
 
     def test_post_filter(self):
         User.objects.create()
@@ -105,7 +105,7 @@ class RoomViewTest(TestCase):
         response = self.client.post(reverse('rooms:room_list'), data={"filter": '{"name": 123}'})
         print("[post1]", response.context['room_list'])
         self.assertEqual(response.context['room_list'][0].name, '123')
-        response = self.client.post(reverse('rooms:room_list'), data={"filter": '{"tag__contains": "实际"}'})
-        print("[post2]", response.context['room_list'])
-        self.assertEqual(response.context['room_list'][0].name, '123')
+        # response = self.client.post(reverse('rooms:room_list'), data={"filter": '{"tag__contains": "实际"}'})
+        # print("[post2]", response.context['room_list'])
+        # self.assertEqual(response.context['room_list'][0].name, '123')
         pass

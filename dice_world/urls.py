@@ -14,11 +14,22 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.shortcuts import render
 from django.urls import path, include
 
 
+def html_render(requeset, app_name=None, html=None):
+    if app_name is None:
+        return render(requeset, html)
+    else:
+        return render(requeset, app_name+"/"+html)
+
+
 urlpatterns = [
+    path('html/<str:html>', html_render),
+    path('html/<str:app_name>/<str:html>', html_render),
     path('admin/', admin.site.urls),
     path('room/', include('game_manager.room_urls')),
     path('character/', include('game_manager.character_urls')),
+    path('user/', include('user_manager.urls')),
 ]

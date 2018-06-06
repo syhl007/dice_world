@@ -23,7 +23,10 @@
     <option name="TEMPLATE_CONFIGURATION" value="Django" />
     <option name="TEMPLATE_FOLDERS">
       <list>
-        <option value="$MODULE_DIR$/../dice_world\templates" />
+        <option value="$MODULE_DIR$/templates" />
+        <option value="$MODULE_DIR$/templates/room" />
+        <option value="$MODULE_DIR$/templates/user" />
+        <option value="$MODULE_DIR$/templates/main" />
       </list>
     </option>
   </component>

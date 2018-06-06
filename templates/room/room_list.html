@@ -1,10 +1,35 @@
-{% if room_list %}
-    <ul>
+<head>
+    <link rel="stylesheet" href="https://unpkg.com/hbook-ui/dist/css/hbook.min.css">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<table class="table table-zebra">
+    <thead>
+    <tr>
+        <th>房间号</th>
+        <th>房间名</th>
+        <th>创建者</th>
+        <th>创建时间</th>
+        <th>加入</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% if room_list %}
         {% for room in room_list %}
-            <li><a href="{% url 'rooms:room_detail' room.id %}"> [{{ room.num }}]{{ room.name }}(creator:{{ room.gm.username }})————{{ room.add_time }} </a>
-            </li>
+            <tr>
+                <td> {{ room.num }} </td>
+{#                <td><a href="{% url 'room:room_detail' room.id %}"> 【{{ room.name }}】 </a></td>#}
+                <td> 【{{ room.name }}】 </td>
+                <td> {{ room.gm.username }} </td>
+                <td> {{ room.add_time }} </td>
+                <td> <botton class="btn btn-primary join_room" name="join_room" id="{{ room.id }}">加入房间</botton> </td>
+            </tr>
         {% endfor %}
-    </ul>
-{% else %}
-    <p>No room are available.</p>
-{% endif %}
+    {% else %}
+        <tr>No room are available.</tr>
+    {% endif %}
+    </tbody>
+</table>
+
+
+

@@ -1,0 +1,24 @@
+<head>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'user/style.css' %}"/>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+{% if user_list %}
+    <table class="table ">
+        <thead>
+        <tr>
+            <th>用户名</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in user_list %}
+            <tr>
+                <td> {{ user.username }} </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No room are available.</p>
+{% endif %}

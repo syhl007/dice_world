@@ -3,7 +3,7 @@ from django.urls import path
 
 from game_manager import views
 
-app_name = 'rooms'
+app_name = 'room'
 urlpatterns = [
     path('list/', views.ListRoom.as_view(), name='room_list'),
     # path('create/', None, name='create'),
