@@ -288,28 +288,28 @@ path('test/', views.TestView.as_view(), name='test')
 * `as_view()`函数
     * 这个函数是View类的类函数，在启动Django服务，运行到urls.py时执行，用于初始化视图对象并进行绑定。
     * 其他的流程暂时不管，主要的是其内部定义的一个内部函数`view`，源码如下，`as_view()`函数返回的就是加工后的内部view对象。
-```python
-        def view(request, *args, **kwargs):
-            self = cls(**initkwargs)
-            if hasattr(self, 'get') and not hasattr(self, 'head'):
-                self.head = self.get
-            self.request = request
-            self.args = args
-            self.kwargs = kwargs
-            return self.dispatch(request, *args, **kwargs)
-```
+    ```python
+            def view(request, *args, **kwargs):
+                self = cls(**initkwargs)
+                if hasattr(self, 'get') and not hasattr(self, 'head'):
+                    self.head = self.get
+                self.request = request
+                self.args = args
+                self.kwargs = kwargs
+                return self.dispatch(request, *args, **kwargs)
+    ```
 
 * `dispatch()`函数
     * 如上文所述，`urls.py`中绑定的是view方法和url地址，而不是view()函数结果。所以，通过`as_view()`绑定后，请求实际是传递到了view方法中，最终返回的实际是这个`dispatch()`函数的执行结果。
     * 那么看`dispatch()`函数的源码，可以发现，请求到了TestView这一层时，才会根据其请求方式`request.method`来调用具体的执行方式，例如，GET请求调用`get()`方法。同时，可以通过修改`self.http_method_names`来限制请求，或在对应方法中自定义处理方式。
-```python
-def dispatch(self, request, *args, **kwargs):
-    if request.method.lower() in self.http_method_names:
-        handler = getattr(self, request.method.lower(), self.http_method_not_allowed)
-    else:
-        handler = self.http_method_not_allowed
-    return handler(request, *args, **kwargs)
-```
+    ```python
+    def dispatch(self, request, *args, **kwargs):
+        if request.method.lower() in self.http_method_names:
+            handler = getattr(self, request.method.lower(), self.http_method_not_allowed)
+        else:
+            handler = self.http_method_not_allowed
+        return handler(request, *args, **kwargs)
+    ```
 
 ~~说了一堆废话，其实就是想说明，就算通用视图不支持GET或POST请求，你也能自己写支持的方式~~
 在本次工程中，有这么需求：列出房间列表，并可以通过某些检索方式过滤房间列表。
@@ -378,10 +378,10 @@ def get(self, request, *args, **kwargs):
 
 ##2018.06.06
 
-前端是个坑，但是我还是得跳进去。。。
+~~前端是个坑，但是我还是得跳进去。。。~~
 
 简单设计一下大致界面，首先主页大致如下：
-![avatar](/main_page.png)
+![布局图](/main_page.png)
 
 * 布局说明
 头部是标题栏，一些无关紧要的欢迎词之类的。
@@ -396,9 +396,83 @@ def get(self, request, *args, **kwargs):
 信息栏进入房间信息列表。
 
 接下来是相关技术点：
+~~晚上回去补~~
 
-* ajax（jQuery）
+* AJAX（jQuery）
+    * 首先，AJAX是现有标准的新方法，而不是新的编程语言。
+    * AJAX提供的一种异步请求方式，经常用在页面动态获取、局部更新的地方。
+    * AJAX中的核心对象为XMLHttpRequest，实现了异步与服务器交互数据
+        * 在低版本ie中，使用new ActiveXObject("Microsoft.XMLHTTP");创建对象。
+        * 在高版本ie中，使用new XMLHttpRequest();创建对象。
+        * 构建request的函数`open(method, url, async)`
+            * `method`——请求类型：GET/POST
+            * `url`——请求地址
+            * `async`——同步（false）/异步（true）
+        * 编辑请求头函数`setRequestHeader(header, value)`，如定义form表单提交POST等。
+            * `header`——头字段名
+            * `value`——头参数值
+        * 发送request的函数`send(string)`
+            * `string`——仅用于POST请求，用于附加参数（GET请求的参数附加在url中）
+        * 服务器返回文本：`xmlhttp.responseText`
+        * 服务器返回XML：`xmlhttp.responseXML`，可以通过`getElementsByTagName()`等方式解析
+        * __状态变化`onreadystatechange`事件__：
+            * `xmlhttp.readyState`状态（他的变化触发绑定在`onreadystatechange`上的函数）
+                * 0-请求未初始化（还没有调用 open()）
+                * 1-服务器连接已建立（还没有调用 send()）
+                * 2-请求已接收（通常现在可以从响应中获取内容头）
+                * 3-请求处理中
+                * 4-请求已完成，且响应就绪
+            * `xmlhttp.status`状态
+                * 200-OK
+                * 404-未找到页面
+                * 其他参见html状态码
+    * 虽然AJAX是浏览器通用规范，但是自己实现和调用很繁琐，jQuery是在JavaScript语法中便捷实现了多种AJAX方法的库，能让程序员快捷的使用AJAX方法，需要引入jQuery的相关js文件，[参见其官网](https://jquery.com/)。
+    ```html
+    <script src="/static/js/jquery-3.3.1.js" type="text/javascript"></script>
+    ```
+    * `$(selector).load(URL,data,callback);`
+        * `selector`是jQuery选择器，用于选择页面元素（参见[jQuery选择器](http://www.w3school.com.cn/jquery/jquery_selectors.asp)）
+        * `URL`——必须，用于指定需要加载的地址
+        * `data`——可选，一同发送的数据键值对
+        * `callback`——可选，`load()`完成后的回调函数
+            * `responseTxt`——包含调用成功时的结果内容
+            * `statusTXT`——包含调用的状态
+            * `xhr`——包含 XMLHttpRequest 对象
+        * `$.get(URL,callback);`和`$.post(URL,data,callback);`，获取GET结果和POST结果，返回的是OBJ。
+        * __$.ajax({settings_dict}) 自定义的AJAX方法__，settings_dict为可选配置选项
+            * `url`——请求地址
+            * `type`——请求方式GET/POST
+            * `data`——（POST）需要上传的数据
+            * `async`——是否异步（true/false）
+            * `contentType`——发送到服务器的内容类型
+            * `dataType`——预期返回结果类型，如"script"
+            * `success(result,status,xhr)`——成功后的处理函数
+            * `error(xhr,status,error)`——失败后的处理函数
+            * `complete(xhr,status)`——完成后调用的函数（在`success`和`error`后调用）
+            
+            ```html
+            <!--示例-->
+            $.ajax({
+                url:'test/test.js',
+                type:'get',
+                dataType:'script',
+                success: function(data){
+                    console.log(data);
+                },
+                error: function(xhr){
+			        alert("错误提示： " + xhr.status + " " + xhr.statusText);
+		        },
+		        complete: function(xhr){
+			        alert("完成状态： " + xhr.status + " " + xhr.statusText);
+		        }
+            });
+            ```
 * iframe
+    iframe是html中的一个标签
 * css
 * html5
-~~晚上回去补~~
+
+---
+
+
+
