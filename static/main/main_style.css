@@ -1,6 +1,6 @@
-h1 {
-    color:yellow;
-
+.create_room {
+    float:right;
+    padding:5px;
 }
 #header {
     background-color:black;

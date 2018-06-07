@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.views import generic
 
 from game_manager.models import Character, Room
+from user_manager.models import User
 
 
 class ListRoom(generic.ListView):
@@ -26,12 +27,20 @@ class ListRoom(generic.ListView):
         return response
 
 
-class CreateRoom(generic.View):
+class CreateRoom(generic.CreateView):
+    model = Room  # 生成的模型对象类、不设置这个的话就会去检测self.object和self.queryset来确定
+    fields = ['name', ]  # 需要获取的字段，必须
+    template_name = 'room/create_room.html'  # 当request以GET请求时返回的页面
 
-    def post(self, request, *args, **kwargs):
-        print(request.POST)
-        print("post")
-        return HttpResponse(json.dumps({'jas':'test'}), content_type='application/json')
+    def form_valid(self, form):
+        print("[user]", self.request.user)
+        form.instance.gm = User.objects.all()[0]
+        form.save()
+        return HttpResponse("ok")
+
+    # def form_invalid(self, form):
+    #     print("[form_invalid]", form.instance)
+    #     pass
 
 
 class RoomDetail(generic.DetailView):

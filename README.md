@@ -493,7 +493,8 @@ STATICFILES_DIRS = (
 
 ## 2018.06.07
 
-~~高考居然没下雨，希望各位考得不错~~
+~~高考居然没下雨，希望各位考得不错
+然后下午就暴雨。。~~
 接着昨天的内容继续
 
 * iframe
@@ -503,7 +504,9 @@ STATICFILES_DIRS = (
     不过在这个工程中，我想实现的是主窗口中的按键点击能刷新其他窗口的内容，iframe在相互之间的传值上似乎有点难实现。
 
 好，有关jQuery的基础理论已经了解，那么开始实现如下功能：
+
 ![布局图](/main_page.png)
+
 ·进入主页之后，自动加载房间列表到room_list，~~（同时加载在线用户列表到user_list）~~。
 ·房间列表中每个房间附加一个“加入房间”按钮，可以点击进入房间，目前就是请求/room/detail/信息，并将room_list窗口内容替换为房间内部内容，同时将user_list替换为房间内的用户列表。
 
@@ -522,7 +525,7 @@ $(document).ready(function () {
 ```html
 ...
 <td>
-    <botton class="btn btn-primary join_room" id="{{ room.id }}">加入房间</botton>
+    <button class="btn btn-primary join_room" id="{{ room.id }}">加入房间</button>
 </td>
 ...
 ```
@@ -534,7 +537,7 @@ $(document).ready(function () {
 <script type="text/javascript">
         $(document).ready(function () {
            $("#main_window").load('/room/list/', function () {
-               $("botton.join_room").on('click', function () {
+               $("button.join_room").on('click', function () {
                    var url = '/room/'+ $(this).attr("id");
                    $("#main_window").load(url)
                    $("#nav").load('/user/list/')
@@ -546,7 +549,7 @@ $(document).ready(function () {
 说明：
 
 * 利用`load(url,data,callback)`机制中的回调函数，确保主窗口加载房屋列表完毕之后再调用callback方法。
-* 通过`$(botton.join_room)`选择全部class含有join_room的botton对象。
+* 通过`$(button.join_room)`选择全部class含有join_room的button对象。
 * 通过`$().on('click', function)`来动态绑定点击事件的方法。
 * 获取按钮附加的房间id，（注意，这里的`this`是触发点击事件的对象，即，__被点击的按钮对象__），然后通过`$().attr("id")`来获取`id`值~~（惊了，居然不能直接$().id，那我设置id为房间id毫无意义啊。。）~~
 * 通过id构建不同的url，通过`load()`刷新多个页面。
@@ -555,3 +558,19 @@ $(document).ready(function () {
 期间学了尝试了很多之前没试过的前端知识，算起来这算我3入前端坑了，然而却是第一次自己写JavaScript和找css框架引入。。遇到了很多莫名其妙的bug，什么页面没加载完找不到元素啊，什么选择class使用#去选择返回undefined啊，什么load的callback不执行了啊，总之一步一个坑。~~但是看着一点一点功能实现还是很不错的。~~
 Django官网上初步知识剩下一篇是/admin/后台管理页面的配置，这个我准备先放放，所以Django2.0的文档就看了5%~~（已汉化部分）~~，接下来应该就不会一篇一篇的啃了~~（英文差）~~，应该是遇到什么问题再去查相关文档了。
 现在准备的就是完善这个页面前后端功能，~~虽然最麻烦的实时聊天功能还不知道怎么来实现，websocket吧，~~之后可能关于理论学习的东西会更新少点，更多的是一些写代码时遇到的问题吧。
+
+~~神™转身遇到坑~~
+CreateView，这是Django提供的通用视图之一，用于创建一个Model对象存放到数据库中。当然，对于简单的Model对象，浏览器表单页面与数据库字段一一对应即可。然而在本工程中，以Room类来说，其中gm字段为外键，关联User表，而且这个字段应该默认为发出请求者的User对象。
+所以，就需要对这个类进行一定的改造，然而，事情却很麻烦。。。。~~第一，官方文档没汉化这部分（当然内容也不多）~~，第二，网上也没太多2.0相关的。~~我差点就想不用这个类，自己重新写个view，顺便骂一句Django真sb。~~所以我一点一点的看源码。
+先梳理一个大致逻辑，CreateView是允许接收GET和POST请求的。
+
+* GET请求默认返回表单页面，页面名由`self.template_name`属性决定，如此一来免去了再写一个关联到表单的借口~~（真香！）~~。
+    * `self.template_name`——str类型，同其他View一样，指向了html页面文件
+* POST请求则会检查表单内容，生成一个对象存入数据库中。
+    * `self.model`属性——生成的模型对象类、不设置这个的话就会去检测self.object和self.queryset来确定。
+    * `self.fields`属性——（必需）可遍历类型，表示需要从请求表中获取的字段以及其对应的Model字段。
+    * `get_form_class()`函数——获取对象（Model）的form格式，返回一个动态表单类对象（`django.forms.widgets.XXXXForm`）。
+    * `get_form_kwargs()`函数——解析request表单内容，生成关键字键值对，传入上面获得动态表单类对象中，生成一个`form`对象，将对象传入`form_valid()`函数中。
+    * `form_valid()`函数——简单的操作就是`form.save()`，然后跳转请求到`get_success_url()`函数返回的成功跳转url地址中去。然而，如果需要对输入的值进行处理或者是附加其他属性值，那么就需要在这里进行处理。
+        * `form.instance`是一个已经生成，但还没存进数据库的对象，其属性值为request表单中提交的值，未提交的若有default则为default的值__（请记住之前【测试】一段中说的，这个并未存入数据库，故其属性与最终存入数据库字段属性可能存在差异）__，若未提交也无default则为None。~~（顺带说一句，看网上以往的文章，Django2之前似乎具有一个`self.instance`属性来实现这个功能而不是`form.instance`，当然在Django2里面一句没了）~~
+    * `form_invalid()`函数——如果request提交的表单中，不满足`self.fields`中的字段，则会跳转到这个函数，通常的操作是返回到表单页面。[需要说明的是，如果`self.fields`异常，即写入的字段在Model不存在，则在进入这个View时就会报错，而不会进入处理流程。]

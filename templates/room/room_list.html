@@ -3,35 +3,35 @@
     <title>Title</title>
 </head>
 <body>
-    <table class="table table-border table-bg">
-        <thead>
-        <tr>
-            <th>房间号</th>
-            <th>房间名</th>
-            <th>创建者</th>
-            <th>创建时间</th>
-            <th>加入</th>
-        </tr>
-        </thead>
-        {% if room_list %}
-        <tbody>
-            {% for room in room_list %}
-                <tr>
-                    <td> {{ room.num }} </td>
-                    {#                <td><a href="{% url 'room:room_detail' room.id %}"> 【{{ room.name }}】 </a></td>#}
-                    <td> 【{{ room.name }}】</td>
-                    <td> {{ room.gm.username }} </td>
-                    <td> {{ room.add_time }} </td>
-                    <td>
-                        <botton class="btn btn-primary join_room" name="join_room" id="{{ room.id }}">加入房间</botton>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-        {% else %}
-            <div>No room are available.</div>
-        {% endif %}
-    </table>
+<table class="table table-border table-bg">
+    <thead>
+    <tr>
+        <th>房间号</th>
+        <th>房间名</th>
+        <th>创建者</th>
+        <th>创建时间</th>
+        <th>加入</th>
+    </tr>
+    </thead>
+    {% if room_list %}
+    <tbody>
+    {% for room in room_list %}
+    <tr>
+        <td> {{ room.num }}</td>
+        <!--<td><a href="{% url 'room:room_detail' room.id %}"> 【{{ room.name }}】 </a></td>-->
+        <td> 【{{ room.name }}】</td>
+        <td> {{ room.gm.username }}</td>
+        <td> {{ room.add_time }}</td>
+        <td>
+            <button class="btn btn-primary join_room" name="join_room" id="{{ room.id }}">加入房间</button>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+    {% else %}
+    <div>No room are available.</div>
+    {% endif %}
+</table>
 </body>
 
 
