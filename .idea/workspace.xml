@@ -2,25 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7cbbf86d-dca6-4027-ad2b-0d5a1d1b4f02" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/apps/user_manager/urls.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/static/js/jquery-3.3.1.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/static/main/main_style.css" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/static/user/style.css" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/templates/main.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/templates/room/testcss.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/templates/user/user_list.html" />
-      <change beforePath="$PROJECT_DIR$/.idea/dice_world.iml" afterPath="$PROJECT_DIR$/.idea/dice_world.iml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/apps/game_manager/migrations/0002_character_sex.py" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/templates/room/create_room.html" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
-      <change beforePath="$PROJECT_DIR$/apps/game_manager/character_urls.py" afterPath="$PROJECT_DIR$/apps/game_manager/character_urls.py" />
-      <change beforePath="$PROJECT_DIR$/apps/game_manager/models.py" afterPath="$PROJECT_DIR$/apps/game_manager/models.py" />
       <change beforePath="$PROJECT_DIR$/apps/game_manager/room_urls.py" afterPath="$PROJECT_DIR$/apps/game_manager/room_urls.py" />
       <change beforePath="$PROJECT_DIR$/apps/game_manager/tests.py" afterPath="$PROJECT_DIR$/apps/game_manager/tests.py" />
-      <change beforePath="$PROJECT_DIR$/apps/user_manager/models.py" afterPath="$PROJECT_DIR$/apps/user_manager/models.py" />
-      <change beforePath="$PROJECT_DIR$/apps/user_manager/views.py" afterPath="$PROJECT_DIR$/apps/user_manager/views.py" />
-      <change beforePath="$PROJECT_DIR$/dice_world/settings.py" afterPath="$PROJECT_DIR$/dice_world/settings.py" />
-      <change beforePath="$PROJECT_DIR$/dice_world/urls.py" afterPath="$PROJECT_DIR$/dice_world/urls.py" />
-      <change beforePath="$PROJECT_DIR$/templates/room/character_list.html" afterPath="$PROJECT_DIR$/templates/room/character_list.html" />
+      <change beforePath="$PROJECT_DIR$/apps/game_manager/views.py" afterPath="$PROJECT_DIR$/apps/game_manager/views.py" />
+      <change beforePath="$PROJECT_DIR$/static/main/main_style.css" afterPath="$PROJECT_DIR$/static/main/main_style.css" />
+      <change beforePath="$PROJECT_DIR$/templates/main.html" afterPath="$PROJECT_DIR$/templates/main.html" />
       <change beforePath="$PROJECT_DIR$/templates/room/room_list.html" afterPath="$PROJECT_DIR$/templates/room/room_list.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -31,109 +21,96 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/dice_world$Test__game_manager.coverage" NAME="Test: game_manager Coverage Results" MODIFIED="1528270877019" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/dice_world$Test__game_manager.coverage" NAME="Test: game_manager Coverage Results" MODIFIED="1528359931383" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
   <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
     <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/apps/game_manager/models.py">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/apps/game_manager/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-252">
-              <caret line="24" column="22" lean-forward="false" selection-start-line="24" selection-start-column="16" selection-end-line="24" selection-end-column="22" />
+            <state relative-caret-position="76">
+              <caret line="33" column="68" lean-forward="false" selection-start-line="33" selection-start-column="56" selection-end-line="33" selection-end-column="68" />
               <folding>
-                <element signature="e#582#2852#0" expanded="false" />
-                <element signature="e#790#830#0" expanded="false" />
-                <element signature="e#836#1004#1" expanded="false" />
-                <element signature="e#1049#1066#0" expanded="false" />
-                <element signature="e#1072#1221#1" expanded="false" />
-                <element signature="e#1291#1370#0" expanded="false" />
-                <element signature="e#1376#1483#1" expanded="false" />
-                <element signature="e#1525#1943#0" expanded="false" />
-                <element signature="e#1949#2054#1" expanded="false" />
-                <element signature="e#2132#2309#0" expanded="false" />
-                <element signature="e#2423#2529#0" expanded="false" />
-                <element signature="e#2535#2584#1" expanded="false" />
-                <element signature="e#2589#2631#0" expanded="false" />
-                <element signature="e#2652#2685#1" expanded="false" />
-                <element signature="e#2690#2722#0" expanded="false" />
+                <element signature="e#0#11#0" expanded="true" />
+                <element signature="e#172#777#0" expanded="false" />
+                <element signature="e#1042#1098#0" expanded="false" />
+                <element signature="e#1144#1208#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/apps/user_manager/views.py">
+      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/dice_world/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="54">
-              <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+            <state relative-caret-position="72">
+              <caret line="24" column="18" lean-forward="false" selection-start-line="24" selection-start-column="18" selection-end-line="24" selection-end-column="18" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="shortcuts.py" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/shortcuts.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="30">
+              <caret line="35" column="28" lean-forward="false" selection-start-line="35" selection-start-column="28" selection-end-line="35" selection-end-column="28" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="loader.py" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/template/loader.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-142">
+              <caret line="51" column="4" lean-forward="false" selection-start-line="51" selection-start-column="4" selection-end-line="51" selection-end-column="4" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="response.py" pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/http/response.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-250">
+              <caret line="281" column="8" lean-forward="false" selection-start-line="281" selection-start-column="8" selection-end-line="281" selection-end-column="8" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="create_room.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/room/create_room.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="252">
+              <caret line="7" column="42" lean-forward="false" selection-start-line="7" selection-start-column="42" selection-end-line="7" selection-end-column="42" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="tests.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/apps/game_manager/tests.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="126">
+              <caret line="120" column="34" lean-forward="true" selection-start-line="120" selection-start-column="34" selection-end-line="120" selection-end-column="34" />
               <folding>
-                <element signature="e#0#35#0" expanded="true" />
+                <element signature="e#0#11#0" expanded="true" />
+                <element signature="e#2628#2656#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="testcss.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/room/testcss.html">
+      <file leaf-file-name="room_urls.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/apps/game_manager/room_urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="8" column="78" lean-forward="true" selection-start-line="8" selection-start-column="4" selection-end-line="8" selection-end-column="78" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="main.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/main.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-203">
-              <caret line="37" column="11" lean-forward="false" selection-start-line="37" selection-start-column="5" selection-end-line="37" selection-end-column="11" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="room_list.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/room/room_list.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="207">
-              <caret line="24" column="61" lean-forward="false" selection-start-line="24" selection-start-column="52" selection-end-line="24" selection-end-column="61" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/dice_world/settings.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="303">
-              <caret line="135" column="1" lean-forward="true" selection-start-line="135" selection-start-column="1" selection-end-line="135" selection-end-column="1" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/README.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="SPLIT">
-              <first_editor relative-caret-position="297">
-                <caret line="403" column="9" lean-forward="false" selection-start-line="403" selection-start-column="9" selection-end-line="403" selection-end-column="9" />
-                <folding />
-              </first_editor>
-              <second_editor />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="main_style.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/static/main/main_style.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="7" lean-forward="false" selection-start-line="0" selection-start-column="1" selection-end-line="0" selection-end-column="7" />
+            <state relative-caret-position="90">
+              <caret line="7" column="62" lean-forward="true" selection-start-line="7" selection-start-column="62" selection-end-line="7" selection-end-column="62" />
               <folding />
             </state>
           </provider>
@@ -170,6 +147,9 @@
       <find>post</find>
       <find>render_to_response</find>
       <find>creator</find>
+      <find>form_invalid</find>
+      <find>rooms</find>
+      <find>get_success_url</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -185,25 +165,26 @@
         <option value="$PROJECT_DIR$/apps/chat_room/apps.py" />
         <option value="$PROJECT_DIR$/templates/room/room_detail.html" />
         <option value="$PROJECT_DIR$/apps/game_manager/models.py" />
-        <option value="$PROJECT_DIR$/apps/game_manager/views.py" />
         <option value="$PROJECT_DIR$/apps/game_manager/character_urls.py" />
-        <option value="$PROJECT_DIR$/apps/game_manager/room_urls.py" />
         <option value="$PROJECT_DIR$/templates/room/character_list.html" />
         <option value="$PROJECT_DIR$/templates/room/testcss.html" />
-        <option value="$PROJECT_DIR$/apps/game_manager/tests.py" />
         <option value="$PROJECT_DIR$/apps/user_manager/models.py" />
         <option value="$PROJECT_DIR$/apps/user_manager/views.py" />
         <option value="$PROJECT_DIR$/apps/user_manager/urls.py" />
         <option value="$PROJECT_DIR$/dice_world/settings.py" />
         <option value="$PROJECT_DIR$/static/user/style.css" />
         <option value="$PROJECT_DIR$/templates/room/test.html" />
-        <option value="$PROJECT_DIR$/static/main/main_style.css" />
         <option value="$PROJECT_DIR$/templates/main/main.html" />
         <option value="$PROJECT_DIR$/dice_world/urls.py" />
         <option value="$PROJECT_DIR$/templates/user/user_list.html" />
+        <option value="$PROJECT_DIR$/static/main/main_style.css" />
         <option value="$PROJECT_DIR$/templates/room/room_list.html" />
         <option value="$PROJECT_DIR$/templates/main.html" />
         <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/templates/room/create_room.html" />
+        <option value="$PROJECT_DIR$/apps/game_manager/room_urls.py" />
+        <option value="$PROJECT_DIR$/apps/game_manager/tests.py" />
+        <option value="$PROJECT_DIR$/apps/game_manager/views.py" />
       </list>
     </option>
   </component>
@@ -234,6 +215,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -244,18 +227,23 @@
             <path>
               <item name="dice_world" type="b2602c69:ProjectViewProjectNode" />
               <item name="dice_world" type="462c0819:PsiDirectoryNode" />
+              <item name="apps" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="dice_world" type="b2602c69:ProjectViewProjectNode" />
+              <item name="dice_world" type="462c0819:PsiDirectoryNode" />
+              <item name="apps" type="462c0819:PsiDirectoryNode" />
+              <item name="game_manager" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="dice_world" type="b2602c69:ProjectViewProjectNode" />
+              <item name="dice_world" type="462c0819:PsiDirectoryNode" />
               <item name="dice_world" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="dice_world" type="b2602c69:ProjectViewProjectNode" />
               <item name="dice_world" type="462c0819:PsiDirectoryNode" />
               <item name="static" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="dice_world" type="b2602c69:ProjectViewProjectNode" />
-              <item name="dice_world" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="dice_world" type="b2602c69:ProjectViewProjectNode" />
@@ -272,8 +260,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -350,34 +336,34 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="Test__game_manager - 2018.06.05 at 15h 21m 19s.xml">
+    <history-entry file="Test__game_manager - 2018.06.07 at 16h 05m 26s.xml">
       <configuration name="Test: game_manager" configurationId="DjangoTestsConfigurationType" />
     </history-entry>
-    <history-entry file="Test__game_manager - 2018.06.05 at 15h 24m 34s.xml">
+    <history-entry file="Test__game_manager - 2018.06.07 at 16h 07m 11s.xml">
       <configuration name="Test: game_manager" configurationId="DjangoTestsConfigurationType" />
     </history-entry>
-    <history-entry file="Test__game_manager - 2018.06.05 at 15h 38m 37s.xml">
+    <history-entry file="Test__game_manager - 2018.06.07 at 16h 08m 41s.xml">
       <configuration name="Test: game_manager" configurationId="DjangoTestsConfigurationType" />
     </history-entry>
-    <history-entry file="Test__game_manager - 2018.06.05 at 15h 40m 30s.xml">
+    <history-entry file="Test__game_manager - 2018.06.07 at 16h 12m 15s.xml">
       <configuration name="Test: game_manager" configurationId="DjangoTestsConfigurationType" />
     </history-entry>
-    <history-entry file="Test__game_manager - 2018.06.05 at 17h 49m 50s.xml">
+    <history-entry file="Test__game_manager - 2018.06.07 at 16h 13m 55s.xml">
       <configuration name="Test: game_manager" configurationId="DjangoTestsConfigurationType" />
     </history-entry>
-    <history-entry file="Test__game_manager - 2018.06.05 at 17h 52m 44s.xml">
+    <history-entry file="Test__game_manager - 2018.06.07 at 16h 15m 00s.xml">
       <configuration name="Test: game_manager" configurationId="DjangoTestsConfigurationType" />
     </history-entry>
-    <history-entry file="Test__game_manager - 2018.06.05 at 17h 54m 15s.xml">
+    <history-entry file="Test__game_manager - 2018.06.07 at 16h 19m 20s.xml">
       <configuration name="Test: game_manager" configurationId="DjangoTestsConfigurationType" />
     </history-entry>
-    <history-entry file="Test__game_manager - 2018.06.05 at 17h 56m 25s.xml">
+    <history-entry file="Test__game_manager - 2018.06.07 at 16h 20m 31s.xml">
       <configuration name="Test: game_manager" configurationId="DjangoTestsConfigurationType" />
     </history-entry>
-    <history-entry file="Test__game_manager - 2018.06.05 at 17h 58m 47s.xml">
+    <history-entry file="Test__game_manager - 2018.06.07 at 16h 23m 36s.xml">
       <configuration name="Test: game_manager" configurationId="DjangoTestsConfigurationType" />
     </history-entry>
-    <history-entry file="Test__game_manager - 2018.06.06 at 15h 41m 55s.xml">
+    <history-entry file="Test__game_manager - 2018.06.07 at 16h 26m 12s.xml">
       <configuration name="Test: game_manager" configurationId="DjangoTestsConfigurationType" />
     </history-entry>
   </component>
@@ -399,7 +385,7 @@
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5188216" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.58919805" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18986385" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19288956" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="manage.py@dice_world" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29623568" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -427,7 +413,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/apps/game_manager/views.py</url>
-          <line>22</line>
+          <line>23</line>
           <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>
@@ -440,62 +426,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/dice_world/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1577">
-          <caret line="84" column="13" lean-forward="false" selection-start-line="84" selection-start-column="13" selection-end-line="84" selection-end-column="13" />
-          <folding>
-            <element signature="e#311#320#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/game_manager/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="513">
-          <caret line="33" column="86" lean-forward="false" selection-start-line="33" selection-start-column="75" selection-end-line="33" selection-end-column="86" />
-          <folding>
-            <element signature="e#582#2852#0" expanded="false" />
-            <element signature="e#790#830#0" expanded="false" />
-            <element signature="e#836#1004#1" expanded="false" />
-            <element signature="e#1049#1066#0" expanded="false" />
-            <element signature="e#1072#1221#1" expanded="false" />
-            <element signature="e#1291#1370#0" expanded="false" />
-            <element signature="e#1376#1483#1" expanded="false" />
-            <element signature="e#1525#1943#0" expanded="false" />
-            <element signature="e#1949#2054#1" expanded="false" />
-            <element signature="e#2132#2309#0" expanded="false" />
-            <element signature="e#2423#2529#0" expanded="false" />
-            <element signature="e#2535#2584#1" expanded="false" />
-            <element signature="e#2589#2631#0" expanded="false" />
-            <element signature="e#2652#2685#1" expanded="false" />
-            <element signature="e#2690#2722#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="9" column="26" lean-forward="true" selection-start-line="9" selection-start-column="26" selection-end-line="9" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/core/wsgi.py" />
-    <entry file="file://$PROJECT_DIR$/dice_world/wsgi.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="298">
-          <caret line="15" column="20" lean-forward="true" selection-start-line="15" selection-start-column="20" selection-end-line="15" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/game_manager/apps.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="5" column="0" lean-forward="true" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/db/models/sql/compiler.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="379">
@@ -569,14 +499,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/urls/resolvers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="233" column="6" lean-forward="false" selection-start-line="233" selection-start-column="6" selection-end-line="233" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/urls/conf.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="280">
@@ -623,29 +545,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/core/handlers/base.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="861">
-          <caret line="159" column="0" lean-forward="false" selection-start-line="159" selection-start-column="0" selection-end-line="159" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/views/generic/base.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="48">
-          <caret line="30" column="6" lean-forward="false" selection-start-line="30" selection-start-column="6" selection-end-line="30" selection-end-column="6" />
-          <folding>
-            <element signature="e#1132#1457#0" expanded="false" />
-            <element signature="e#3689#3913#0" expanded="false" />
-            <element signature="e#3955#4025#0" expanded="false" />
-            <element signature="e#4061#5309#0" expanded="false" />
-            <element signature="e#4299#4809#0" expanded="false" />
-            <element signature="e#5645#7428#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/views/generic/list.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="158">
@@ -687,35 +586,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/views/generic/detail.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="162" column="58" lean-forward="false" selection-start-line="162" selection-start-column="58" selection-end-line="162" selection-end-column="58" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/testcss.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/shortcuts.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="35" column="0" lean-forward="false" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/testcss.html" />
     <entry file="file://$PROJECT_DIR$/templates/room/room_detail.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-81">
           <caret line="5" column="35" lean-forward="false" selection-start-line="5" selection-start-column="35" selection-end-line="5" selection-end-column="35" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -723,46 +598,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
           <caret line="3" column="66" lean-forward="true" selection-start-line="3" selection-start-column="66" selection-end-line="3" selection-end-column="66" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/game_manager/room_urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="70">
-          <caret line="5" column="16" lean-forward="false" selection-start-line="5" selection-start-column="16" selection-end-line="5" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/game_manager/character_urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="5" column="21" lean-forward="false" selection-start-line="5" selection-start-column="12" selection-end-line="5" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/game_manager/tests.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="76">
-          <caret line="104" column="9" lean-forward="false" selection-start-line="104" selection-start-column="9" selection-end-line="104" selection-end-column="9" />
-          <folding>
-            <element signature="e#0#13#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/game_manager/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="246">
-          <caret line="24" column="23" lean-forward="true" selection-start-line="7" selection-start-column="0" selection-end-line="24" selection-end-column="23" />
-          <folding>
-            <element signature="e#0#11#0" expanded="false" />
-            <element signature="e#135#732#0" expanded="false" />
-            <element signature="e#777#833#0" expanded="false" />
-            <element signature="e#879#943#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -771,16 +606,6 @@
         <state relative-caret-position="108">
           <caret line="4" column="18" lean-forward="false" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/user_manager/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -806,7 +631,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="3" lean-forward="false" selection-start-line="0" selection-start-column="3" selection-end-line="0" selection-end-column="3" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -818,26 +642,94 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/room/test.html">
+    <entry file="file://$PROJECT_DIR$/templates/room/test.html" />
+    <entry file="file://$PROJECT_DIR$/templates/user/user_list.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-419">
-          <caret line="5" column="7" lean-forward="true" selection-start-line="5" selection-start-column="7" selection-end-line="5" selection-end-column="7" />
+        <state relative-caret-position="180">
+          <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/room/testcss.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="8" column="78" lean-forward="false" selection-start-line="8" selection-start-column="4" selection-end-line="8" selection-end-column="78" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dice_world/urls.py">
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="54">
+            <caret line="556" column="92" lean-forward="false" selection-start-line="556" selection-start-column="92" selection-end-line="556" selection-end-column="92" />
+            <folding>
+              <marker date="1528353582066" expanded="true" signature="9800:9954" ph="unordered list: * `as_view()`函数&#10;    * ...ew对象。" />
+              <marker date="1528353582066" expanded="true" signature="17818:17928" ph="{...}" />
+              <marker date="1528353582066" expanded="true" signature="18206:18291" ph="..." />
+              <marker date="1528353582066" expanded="true" signature="18615:18941" ph="{...}" />
+              <marker date="1528353582066" expanded="true" signature="18678:18929" ph="{...}" />
+              <marker date="1528353582066" expanded="true" signature="18741:18914" ph="{...}" />
+            </folding>
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="17" column="17" lean-forward="false" selection-start-line="17" selection-start-column="17" selection-end-line="17" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/main/main_style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="20" column="50" lean-forward="false" selection-start-line="20" selection-start-column="50" selection-end-line="20" selection-end-column="50" />
+        <state relative-caret-position="72">
+          <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dice_world/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="337">
+          <caret line="133" column="0" lean-forward="false" selection-start-line="133" selection-start-column="0" selection-end-line="135" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/main.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-468">
+          <caret line="8" column="24" lean-forward="true" selection-start-line="8" selection-start-column="24" selection-end-line="8" selection-end-column="24" />
+          <folding>
+            <element signature="n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/game_manager/character_urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="8" column="58" lean-forward="true" selection-start-line="8" selection-start-column="58" selection-end-line="8" selection-end-column="58" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/user_manager/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#35#0" expanded="false" />
+            <element signature="e#147#343#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/game_manager/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-252">
-          <caret line="24" column="22" lean-forward="false" selection-start-line="24" selection-start-column="16" selection-end-line="24" selection-end-column="22" />
+        <state relative-caret-position="1368">
+          <caret line="165" column="17" lean-forward="false" selection-start-line="165" selection-start-column="6" selection-end-line="165" selection-end-column="17" />
           <folding>
             <element signature="e#582#2852#0" expanded="false" />
             <element signature="e#790#830#0" expanded="false" />
@@ -858,67 +750,146 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/user/user_list.html">
+    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/views/generic/detail.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/room/testcss.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="8" column="78" lean-forward="true" selection-start-line="8" selection-start-column="4" selection-end-line="8" selection-end-column="78" />
+        <state relative-caret-position="-1750">
+          <caret line="109" column="6" lean-forward="false" selection-start-line="109" selection-start-column="6" selection-end-line="109" selection-end-column="6" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/room/room_list.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="24" column="61" lean-forward="false" selection-start-line="24" selection-start-column="52" selection-end-line="24" selection-end-column="61" />
+        <state relative-caret-position="180">
+          <caret line="20" column="75" lean-forward="true" selection-start-line="20" selection-start-column="51" selection-end-line="20" selection-end-column="75" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/main.html">
+    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/urls/resolvers.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-203">
-          <caret line="37" column="11" lean-forward="false" selection-start-line="37" selection-start-column="5" selection-end-line="37" selection-end-column="11" />
+        <state relative-caret-position="74">
+          <caret line="631" column="0" lean-forward="false" selection-start-line="631" selection-start-column="0" selection-end-line="631" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/main/main_style.css">
+    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/urls/base.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="7" lean-forward="false" selection-start-line="0" selection-start-column="1" selection-end-line="0" selection-end-column="7" />
+        <state relative-caret-position="66">
+          <caret line="87" column="0" lean-forward="false" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dice_world/settings.py">
+    <entry file="file://$PROJECT_DIR$/apps/game_manager/room_urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="303">
-          <caret line="135" column="1" lean-forward="true" selection-start-line="135" selection-start-column="1" selection-end-line="135" selection-end-column="1" />
+        <state relative-caret-position="90">
+          <caret line="7" column="62" lean-forward="true" selection-start-line="7" selection-start-column="62" selection-end-line="7" selection-end-column="62" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="297">
-            <caret line="403" column="9" lean-forward="false" selection-start-line="403" selection-start-column="9" selection-end-line="403" selection-end-column="9" />
-            <folding />
-          </first_editor>
-          <second_editor />
+    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/views/generic/edit.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="59">
+          <caret line="54" column="31" lean-forward="true" selection-start-line="54" selection-start-column="4" selection-end-line="54" selection-end-column="31" />
+          <folding />
         </state>
       </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="17" column="17" lean-forward="false" selection-start-line="17" selection-start-column="17" selection-end-line="17" selection-end-column="17" />
+    </entry>
+    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/template/response.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="66">
+          <caret line="105" column="0" lean-forward="false" selection-start-line="105" selection-start-column="0" selection-end-line="105" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/core/handlers/base.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2162">
+          <caret line="144" column="40" lean-forward="true" selection-start-line="144" selection-start-column="40" selection-end-line="144" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/views/generic/base.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="66">
+          <caret line="85" column="12" lean-forward="false" selection-start-line="85" selection-start-column="12" selection-end-line="85" selection-end-column="12" />
+          <folding>
+            <element signature="e#1132#1457#0" expanded="false" />
+            <element signature="e#3689#3913#0" expanded="false" />
+            <element signature="e#3955#4025#0" expanded="false" />
+            <element signature="e#4061#5309#0" expanded="false" />
+            <element signature="e#4299#4809#0" expanded="false" />
+            <element signature="e#5645#7428#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/room/create_room.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="7" column="42" lean-forward="false" selection-start-line="7" selection-start-column="42" selection-end-line="7" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/http/response.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-250">
+          <caret line="281" column="8" lean-forward="false" selection-start-line="281" selection-start-column="8" selection-end-line="281" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dice_world/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="24" column="18" lean-forward="false" selection-start-line="24" selection-start-column="18" selection-end-line="24" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/shortcuts.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="35" column="28" lean-forward="false" selection-start-line="35" selection-start-column="28" selection-end-line="35" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/template/loader.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-142">
+          <caret line="51" column="4" lean-forward="false" selection-start-line="51" selection-start-column="4" selection-end-line="51" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/game_manager/tests.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="120" column="34" lean-forward="true" selection-start-line="120" selection-start-column="34" selection-end-line="120" selection-end-column="34" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+            <element signature="e#2628#2656#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/game_manager/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="33" column="68" lean-forward="false" selection-start-line="33" selection-start-column="56" selection-end-line="33" selection-end-column="68" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+            <element signature="e#172#777#0" expanded="false" />
+            <element signature="e#1042#1098#0" expanded="false" />
+            <element signature="e#1144#1208#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

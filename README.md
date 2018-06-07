@@ -467,12 +467,91 @@ def get(self, request, *args, **kwargs):
 		        }
             });
             ```
-* iframe
-    iframe是html中的一个标签
-* css
-* html5
+
 
 ---
 
+##小插曲
 
+Django2中静态文件放到了工程目录下的static目录，但是在工程启动时却读取不到。
+原来在setting.py中设置`STATIC_URL = '/static/'`还不够，还需要补上静态文件地址：
+```python
+STATICFILES_DIRS = (
+    os.path.join('static'),
+)
+```
+然后，在页面加载时，需要先加载static属性：
+```html
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}" />
+```
+这样才能获取到地址~~（当然也可以写硬编码就是了。）~~
 
+晚上想在另一台电脑上跑一下工程，安装了最新的MySQL8.0.11，然后发现Navicat12居然连接不上，一搜才发现是MySQL的密码加密方式变了，需要更改加密方式回到5.0版本，[方式连接在此](https://www.cnblogs.com/shiysin/p/shiysin.html)。不过没有尝试不修改加密方式，工程是否能连接到数据库，修改后工程能访问，看来没修改前可能不能访问吧，这个是由连接类实现的，可能中间件并没有更新到8.0吧。
+
+---
+
+## 2018.06.07
+
+~~高考居然没下雨，希望各位考得不错~~
+接着昨天的内容继续
+
+* iframe
+    iframe是html中的一个标签，基本的浏览器都能支持这个标签，iframe 元素会创建包含另外一个文档的内联框架（即行内框架）。用于实现页面内嵌其他页面，比如实现本工程所需的主页面架构。
+    关于iframe和ajax的选择，在CSDN上也有讨论，当然，最后的结果也趋于“看实际情况选择使用”这么一个结论。（[差异见此](https://blog.csdn.net/theoldfuture/article/details/75647034)）
+    总的来说，在构建固定板式框架时，用iframe能让前端看着自然而且便于管理一些，比如blog页面之类的。
+    不过在这个工程中，我想实现的是主窗口中的按键点击能刷新其他窗口的内容，iframe在相互之间的传值上似乎有点难实现。
+
+好，有关jQuery的基础理论已经了解，那么开始实现如下功能：
+![布局图](/main_page.png)
+·进入主页之后，自动加载房间列表到room_list，~~（同时加载在线用户列表到user_list）~~。
+·房间列表中每个房间附加一个“加入房间”按钮，可以点击进入房间，目前就是请求/room/detail/信息，并将room_list窗口内容替换为房间内部内容，同时将user_list替换为房间内的用户列表。
+
+首先，是实现分栏窗口的加载，如前文所述，可以使用iframe或者ajax，这里我使用的jQuery的ajax，代码如下：
+```JavaScript
+$(document).ready(function () {
+           $("#main_window").load('/room/list/');
+           $("#nav_window").load('/user/list/');
+        });
+```
+简单的说就是，页面加载完毕后开始读取房间列表和用户列表。
+[说明]
+·这里要说明一个问题，无论是`load()`还是`html($.ajax())`，子页面的头样式都会影响到整个页面，即，相当于主页面加载了子页面的css信息。而iframe没有这个问题。目前还不清楚如何避免这个问题，只能选择一个比较完善的框架用于整体了。
+
+然后就是房间列表新增“加入房间”按钮了，当然可以直接在子页面中写按钮的跳转onclick事件，但是还是同一个问题，按钮事件影响的不止是一个子页面，所以先仅仅在子页面中增加按钮，代码如下
+```html
+...
+<td>
+    <botton class="btn btn-primary join_room" id="{{ room.id }}">加入房间</botton>
+</td>
+...
+```
+~~class中前面几个是框架样式，不用理会，~~ class中最后一个join_room是我定义的一个类名，让主页jQuery选择器能方便的选择全部“加入房间”按钮。id设置为房间id（因为房间id也是唯一，当然，设置其他属性也可以，~~这是我后面才知道的~~）
+
+好了，最后一步就是关联按钮方法了，我要炫酷的使用动态绑定~~（然后失败了好久）~~。
+先给最后的主页JavaScript代码吧，~~（因为还没写加载房间内角色的接口，就先随便写个代替）~~：
+```JavaScript
+<script type="text/javascript">
+        $(document).ready(function () {
+           $("#main_window").load('/room/list/', function () {
+               $("botton.join_room").on('click', function () {
+                   var url = '/room/'+ $(this).attr("id");
+                   $("#main_window").load(url)
+                   $("#nav").load('/user/list/')
+               });
+           });
+        });
+    </script>
+```
+说明：
+
+* 利用`load(url,data,callback)`机制中的回调函数，确保主窗口加载房屋列表完毕之后再调用callback方法。
+* 通过`$(botton.join_room)`选择全部class含有join_room的botton对象。
+* 通过`$().on('click', function)`来动态绑定点击事件的方法。
+* 获取按钮附加的房间id，（注意，这里的`this`是触发点击事件的对象，即，__被点击的按钮对象__），然后通过`$().attr("id")`来获取`id`值~~（惊了，居然不能直接$().id，那我设置id为房间id毫无意义啊。。）~~
+* 通过id构建不同的url，通过`load()`刷新多个页面。
+
+这两天基本工作就是这些，实现主页的前端方式基本路铺通了，接下来就是完善后台提供的网络接口~~和添加测试~~。
+期间学了尝试了很多之前没试过的前端知识，算起来这算我3入前端坑了，然而却是第一次自己写JavaScript和找css框架引入。。遇到了很多莫名其妙的bug，什么页面没加载完找不到元素啊，什么选择class使用#去选择返回undefined啊，什么load的callback不执行了啊，总之一步一个坑。~~但是看着一点一点功能实现还是很不错的。~~
+Django官网上初步知识剩下一篇是/admin/后台管理页面的配置，这个我准备先放放，所以Django2.0的文档就看了5%~~（已汉化部分）~~，接下来应该就不会一篇一篇的啃了~~（英文差）~~，应该是遇到什么问题再去查相关文档了。
+现在准备的就是完善这个页面前后端功能，~~虽然最麻烦的实时聊天功能还不知道怎么来实现，websocket吧，~~之后可能关于理论学习的东西会更新少点，更多的是一些写代码时遇到的问题吧。

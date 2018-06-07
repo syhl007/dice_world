@@ -6,6 +6,7 @@ from game_manager import views
 app_name = 'room'
 urlpatterns = [
     path('list/', views.ListRoom.as_view(), name='room_list'),
+    path('create/', views.CreateRoom.as_view(), name='room_create'),
     # path('create/', None, name='create'),
     # path('drop/', None, name='drop'),
     path('<uuid:pk>/', views.RoomDetail.as_view(), name='room_detail'),

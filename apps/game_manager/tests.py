@@ -1,3 +1,4 @@
+import json
 import random
 import time
 from django.db import IntegrityError
@@ -70,42 +71,56 @@ from user_manager.models import User
 #         self.assertIs(isinstance(room_4.tag, list), True)
 
 
+# 房间列表视图测试
 class RoomViewTest(TestCase):
-    def test_html_ready(self):
-        response = self.client.get(reverse('rooms:room_list'))
-        self.assertContains(response, 'No room are available.')
-        User.objects.create(username="atman")
-        user = User.objects.all()[0]
-        Room.objects.create(name="auto_test_001", gm=user)
-        time.sleep(1)
-        Room.objects.create(name="auto_test_002", gm=user)
-        time.sleep(1)
-        Room.objects.create(name="auto_test_003", gm=user)
-        response = self.client.get(reverse('rooms:room_list'))
-        self.assertIs(response.status_code == 200, True)
-        self.assertIs(len(response.context['room_list']) == Room.objects.all().count(), True)
-        print(response.context['room_list'])
-        self.assertQuerysetEqual(response.context['room_list'],
-                                 ['<Room: 1>', '<room: 1>', '<Room：1 >'])
-        index = random.randint(0, len(response.context['room_list']) - 2)
-        room_a = response.context['room_list'][index]
-        room_b = response.context['room_list'][index + 1]
-        self.assertIs(room_b.add_time <= room_a.add_time, True)
+    # def test_html_ready(self):
+    #     response = self.client.get(reverse('room:room_list'))
+    #     self.assertContains(response, 'No room are available.')
+    #     User.objects.create(username="atman")
+    #     user = User.objects.all()[0]
+    #     Room.objects.create(name="auto_test_001", gm=user)
+    #     time.sleep(1)
+    #     Room.objects.create(name="auto_test_002", gm=user)
+    #     time.sleep(1)
+    #     Room.objects.create(name="auto_test_003", gm=user)
+    #     response = self.client.get(reverse('room:room_list'))
+    #     self.assertIs(response.status_code == 200, True)
+    #     self.assertIs(len(response.context['room_list']) == Room.objects.all().count(), True)
+    #     print(response.context['room_list'])
+    #     index = random.randint(0, len(response.context['room_list']) - 2)
+    #     room_a = response.context['room_list'][index]
+    #     room_b = response.context['room_list'][index + 1]
+    #     self.assertIs(room_b.add_time <= room_a.add_time, True)
+    #
+    # def test_post_filter(self):
+    #     User.objects.create()
+    #     user = User.objects.all()[0]
+    #     Room.objects.create(name="asd", gm=user, tag=['测试', '无效'])
+    #     time.sleep(1)
+    #     Room.objects.create(name=123, gm=user, tag=['实际', '无效'])
+    #     response = self.client.get(reverse('room:room_list'))
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertEqual(len(response.context['room_list']), 2)
+    #     # print("[get]", response.context['room_list'])
+    #     response = self.client.post(reverse('room:room_list'), data={"filter": '{"name": 123}'})
+    #     # print("[post1]", response.context['room_list'])
+    #     self.assertEqual(response.context['room_list'][0].name, '123')
+    #     # response = self.client.post(reverse('room:room_list'), data={"filter": '{"tag__contains": "实际"}'})
+    #     # print("[post2]", response.context['room_list'])
+    #     # self.assertEqual(response.context['room_list'][0].name, '123')
+    #     pass
 
-    def test_post_filter(self):
+    def test_create_room(self):
         User.objects.create()
         user = User.objects.all()[0]
-        Room.objects.create(name="asd", gm=user, tag=['测试', '无效'])
-        time.sleep(1)
-        Room.objects.create(name=123, gm=user, tag=['实际', '无效'])
-        response = self.client.get(reverse('rooms:room_list'))
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response.context['room_list']), 2)
-        print("[get]", response.context['room_list'])
-        response = self.client.post(reverse('rooms:room_list'), data={"filter": '{"name": 123}'})
-        print("[post1]", response.context['room_list'])
-        self.assertEqual(response.context['room_list'][0].name, '123')
-        # response = self.client.post(reverse('rooms:room_list'), data={"filter": '{"tag__contains": "实际"}'})
-        # print("[post2]", response.context['room_list'])
-        # self.assertEqual(response.context['room_list'][0].name, '123')
+        response = self.client.get(reverse('room:room_list'))
+        print(response.context['room_list'])
+        p_resp = self.client.post(reverse('room:room_create'), data={'name': 'test', 'gm': user})
+        print("[post]", p_resp)
+        print("[post]", p_resp.content)
+        json.loads(p_resp.content)
+        response = self.client.get(reverse('room:room_list'))
+        print("[post]", response.context['room_list'])
         pass
+
+
