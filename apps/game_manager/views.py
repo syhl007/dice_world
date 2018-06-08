@@ -1,8 +1,9 @@
 import json
 
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.views import generic
 
+from dice_world.standard import JsonResponse
 from game_manager.models import Character, Room
 from user_manager.models import User
 
@@ -33,10 +34,10 @@ class CreateRoom(generic.CreateView):
     template_name = 'room/create_room.html'  # 当request以GET请求时返回的页面
 
     def form_valid(self, form):
-        print("[user]", self.request.user)
         form.instance.gm = User.objects.all()[0]
         form.save()
-        return HttpResponse("ok")
+        id = Room.objects.get(id=form.instance.id).id
+        return HttpResponse(JsonResponse(0, data={'room_id': str(id)}))
 
     # def form_invalid(self, form):
     #     print("[form_invalid]", form.instance)

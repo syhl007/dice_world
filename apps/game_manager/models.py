@@ -12,8 +12,8 @@ from user_manager.models import User
 
 
 def create_id():
-    return "".join(random.sample(str(uuid.uuid4()), 3)) + str(int(time.time())) + "".join(
-        random.sample(str(uuid.uuid4()), 3))
+    return "".join(random.sample(uuid.uuid4().hex, 3)) + str(int(time.time())) + "".join(
+        random.sample(uuid.uuid4().hex, 3))
 
 
 def create_uuid(key=None):

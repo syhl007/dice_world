@@ -1,4 +1,4 @@
-.create_room {
+.create_room, .exit_room {
     float:right;
     padding:5px;
 }

@@ -5,9 +5,10 @@
     <title>Title</title>
 </head>
 <body>
-    <form action="{% url 'room:room_create' %}">
-        房间名：<input type="text" name="name"><br>
-        <input type="submit" value="创建完毕">
-    </form>
+<form id="create_room" action="{% url 'room:room_create' %}" method="post">
+    房间名：<input type="text" name="name"><br>
+    {% csrf_token %}
+    <input type="submit" value="创建">
+</form>
 </body>
 </html>

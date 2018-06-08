@@ -574,3 +574,70 @@ CreateView，这是Django提供的通用视图之一，用于创建一个Model�
     * `form_valid()`函数——简单的操作就是`form.save()`，然后跳转请求到`get_success_url()`函数返回的成功跳转url地址中去。然而，如果需要对输入的值进行处理或者是附加其他属性值，那么就需要在这里进行处理。
         * `form.instance`是一个已经生成，但还没存进数据库的对象，其属性值为request表单中提交的值，未提交的若有default则为default的值__（请记住之前【测试】一段中说的，这个并未存入数据库，故其属性与最终存入数据库字段属性可能存在差异）__，若未提交也无default则为None。~~（顺带说一句，看网上以往的文章，Django2之前似乎具有一个`self.instance`属性来实现这个功能而不是`form.instance`，当然在Django2里面一句没了）~~
     * `form_invalid()`函数——如果request提交的表单中，不满足`self.fields`中的字段，则会跳转到这个函数，通常的操作是返回到表单页面。[需要说明的是，如果`self.fields`异常，即写入的字段在Model不存在，则在进入这个View时就会报错，而不会进入处理流程。]
+
+---
+
+##2018.06.08
+
+* jQuery属性获取：`$().attr('attr_name')`
+* jQuery属性修改：`$().attr('attr_name', value)`
+* alert——通知栏，仅有一个“确定”返回，用于发布一次性提示。
+* confirm——确认栏，具有`true`和`false`返回，可以用于需要用户确认操作的地方。
+* `window.location.reload();`整体页面刷新。
+* HttpResponseRedirect会导致整个页面跳转，需要找到一个仅刷新某个窗口的方式，可能需要用jQuery来隔断form表单的提交和返回。
+    * `e.preventDefault()`阻断浏览器基本操作，如提交表单、连接跳转等。
+    * `$.ajax({setting})`中的`dataType`字段取值（一般的表单数据就使用html或直接使用默认）：
+        * "xml": 返回 XML 文档，可用 jQuery 处理。
+        * "html": 返回纯文本 HTML 信息；包含的 script 标签会在插入 dom 时执行。
+        * "script": 返回纯文本 JavaScript 代码。不会自动缓存结果。除非设置了 "cache" 参数。注意：在远程请求时(不在同一个域下)，所有 POST 请求都将转为 GET 请求。（因为将使用 DOM 的 script标签来加载）
+        * "json": 返回 JSON 数据 。
+        * "jsonp": JSONP 格式。使用 JSONP 形式调用函数时，如 "myurl?callback=?" jQuery 将自动替换 ? 为正确的函数名，以执行回调函数。
+        * "text": 返回纯文本字符串
+
+————————
+创建房间并进入创建房间的功能实现：
+
+* 前端：
+```JavaScript
+$("form#create_room").submit(function (e) {
+    e.preventDefault();
+    var form = $(this);
+    $.ajax({
+        url: form.attr("action"),
+        method: form.attr("method"),
+        data: form.serialize(),
+        dataType: "html",
+        success: function (data) {
+            var obj = JSON.parse(data);
+            if (obj.state == 0) {
+                var room_id = JSON.parse(obj.data).room_id
+                var url = /room/ + room_id
+                $("input.exit_room").attr('value', "退出房间");
+                $("#main_window").load(url)
+            }
+        },
+    })
+});
+```
+* 服务器端
+(`JsonResponse`是自定义的一个放回格式，方便统一处理返回数据)
+```python
+    def form_valid(self, form):
+        form.instance.gm = User.objects.all()[0]
+        form.save()
+        id = Room.objects.get(id=form.instance.id).id
+        return HttpResponse(JsonResponse(0, data={'room_id': str(id)}))
+```
+
+[说明]
+1.`e.preventDefault()`——阻断表单的默认提交操作
+2.`form.serialize()`——获取表单内容序列化结果（一般表单就是xxx=xx&x=xxx这样的格式，所以使用html的dataType来上传）
+3.服务器的`CreateView`里的`form_valid()`方法生成Room对象存入数据库，通过Room类默认生成的id读取其存放到数据库内的实际id（·UUID在默认对象中的值和数据库实际存放的值可能格式不一样·中间件会解析UUID的不同格式）
+4.服务器返回json，因为请求成功，进入`$.ajax`的`success()`函数处理。
+5.前端通过`JSON.parse(data)`函数将json_str解析为obj，可以通过obj.key直接访问对应key的value值。
+6.判断obj.state是否为0（也可以设置为true/false，不过考虑到后续可能拓展，所以就用int了），然后解析obj.data获取room_id,再通过room_id生成url进行页面跳转。
+
+[存在问题]
+·JavaScript越写越长了，主页看着很笨重，而且多层嵌套，每次都要写很多重复的编码，这个必须要解决。
+
+---
