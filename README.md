@@ -12,6 +12,9 @@
     * 游戏文本(id,上传者,文本内容,上传时间)
 ——（用户组与用户多对多，建立中间类）——
     * 团队信息(id,用户,团队,游戏角色,队长,标签,加入时间)
+    * ER图如下
+![ER图](/ER.png)
+
 * 房间号生成问题
     * 目前只能生成uuid，但uuid太复杂不利于用户搜索
     * 考虑数据库递增，但是django设置自增似乎就直接是主键了。。
@@ -641,3 +644,58 @@ $("form#create_room").submit(function (e) {
 ·JavaScript越写越长了，主页看着很笨重，而且多层嵌套，每次都要写很多重复的编码，这个必须要解决。
 
 ---
+
+
+##2018.06.11
+
+简化JavaScript，肯定是要模块化，像这种`$(document).ready()`加载的临时匿名函数，对于固定不变的页面上可以使用，而像这种动态绑定子页面的元素，子页面还不时变化，那不是每次切换回子页面都得重新绑定，子页面刷新也得重新绑定，不合适。
+所以讲JavaScript方法提取出来，生成一个`join_room()`的funcation，在子类的html代码中直接绑定到这个方法，这样就不用每次加载时自己写绑定了。
+```JavaScript
+function join_room() {
+    var url = '/room/' +  $(this).attr('id');
+    $("input.create_room").hide();
+    $("input.exit_room").show();
+    $("#main_window").load(url)
+    $("#nav").load('/user/list/')
+};
+```
+然而在实际测试时候发现，`$(this).attr('id')`获取的是undefined。
+秘制尴尬，当然，也好解决，函数传参嘛，修改一下html和JavaScript代码。
+```html
+<button class="btn btn-primary join_room" onclick="join_room(this.id)" id="{{ room.id }}">加入房间</button>
+...
+function join_room(id) {
+    var url = '/room/' +  id;
+    $("input.create_room").hide();
+    $("input.exit_room").show();
+    $("#main_window").load(url)
+    $("#nav").load('/user/list/')
+};
+```
+
+设计了一下房间详情页面（和旁边的用户列表页面），如下图
+
+![房间详情页面图](/room_detail.png)
+
+重新讨论一下生成一个游戏房间的初始化过程：
+
+* 生成房间实体类，请求者为房间gm
+* 创建房间用户组，基本的游戏玩家组、旁观者组（根据创建时选择是否允许旁观）
+* 玩家组默认添加gm
+修改代码如下：
+```python
+def form_valid(self, form):
+    form.instance.gm = User.objects.all()[0]
+    form.save()
+    room = Room.objects.get(id=form.instance.id)
+    game_players = Group()
+    game_players.room = room
+    game_players.type = 1
+    game_players.save()
+    GroupMember.objects.create(group=game_players, user=room.gm)
+    if form.data.get('sidelines_allowed'):
+        bystanders = Group()
+        bystanders.room = room
+        bystanders.save()
+    return HttpResponse(JsonResponse(0, data={'room_id': str(room.id)}))
+```

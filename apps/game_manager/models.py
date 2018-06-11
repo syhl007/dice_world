@@ -170,6 +170,8 @@ class GroupMember(models.Model):
     character = models.ForeignKey(verbose_name=u"角色", to=Character, related_name="character", null=True,
                                   on_delete=models.CASCADE)
     is_leader = models.BooleanField(verbose_name=u"队长", default=False)
+    send_msg = models.BooleanField(verbose_name=u"允许发言", default=True)
+    is_gamer = models.BooleanField(verbose_name=u"玩家", default=True)
     tag = models.CharField(verbose_name=u"标签", max_length=127)
     add_time = models.DateTimeField(verbose_name=u"加入时间", default=datetime.now)
 
@@ -187,3 +189,4 @@ class GameTxt(models.Model):
     class Meta:
         verbose_name = u"游戏文本信息"
         verbose_name_plural = verbose_name
+

@@ -23,7 +23,7 @@
         <td> {{ room.gm.username }}</td>
         <td> {{ room.add_time }}</td>
         <td>
-            <button class="btn btn-primary join_room" name="join_room" id="{{ room.id }}">加入房间</button>
+            <button class="btn btn-primary join_room" onclick="join_room(this.id)" id="{{ room.id }}">加入房间</button>
         </td>
     </tr>
     {% endfor %}

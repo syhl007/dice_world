@@ -1,10 +1,12 @@
 import json
+from datetime import datetime
 
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views import generic
 
 from dice_world.standard import JsonResponse
-from game_manager.models import Character, Room
+from dice_world.utils import WordFilter
+from game_manager.models import Character, Room, Group, GroupMember
 from user_manager.models import User
 
 
@@ -36,8 +38,17 @@ class CreateRoom(generic.CreateView):
     def form_valid(self, form):
         form.instance.gm = User.objects.all()[0]
         form.save()
-        id = Room.objects.get(id=form.instance.id).id
-        return HttpResponse(JsonResponse(0, data={'room_id': str(id)}))
+        room = Room.objects.get(id=form.instance.id)
+        game_players = Group()
+        game_players.room = room
+        game_players.type = 1
+        game_players.save()
+        GroupMember.objects.create(group=game_players, user=room.gm)
+        if form.data.get('sidelines_allowed'):
+            bystanders = Group()
+            bystanders.room = room
+            bystanders.save()
+        return HttpResponse(JsonResponse(0, data={'room_id': str(room.id)}))
 
     # def form_invalid(self, form):
     #     print("[form_invalid]", form.instance)
@@ -52,3 +63,26 @@ class RoomDetail(generic.DetailView):
 class ListCharacter(generic.ListView):
     model = Character
     template_name = 'room/character_list.html'
+
+
+class ListGroupCharacter(generic.ListView):
+    queryset = GroupMember
+    template_name = 'room/character_list.html'
+
+
+
+class RoomChat(generic.View):
+
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        room_id = kwargs.get('room_id')
+        try:
+            group = Group.objects.filter(room__id=room_id).get(user_set__contains=user)
+        except (Group.DoesNotExist, Group.MultipleObjectsReturned):
+            return None
+        text = request.POST['text']
+        text = WordFilter.handle(text)
+        time = datetime.now()
+        room = Room.objects.get(id=room_id)
+
+        pass

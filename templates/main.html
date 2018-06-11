@@ -12,21 +12,15 @@
         $(document).ready(function () {
             $("input.create_room").show();
             $("input.exit_room").hide();
-            $("#main_window").load('/room/list/', function () {
-                $("button.join_room").on('click', function () {
-                    var url = '/room/' + $(this).attr("id");
-                    $("input.create_room").hide();
-                    $("input.exit_room").show();
-                    $("#main_window").load(url)
-                    $("#nav").load('/user/list/')
-                });
-            });
+            $("#main_window").load('/room/list/');
         });
+
         function create_room() {
             $("input.create_room").hide();
             $("input.exit_room").attr('value', "取消");
             $("input.exit_room").show();
             $("#main_window").load('/room/create/', function () {
+                $("span.title").text("创建房间");
                 $("form#create_room").submit(function (e) {
                     e.preventDefault();
                     var form = $(this);
@@ -41,12 +35,22 @@
                                 var room_id = JSON.parse(obj.data).room_id
                                 var url = /room/ + room_id
                                 $("input.exit_room").attr('value', "退出房间");
+                                $("span.title").text("房间详情");
                                 $("#main_window").load(url)
                             }
                         },
                     })
                 });
             });
+        };
+
+        function join_room(id) {
+            var url = '/room/' +  id;
+            $("span.title").text("房间详情");
+            $("input.create_room").hide();
+            $("input.exit_room").show();
+            $("#main_window").load(url)
+            $("#nav").load('/user/list/')
         };
 
         function back_room_list() {
@@ -72,7 +76,7 @@
 
 <div id="section">
     <div>
-        <span>房间列表</span>
+        <span class="title">房间列表</span>
         <input class="btn btn-primary size-MINI radius create_room" onclick="create_room()" value="创建房间"
                style="display: none;">
         <input class="btn btn-primary size-MINI radius exit_room" onclick="back_room_list()" value="退出房间"
