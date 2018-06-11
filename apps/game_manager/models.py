@@ -137,6 +137,7 @@ class Group(models.Model):
     # 0——旁观者
     # 1——游戏参与者
     type = models.SmallIntegerField(verbose_name=u"队伍类型", default=0)
+    send_msg = models.BooleanField(verbose_name=u"允许发言", default=True)
     add_time = models.DateTimeField(verbose_name=u"创建时间", default=datetime.now)
 
     class Meta:
@@ -172,8 +173,10 @@ class GroupMember(models.Model):
     is_leader = models.BooleanField(verbose_name=u"队长", default=False)
     send_msg = models.BooleanField(verbose_name=u"允许发言", default=True)
     is_gamer = models.BooleanField(verbose_name=u"玩家", default=True)
+    is_online = models.BooleanField(verbose_name=u"是否在线", default=False)
     tag = models.CharField(verbose_name=u"标签", max_length=127)
     add_time = models.DateTimeField(verbose_name=u"加入时间", default=datetime.now)
+    login_time = models.DateTimeField(verbose_name=u"登录时间", default=datetime.now)
 
     class Meta:
         verbose_name = u"团队信息"

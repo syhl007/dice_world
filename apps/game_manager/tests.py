@@ -1,6 +1,6 @@
-import json
 import random
 import time
+
 from django.db import IntegrityError
 from django.test import TestCase
 from django.urls import reverse
@@ -14,10 +14,8 @@ class RoomModelTest(TestCase):
 
     # 房间名不能重复
     def test_room_num_unique(self):
-        User.objects.create()
-        user = User.objects.all()[0]
-        Room.objects.create(gm=user)
-        test_room = Room.objects.all()[0]
+        user = User.objects.create()
+        test_room = Room.objects.create(gm=user)
         try:
             Room.objects.create(gm=user, num=test_room.num)
         except Exception as e:
@@ -25,10 +23,8 @@ class RoomModelTest(TestCase):
 
     # 通过string类型的uuid获取房间类
     def test_get_room_by_str_uuid(self):
-        user = User()
-        user.save()
-        Room.objects.create(gm=user)
-        test_room_1 = Room.objects.all()[0]
+        user = User.objects.create()
+        test_room_1 = Room.objects.create(gm=user)
         str_uuid = str(test_room_1.id)
         test_room_2 = Room.objects.get(id=str_uuid)
         self.assertIs(test_room_1.num == test_room_2.num, True)
@@ -41,30 +37,21 @@ class RoomModelTest(TestCase):
 
     # JSONField测试
     def test_json_field(self):
-        User.objects.create()
-        user = User.objects.all()[0]
+        user = User.objects.create()
         str_test_1 = '{"a": 1, "b":"test"}'
         dict_test = {'c': 2, 'd': 'test'}
         str_test_2 = '["a","b",2,5,2.5,"2.5"]'
         list_test = ["c", "d", 1, 3, 1.3, "1.3"]
-        Room.objects.create(gm=user, tag=str_test_1)
+        room_1 = Room.objects.create(gm=user, tag=str_test_1)
         time.sleep(1)
-        Room.objects.create(gm=user, tag=dict_test)
+        room_2 = Room.objects.create(gm=user, tag=dict_test)
         time.sleep(1)
-        Room.objects.create(gm=user, tag=str_test_2)
+        room_3 = Room.objects.create(gm=user, tag=str_test_2)
         time.sleep(1)
-        Room.objects.create(gm=user, tag=list_test)
+        room_4 = Room.objects.create(gm=user, tag=list_test)
         time.sleep(1)
         print('_________')
         queryset = Room.objects.all().order_by("add_time")
-        room_1 = queryset[0]
-        room_2 = queryset[1]
-        room_3 = queryset[2]
-        room_4 = queryset[3]
-        # print(room_1.tag)
-        # print(room_2.tag)
-        # print(room_3.tag)
-        # print(room_4.tag)
         self.assertIs(isinstance(room_1.tag, dict), True)
         self.assertIs(isinstance(room_2.tag, dict), True)
         self.assertIs(isinstance(room_3.tag, list), True)
@@ -76,13 +63,12 @@ class RoomViewTest(TestCase):
     def test_html_ready(self):
         response = self.client.get(reverse('room:room_list'))
         self.assertContains(response, 'No room are available.')
-        User.objects.create(username="atman")
-        user = User.objects.all()[0]
-        Room.objects.create(name="auto_test_001", gm=user)
+        user = User.objects.create(username="atman")
+        room_1 = Room.objects.create(name="auto_test_001", gm=user)
         time.sleep(1)
-        Room.objects.create(name="auto_test_002", gm=user)
+        room_2 = Room.objects.create(name="auto_test_002", gm=user)
         time.sleep(1)
-        Room.objects.create(name="auto_test_003", gm=user)
+        room_3 = Room.objects.create(name="auto_test_003", gm=user)
         response = self.client.get(reverse('room:room_list'))
         self.assertIs(response.status_code == 200, True)
         self.assertIs(len(response.context['room_list']) == Room.objects.all().count(), True)
@@ -93,11 +79,10 @@ class RoomViewTest(TestCase):
         self.assertIs(room_b.add_time <= room_a.add_time, True)
 
     def test_post_filter(self):
-        User.objects.create()
-        user = User.objects.all()[0]
-        Room.objects.create(name="asd", gm=user, tag=['测试', '无效'])
+        user = User.objects.create()
+        room_1 = Room.objects.create(name="asd", gm=user, tag=['测试', '无效'])
         time.sleep(1)
-        Room.objects.create(name=123, gm=user, tag=['实际', '无效'])
+        room_2 = Room.objects.create(name=123, gm=user, tag=['实际', '无效'])
         response = self.client.get(reverse('room:room_list'))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.context['room_list']), 2)

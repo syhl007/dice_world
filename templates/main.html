@@ -33,7 +33,7 @@
                             var obj = JSON.parse(data);
                             if (obj.state == 0) {
                                 var room_id = JSON.parse(obj.data).room_id
-                                var url = /room/ + room_id
+                                var url = '/room/' + room_id + '/';
                                 $("input.exit_room").attr('value', "退出房间");
                                 $("span.title").text("房间详情");
                                 $("#main_window").load(url)
@@ -45,7 +45,7 @@
         };
 
         function join_room(id) {
-            var url = '/room/' +  id;
+            var url = '/room/' +  id + '/';
             $("span.title").text("房间详情");
             $("input.create_room").hide();
             $("input.exit_room").show();
@@ -60,6 +60,10 @@
             }
         };
 
+        function sidelines_opi() {
+            console.log("test");
+            $("div.sidelines_opi").toggle();
+        };
     </script>
 </head>
 <body>

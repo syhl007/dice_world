@@ -699,3 +699,84 @@ def form_valid(self, form):
         bystanders.save()
     return HttpResponse(JsonResponse(0, data={'room_id': str(room.id)}))
 ```
+
+另外还要为房间创建基础的记录文本信息。
+代码规整如下：
+```python
+def form_valid(self, form):
+    form.instance.gm = User.objects.all()[0]
+    form.save()
+    room = Room.objects.get(id=form.instance.id)
+    game_players = Group()
+    game_players.room = room
+    game_players.type = 1
+    game_players.save()
+    GroupMember.objects.create(group=game_players, user=room.gm)
+    if form.data.get('sidelines_allowed'):
+        bystanders = Group()
+        bystanders.room = room
+        if form.data.get('sidelines_sendmsg'):
+            bystanders.send_msg = False
+        bystanders.save()
+    dir_path = os.path.join(BASE_DIR, "txt/" + room.gm.username)
+    os.makedirs(dir_path)
+    txt_path = os.path.join(dir_path, "[" + room.name + "]" + str(time.time()) + ".txt")
+    with open(txt_path, 'w') as txt:
+        pass
+    GameTxt.objects.create(user=room.gm, file=txt_path)
+    return HttpResponse(JsonResponse(0, data={'room_id': str(room.id)}))
+```
+
+~~前端是真的烦，除了JavaScript之外还有什么便捷的关联两个页面元素的方式呢？~~
+
+
+看代码的过程中，发现一个问题。
+```python
+user = User.objects.create()
+Room.objects.create(gm=user)    # 这句的objects报了警告，第一句没有
+```
+其实本来应该没这个异常，网上的解释也很多归结于编译器（可能的确是因为我这里没有设置好django编译器环境）
+回看`Room`和`User`类的差异，`Room`类是直接继承于基础的`model.Model`类，而`User`类继承于`AbstractUser`类，后者在基础类上做了进一步加工实现，添加了`UserManager()`作为其`objects`对象，而前者却没有对`objects`的定义。
+实际上，`objects`属性即是Django对Model的管理器，在未作出定义的时候，会默认生成一个`Manager()`赋予`objects`对象，这一操作是在`model.Model`的元类`ModelBase`中实现的。
+
+* 关于元类
+首先，python一切皆对象：对象是对象，属性是对象，函数是对象，类也是对象。
+其次，对象都可以动态生成、赋值、改变。
+那么，类也是可以被动态生成、赋值、改变的，而在python中，`class`关键字默认调用了类对象创建过程，生成了一个类对象，因为其具有__创建对象（类实例）的能力__，而这就是为什么它是一个类的原因。
+python中对象之间的关系如下:
+![python对象之间关系图](/python对象之间的关系.png)
+所有的类，都有一个统一的“父类”，（或者这里说“父类”不合适，因为所有类继承于`object`，而`object`才是一个实际的父类），或者用刚刚的说法，“类的默认创建方法”——`type`（当然，他自己也由他自己定义了创建方法）。
+`type`以及其继承者，称为__元类__，他们定义了类的创建方法，通过继承`type`，就可以动态的对类对象进行生成。__元类的存在使得类的生成变得灵活以适应更多的需求环境，但是灵活带来的问题也很大，直接影响的就是子类的创建，子类是看不到父类继承的元类的，但子类的创建方式却会使用父类的创建方式，即父类的元类，这种看不见的继承是很难排错的。__
+`type`工作方式如下：
+`type(类名, 父类的元组（针对继承的情况，可以为空），包含属性的字典（名称和值）)`
+比如：
+```python
+class fclass:
+    f = True
+    
+x = type('xxxx',(fclass,),{'a':1})
+print(x)   # <class '__main__.xxxx'>
+print(x.a)  # 1
+print(x.f)  $ True
+```
+使用元类，定义类时加入`metaclass`参数，生成的类及其以后继承于他的子类在生成实体对象时，都会调用元类中的`__new__`函数：
+```python
+class ListMetaclass(type):
+    def __new__(cls, name, bases, attrs):
+        attrs['add'] = lambda self, value: self.append(value)
+        return type.__new__(cls, name, bases, attrs)
+
+class MyList(list, metaclass=ListMetaclass):
+    pass
+```
+__为什么父类的元类会改变子类的创建方式？__
+元类的机制（Python解释器实现元类的方式）：
+·先从类的dict中查找`__metaclass__`，否则从基类的dict查找，否则从global作用域查找，否则使用默认的创建方式。
+如果，在父类的元类中向父类注入了一个方法，若继承的子类中定义了同名方法，那么子类在生成实例时，会由于查找调用父类的元类重新注入同名方法导致方法被覆盖，直观的感受就是——重载失败，却没有提示。
+
+回到工程中的问题，`Room`类中的属性`objects`是在父类`model.Model`的元类`ModelBase`中被添加的（添加条件是子类中没有定义自己的`objects`，所以和`User`不冲突）。
+
+---
+
+
+

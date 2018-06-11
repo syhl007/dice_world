@@ -1,12 +1,15 @@
 import json
+import os
+import time
 from datetime import datetime
 
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views import generic
 
+from dice_world.settings import BASE_DIR
 from dice_world.standard import JsonResponse
 from dice_world.utils import WordFilter
-from game_manager.models import Character, Room, Group, GroupMember
+from game_manager.models import Character, Room, Group, GroupMember, GameTxt
 from user_manager.models import User
 
 
@@ -47,7 +50,15 @@ class CreateRoom(generic.CreateView):
         if form.data.get('sidelines_allowed'):
             bystanders = Group()
             bystanders.room = room
+            if form.data.get('sidelines_sendmsg'):
+                bystanders.send_msg = False
             bystanders.save()
+        dir_path = os.path.join(BASE_DIR, "txt/" + room.gm.username)
+        os.makedirs(dir_path)
+        txt_path = os.path.join(dir_path, "[" + room.name + "]" + str(time.time()) + ".txt")
+        with open(txt_path, 'w') as txt:
+            pass
+        GameTxt.objects.create(user=room.gm, file=txt_path)
         return HttpResponse(JsonResponse(0, data={'room_id': str(room.id)}))
 
     # def form_invalid(self, form):
@@ -70,19 +81,20 @@ class ListGroupCharacter(generic.ListView):
     template_name = 'room/character_list.html'
 
 
-
 class RoomChat(generic.View):
 
     def post(self, request, *args, **kwargs):
         user = request.user
         room_id = kwargs.get('room_id')
         try:
-            group = Group.objects.filter(room__id=room_id).get(user_set__contains=user)
-        except (Group.DoesNotExist, Group.MultipleObjectsReturned):
-            return None
+            room = Room.objects.get(id=room_id)
+            group = Group.objects.filter(room=room).get(user_set__contains=user)
+        except (Group.DoesNotExist, Group.MultipleObjectsReturned, Room.DoesNotExist, Room.MultipleObjectsReturned):
+            return JsonResponse(state=1, msg="群组或房间异常")
+        if not group.send_msg:
+            return JsonResponse(state=1, msg="群组禁言中")
         text = request.POST['text']
         text = WordFilter.handle(text)
         time = datetime.now()
-        room = Room.objects.get(id=room_id)
 
         pass
