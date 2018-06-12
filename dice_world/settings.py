@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'celery_tasks',
     'user_manager',
     'game_manager',
 ]
@@ -134,3 +135,18 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join('static'),
 )
+
+
+CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672'
+
+# RabbitMQ的配置
+# import djcelery
+# djcelery.setup_loader()
+#
+# BROKER_HOST = "localhost"
+# BROKER_PORT = 5672
+# BROKER_USER = "guest"
+# BROKER_PASSWORD = "guest"
+# BROKER_VHOST = "/"
+
+

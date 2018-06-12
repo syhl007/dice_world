@@ -750,25 +750,25 @@ python中对象之间的关系如下:
 `type`工作方式如下：
 `type(类名, 父类的元组（针对继承的情况，可以为空），包含属性的字典（名称和值）)`
 比如：
-```python
-class fclass:
-    f = True
-    
-x = type('xxxx',(fclass,),{'a':1})
-print(x)   # <class '__main__.xxxx'>
-print(x.a)  # 1
-print(x.f)  $ True
-```
+    ```python
+    class fclass:
+        f = True
+        
+    x = type('xxxx',(fclass,),{'a':1})
+    print(x)   # <class '__main__.xxxx'>
+    print(x.a)  # 1
+    print(x.f)  $ True
+    ```
 使用元类，定义类时加入`metaclass`参数，生成的类及其以后继承于他的子类在生成实体对象时，都会调用元类中的`__new__`函数：
-```python
-class ListMetaclass(type):
-    def __new__(cls, name, bases, attrs):
-        attrs['add'] = lambda self, value: self.append(value)
-        return type.__new__(cls, name, bases, attrs)
-
-class MyList(list, metaclass=ListMetaclass):
-    pass
-```
+    ```python
+    class ListMetaclass(type):
+        def __new__(cls, name, bases, attrs):
+            attrs['add'] = lambda self, value: self.append(value)
+            return type.__new__(cls, name, bases, attrs)
+    
+    class MyList(list, metaclass=ListMetaclass):
+        pass
+    ```
 __为什么父类的元类会改变子类的创建方式？__
 元类的机制（Python解释器实现元类的方式）：
 ·先从类的dict中查找`__metaclass__`，否则从基类的dict查找，否则从global作用域查找，否则使用默认的创建方式。
@@ -778,5 +778,174 @@ __为什么父类的元类会改变子类的创建方式？__
 
 ---
 
+##2018.06.12
+
+今天的主题是__《Celery从入门到~~放弃~~》__
+先说起因：
+本来是准备写房间详情中的聊天模块，虽然基本通过多线程控制并发也能实现基本功能，但是想试试新的东西——消息队列。逻辑大致是：request提交对话信息，写入聊天记录的操作请求写入消息队列，由消息队列逐一处理。
+Celery就是python使用的一个第三方消息队列，据廖雪峰老师评为“利器”的玩意。
+看了下基础python中的实现，的确简单：
+```python
+# tasks.py
+import time
+from celery import Celery
+
+celery = Celery('tasks', broker='redis://localhost:6379/0')
+
+@celery.task
+def sendmail(main):
+    print('sengding mainl to %s...' % mail['to'])
+    time.sleep(2)
+    print('mail sent')
+```
+启动Celery
+>celery -A tasks worker -l info
+
+发送任务
+```python
+from tasks import sendmail
+sendmail.delay(dict(to='xxx@xx.com'))   # celery.task装饰器方法
+```
+显得非常的美好，也当得上利器之名，好，开始往Django上弄。
+一开始也是很顺利的样子：有一个django的中间件django-celery。
+安装之后照着网上一通配置。
+__失败。。。__
+Django2.0之后Django方面变化挺多的，导致之前有的一些教程方法不适用。
+然后发现了Celery4.0+Django2的配置教程，顺带一手`pip list`发现django-celery关联的Celery只有3.x。
+__唔。。。__
+卸载了django-celery，安装上Celery4.1。
+失败。。。。原因是Celery4.1不支持windows（简单说就是有些过程没有做跨平台的分歧处理导致有些windows下没有的属性被调用）
+一通搜索，发现在4.1.1中修复了这个问题。。。。
+升级到Celery4.1.1
+配置开始：
+0、修改`setting.py`
+```python::setting
+CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672'
+```
+1、新建`celery.py`文件（工程目录下）
+```python::manage.py
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import, unicode_literals
+import os
+
+from celery import Celery
+
+# 设置环境变量
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'dice_world.settings')
+
+# 注册Celery的APP
+app = Celery('dice_world')
+# 绑定配置文件
+app.config_from_object('django.conf:settings', namespace='CELERY')
+
+# 自动发现各个app下的tasks.py文件
+app.autodiscover_tasks()
+```
+2、修改`__init__.py`文件
+```python::__init__.py
+from __future__ import absolute_import, unicode_literals
+from .celery import app as celery_app
+
+__all__ = ['celery_app']
+```
+3、app目录新建`tasks.py`
+```python::tasks.py
+from __future__ import absolute_import, unicode_literals
+from celery import shared_task
 
 
+@shared_task
+def add(x, y):
+    return x + y
+```
+4、在工程目录下启动celery
+>celery -A tasks worker -l info
+
+5、shell测试
+```python::shell
+from apps.game_manager.tasks import add
+add.delay(2, 3)
+```
+成功发出。
+6、查看celery处理结果
+__异常。。。。~~简直想把这个吃了！神™之前一路正常最后一步出错了~~__
+~~冷静~~
+看控制台打印，启动时，celery找到了工程中被task注释的方法：
+>[tasks]
+  . game_manager.tasks.add
+
+却报出异常：
+>[2018-06-12 13:31:57,394: ERROR/MainProcess] Received unregistered task of type 'apps.game_manager.tasks.a
+dd'.
+The message has been ignored and discarded.
+
+>Did you remember to import the module containing this task?
+Or maybe you're using relative imports?
+
+>Please see
+http://docs.celeryq.org/en/latest/internals/protocol.html
+for more information.
+
+>The full contents of the message body was:
+'[[1, 2], {}, {"callbacks": null, "errbacks": null, "chain": null, "chord": null}]' (81b)
+Traceback (most recent call last):
+  File "C:\Users\Yu\Envs\django2\lib\site-packages\celery\worker\consumer\consumer.py", line 557, in on_ta
+sk_received
+    strategy = strategies[type_]
+KeyError: 'apps.game_manager.tasks.add'
+
+看上去，原因应该是，celery检查task是以app路径开始的，但是传输的key是以工程目录作为根路径，导致了key不匹配。。。。。完美。
+
+在深入研究到可以修改设置或源码来解决这一问题之前，我先选择妥协的创建了一个专门管理celery_tasks的app，非常屈辱。。。
+
+4、在工程目录下启动celery
+>celery -A tasks worker -l info
+
+5、shell测试
+```python::shell
+from celery_tasks.tasks import add
+add.delay(2, 3)
+```
+成功发出
+6、查看celery处理结果
+__异常。。。。~~我™~~__
+~~冷静~~
+查看控制台输出：
+>[2018-06-12 14:53:12,036: ERROR/MainProcess] Task handler raised error: ValueError('not enough values to u
+npack (expected 3, got 0)',)
+
+好嘞，又是windows不兼容问题，简单说就是这个使用的池子windows里面没有，解决方案就是用别的池子。
+>pip install eventlet
+
+4、在工程目录下启动celery
+>celery -A tasks worker -l info -P eventlet
+
+5、shell测试
+```python::shell
+from celery_tasks.tasks import add
+add.delay(2, 3)
+```
+成功发出
+6、查看celery处理结果
+__异常的成功了！__
+咳咳，居然成功了。
+以下是add.delay(2,5)和add.delay(6,7)的控制台打印：
+>[2018-06-12 14:55:40,633: INFO/MainProcess] Received task: celery_tasks.tasks.add[404a5bcc-cb5b-432c-aa0d-
+4edd0c98b1c8]
+[2018-06-12 14:55:40,635: INFO/MainProcess] Task celery_tasks.tasks.add[404a5bcc-cb5b-432c-aa0d-4edd0c98b1
+c8] succeeded in 0.0s: 7
+[2018-06-12 14:55:48,948: INFO/MainProcess] Received task: celery_tasks.tasks.add[e30586ef-6205-4257-a86c-
+d4fedcbb0257]
+[2018-06-12 14:55:48,949: INFO/MainProcess] Task celery_tasks.tasks.add[e30586ef-6205-4257-a86c-d4fedcbb02
+57] succeeded in 0.0s: 13
+
+
+总结：
+一路曲折，还没算之前就搭建好的RabbitMQ环境([参考](https://www.cnblogs.com/yunweiqiang/p/7248141.html))，最终还是跑起来基本用例，要运用于实际的功能中还得花时间研究一下，主要就是celery的配置文件之类的，当然还有celery的处理结果数据库存储也还没配置。此外，celery还有定时任务等可配置的功能。
+总的来说，celery功能还是比较强大的样子。
+但是，性能方面，看网上有人说celery在处理大量数据时会有未知异常发生。可以说的确是从入门到放弃了。
+不过就这个工程来说，还是想把他用上，顺便还能复习一下redis相关知识和redis在python中的调用之类的知识。
+
+附录
+`__init__.py`的功能：
+~~~后面再补~~~

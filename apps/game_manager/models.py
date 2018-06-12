@@ -193,3 +193,11 @@ class GameTxt(models.Model):
         verbose_name = u"游戏文本信息"
         verbose_name_plural = verbose_name
 
+
+# 临时文本记录器
+class GameTxtPhantom:
+    room_id = None
+    txt_id = None
+    txt = None
+    time = None
+    pass
