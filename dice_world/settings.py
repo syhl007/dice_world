@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_celery_results',
     'celery_tasks',
     'user_manager',
     'game_manager',
@@ -137,8 +138,9 @@ STATICFILES_DIRS = (
 )
 
 
+# Celery的配置
 CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672'
-
+CELERY_RESULT_BACKEND = 'django-db'
 # RabbitMQ的配置
 # import djcelery
 # djcelery.setup_loader()

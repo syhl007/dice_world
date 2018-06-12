@@ -54,7 +54,7 @@ class CreateRoom(generic.CreateView):
                 bystanders.send_msg = False
             bystanders.save()
         dir_path = os.path.join(BASE_DIR, "txt/" + room.gm.username)
-        os.makedirs(dir_path)
+        os.makedirs(dir_path, exist_ok=True)
         txt_path = os.path.join(dir_path, "[" + room.name + "]" + str(time.time()) + ".txt")
         with open(txt_path, 'w') as txt:
             pass
