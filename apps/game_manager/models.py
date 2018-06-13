@@ -119,6 +119,7 @@ class Room(models.Model):
     num = models.CharField(verbose_name=u"房间号", max_length=64, unique=True, null=False, default=create_id)
     name = models.CharField(verbose_name=u"房间名", max_length=64, default=time.time)
     gm = models.ForeignKey(verbose_name=u"GM", to=User, related_name="gm", on_delete=models.CASCADE)
+    state = models.SmallIntegerField(verbose_name=u"房间状态", default=0)
     tag = JSONField(verbose_name=u"标签", null=True, blank=True)
     add_time = models.DateTimeField(verbose_name=u"创建时间", default=datetime.now)
 
@@ -196,8 +197,22 @@ class GameTxt(models.Model):
 
 # 临时文本记录器
 class GameTxtPhantom:
-    room_id = None
-    txt_id = None
-    txt = None
-    time = None
-    pass
+    txt_dict = {}
+
+    def get_by_state(self, state):
+        if not self.txt_dict.get(state):
+            self.txt_dict[state] = []
+            return []
+        else:
+            return self.txt_dict.get(state)
+
+
+class CharaterTxt:
+
+    def __init__(self, name, content, time):
+        self.name = name
+        self.content = content
+        self.time = time
+
+    def __str__(self):
+        return self.name + "(" + self.time + ")" + ":" + self.content

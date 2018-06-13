@@ -607,7 +607,7 @@ $("form#create_room").submit(function (e) {
     var form = $(this);
     $.ajax({
         url: form.attr("action"),
-        method: form.attr("method"),
+        type: form.attr("method"),
         data: form.serialize(),
         dataType: "html",
         success: function (data) {
@@ -953,3 +953,29 @@ d4fedcbb0257]
 ·也就是说，`import`操作其实执行的是`__init__.py`文件内容，那么：
     1.可以在`__init__.py`文件中写`import`，当目录包被`import`时，`__init__.py`文件中`import`的类会自动导入。同理，也可以在`__init__.py`中进行别的编码，都会在其目录包被`import`时执行。需要注意的是，因为python中会经常用到`import`，所以不应该在`__init__.py`中写太多编码，尽量留空。
     2.具有一个`__all__`的列表属性，用于实现`from xx import *`的导入操作，该操作实际导入的就是`__all__`列表中的类。
+
+---
+
+##2018.06.13
+
+工作中遇到了一个bug，正好可能以后这工程也会用上，就在此记录一下。
+__python的动态引入`__import__`__
+python中，一般的包引入是通过`import`关键字进行，引入之后实际上是在当前环境中引入了引入内容，其实际的执行方式为：
+>import sys # ===> sys = __import\__('sys')
+
+所以，import其实就是`__import__`
+
+`__import__`是一个函数，接收一个`str`作为参数，返回值是一个模块对象，可以通过返回值调用。
+
+ 1. `__import__`只会在第一次执行时新引入对象到内存中，之后再次`__import__`实际上只是将内存地址引用过来而已。这就导致了，对于一个程序，如果已经执行了`__import__`语句，且一直在运行，那么，原模块发生变化，这个程序在重新加载模块之前是不会发现变化的。
+    * 重新加载，`reload()`，会重新加载已加载的模块，但原来已经使用的实例还是会使用旧的模块，而新生产的实例会使用新的模块；
+        * `reload()` 后还是用原来的内存地址；
+        * `reload()` 不支持 `from ××× import ×××` 格式的模块进行重新加载。
+ 2. `__import__`的查找顺序：sys.path
+ 
+
+~~惊了，$.ajax怎么上传表单数据。。。。form有没有onsubmit属性。。。。。~~
+今天弄了一个房间的对话文本内存记录，用于临时记录对话文本，然而发现前端通过ajax发送表单后端获取不到数据。。。因为是写在`main.html`的js中，所以只定义了一个方法，由`form`中的`button`type按钮触发的`onclick`事件调用。
+然而。。。。没有submit的form获取不了其他input标签的输入内容。。。。。。。
+
+

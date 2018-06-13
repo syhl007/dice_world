@@ -1,5 +1,7 @@
 import json
 
+txt_board_storeroom = {}
+
 
 class JsonResponse:
     '''

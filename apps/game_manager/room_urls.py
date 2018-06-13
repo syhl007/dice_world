@@ -10,5 +10,6 @@ urlpatterns = [
     # path('create/', None, name='create'),
     # path('drop/', None, name='drop'),
     path('<uuid:pk>/', views.RoomDetail.as_view(), name='room_detail'),
-    path('<uuid:pk>/list_character', views.ListCharacter.as_view(), name='list_character'),
+    path('<uuid:room_id>/chat/', views.RoomChat.as_view(), name='room_chat'),
+    path('<uuid:pk>/list_character/', views.ListCharacter.as_view(), name='list_character'),
 ]
