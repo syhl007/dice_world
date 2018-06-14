@@ -18,7 +18,9 @@
     </div>
     <div class="room_text_inport">
         <form method="post" action="" class="room_post_msg">
-            <input type="text" class="room_chat_content">
+            <input type="radio" name="state" value="game" checked>游戏发言
+            <input type="radio" name="state" value="other">闲聊发言<br>
+            <input type="text" name="text" class="room_chat_content">
             {% csrf_token %}
             <input type="button" onclick="post_message()" value="发送">
         </form>

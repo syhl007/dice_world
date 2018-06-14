@@ -38,46 +38,49 @@
                                 $("span.title").text("房间详情");
                                 $("#main_window").load(url)
                             }
-                        },
+                        }
                     })
                 });
             });
-        };
+        }
 
         function join_room(id) {
-            var url = '/room/' +  id + '/';
+            var url = '/room/' + id + '/';
             $("span.title").text("房间详情");
             $("input.create_room").hide();
             $("input.exit_room").show();
             $("#nav").load('/user/list/');
             $("#main_window").load(url, function () {
-                $("form.room_post_msg").attr("action", "/room/"+id+"/chat/");
+                $("form.room_post_msg").attr("action", "/room/" + id + "/chat/");
             });
-        };
+        }
 
         function back_room_list() {
             var r = confirm("确定要返回大厅？");
             if (r) {
                 window.location.reload();
             }
-        };
+        }
 
         function sidelines_opi() {
-            console.log("test");
             $("div.sidelines_opi").toggle();
-        };
+        }
 
+        var time_line = null;
         function refresh_txt_board(url) {
             $.ajax({
-                url : url,
-                type : 'get',
+                url: url,
+                type: 'get',
+                data: {'state': 'game', 'time_line': time_line},
                 success: function (data) {
-                    console.log(data);
                     var data = JSON.parse(data);
                     if (data.state == 0) {
                         var txt = JSON.parse(data.data);
-                        for (t in txt) {
-                            $("div.room_text_board").append(t);
+                        time_line = txt.time_line;
+                        for(var i=0;i<txt.list.length;i++) {
+                            console.log(txt.list[i]);
+                            $("div.room_text_board").append(txt.list[i]);
+                            $("div.room_text_board").append('<br>')
                         }
                     }
                 },
@@ -86,11 +89,10 @@
 
         function post_message() {
             var form = $("form.room_post_msg");
-            console.log(form.serialize());
             $.ajax({
-                url : form.attr('action'),
-                type : form.attr('method'),
-                data : form.serialize(),
+                url: form.attr('action'),
+                type: form.attr('method'),
+                data: form.serialize(),
                 complete: function () {
                     refresh_txt_board(form.attr('action'));
                 }

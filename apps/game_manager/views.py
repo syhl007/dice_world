@@ -62,7 +62,7 @@ class CreateRoom(generic.CreateView):
                 pass
             GameTxt.objects.create(user=room.gm, file=txt_path)
             txt_board_storeroom[room.id] = GameTxtPhantom()
-            return HttpResponse(JsonResponse(0, data={'room_id': str(room.id)}))
+            return JsonResponse(0, data={'room_id': str(room.id)})
 
     # def form_invalid(self, form):
     #     print("[form_invalid]", form.instance)
@@ -88,14 +88,18 @@ class RoomChat(generic.View):
 
     def get(self, request, *args, **kwargs):
         room_id = kwargs.get('room_id')
+        state = request.GET.get('state')
+        time_line = request.GET.get('time_line')
+        if time_line:
+            time_line = datetime.strptime(time_line, '%Y-%m-%d %H:%M:%S.%f')
         try:
             room = Room.objects.get(id=room_id)
         except (Room.DoesNotExist, Room.MultipleObjectsReturned):
             return JsonResponse(state=1, msg="房间id异常")
         game_txt_phantom = txt_board_storeroom.get(room_id)
         if game_txt_phantom:
-            txt_list = game_txt_phantom.get_by_state(room.state)
-            return JsonResponse(state=0, data=json.dumps(txt_list))
+            txt_list = [str(txt) for txt in game_txt_phantom.get_by_state(state) if not time_line or txt.time > time_line]
+            return JsonResponse(state=0, data={'time_line': str(datetime.now()), 'list': txt_list})
         else:
             return JsonResponse(state=2, msg="没有新的消息")
 
@@ -109,23 +113,24 @@ class RoomChat(generic.View):
             return JsonResponse(state=1, msg="群组或房间异常")
         if not group.send_msg:
             return JsonResponse(state=1, msg="群组禁言中")
-        text = request.POST['text']
-        state = request.POST['state']
+        text = request.POST.get('text')
+        state = request.POST.get('state')
         if state == 'game':
             try:
                 character = GroupMember.objects.filter(group=group).get(user=user).character
+                name = character.name
             except Exception as e:
-                print(e)
-                return JsonResponse(state=1, msg="游戏角色获取异常")
-            name = character.name
+                # print(e)
+                # return JsonResponse(state=1, msg="游戏角色获取异常"))
+                name = '神秘声音'
         else:
-            name = user.uesrname
+            name = user.username
         text = WordFilter.handle(text)
         time = datetime.now()
         game_txt_phantom = txt_board_storeroom.get(room_id)
         if not game_txt_phantom:
             game_txt_phantom = GameTxtPhantom()
             txt_board_storeroom[room_id] = game_txt_phantom
-        game_txt_phantom.get_by_state(room.state).append(CharaterTxt(name=name, content=text, time=time))
+        game_txt_phantom.get_by_state(state).append(CharaterTxt(name=name, content=text, time=time))
         return JsonResponse(state=0)
-        pass
+

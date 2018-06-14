@@ -623,7 +623,7 @@ $("form#create_room").submit(function (e) {
 });
 ```
 * 服务器端
-(`JsonResponse`是自定义的一个放回格式，方便统一处理返回数据)
+(`JsonResponse`是自定义的一个返回格式，方便统一处理返回数据)
 ```python
     def form_valid(self, form):
         form.instance.gm = User.objects.all()[0]
@@ -978,4 +978,82 @@ python中，一般的包引入是通过`import`关键字进行，引入之后实
 今天弄了一个房间的对话文本内存记录，用于临时记录对话文本，然而发现前端通过ajax发送表单后端获取不到数据。。。因为是写在`main.html`的js中，所以只定义了一个方法，由`form`中的`button`type按钮触发的`onclick`事件调用。
 然而。。。。没有submit的form获取不了其他input标签的输入内容。。。。。。。
 
+---
+
+##2018.06.14
+
+`onsubmit`句柄倒是有，但是是提交之前时点触发。
+然后我发现是因为前段form表单中的`<input>`标签如果其`name`字段为空，则不会出现在表单中，异常现实。。。。。
+
+处理房间页面功能，主要就是实现一个聊天室功能，还是先走通路。
+
+定义了一个Model类用于记录每个房间的文本，考虑到文本属性和数据库性能，采用文件形式存储文本内容，数据库记录文本路径。
+然而用于html页面显示的话，使用服务器返回文本似乎有点傻，而且也不便于添加，于是定义了一个`GameTxtPhantom`用于记录房间的文本，后期可以设置内容超过多少条便写入文件存储，或是由房主通过“保存”功能存储。
+大致设计结构描述如下：每个__房间（Room实例）__具有一个__`GameTxtPhantom`__，__`GameTxtPhantom`__中具有一个文本字典，字典存放多个列表，列表元素为__`CharaterTxt`__。
+```python
+class GameTxtPhantom:
+    txt_dict = {}   # {'state' : CharaterTxt}
+
+    def get_by_state(self, state):
+        if not self.txt_dict.get(state):
+            self.txt_dict[state] = []
+        return self.txt_dict.get(state)
+
+
+class CharaterTxt:
+
+    def __init__(self, name, content, time):
+        self.name = name
+        self.content = content
+        self.time = time
+
+    def __str__(self):
+        return self.name + "(" + str(self.time) + ")" + ":" + self.content
+
+...
+txt_board_storeroom = {}    # {'room_id': GameTxtPhantom}
+```
+
+另外，由于之前脑子抽了，直接返回了JsonResponse，导致Django的render在解析返回时失败。应该的形式是HTTPResponse(JsonResponse)。
+虽然是自己脑子抽了，但是的确说明个问题，为什么不重构一下JsonResponse来直接返回呢。。。
+
+```python
+class JsonResponse(HttpResponse):
+    '''
+        {'state':0,'msg':'xxxx', 'data': 'JsonObj'}
+    '''
+
+    def __init__(self, state, msg=None, data=None):
+        super().__init__()
+        self.state = state
+        self.msg = str(msg)
+        self.data = data
+        self.content = self.__str__()
+
+    def __str__(self):
+        res = {}
+        res['state'] = self.state
+        if self.msg:
+            res['msg'] = self.msg
+        if self.data:
+            res['data'] = json.dumps(self.data)
+        return json.dumps(res)
+```
+
+接下来就是关于聊天室实现的方法了。
+有下面这些需求：
+
+* 留言板周期刷新，添加显示新文本，周期不宜过长。
+* 发送文本之后立即刷新留言板，应能显示发送的文本。
+* 准备了两个不同的聊天版面，两个的内容互不影响。（先把基础的实现了再说。。）
+* 针对游戏文本，应该能显示GM这次游戏开始到当前的全部信息；针对闲聊文本，可以只用显示加入房间以后的文本。（还是先实现了基础的再说）
+
+虽然JavaScript的周期任务实现还没看，但那是技术实现的问题，现在在考虑如何设置请求能实现添加新文本的功能，是由前端记录显示了的文本，还是前端通过什么方式发送状态给后端让后端来返回不同的数据显示。（因为存在多个客户端同时访问的情况，所以不能由服务器来决定返回，必须基于客户端的状态来决定）
+
+前端传递时间戳，第一次传递null，获取`GameTxtPhantom`存放的全部文本，获取返回值时，从返回值中解析新的时间戳作为下一次请求参数。
+
+ 1. python中的`str`转`datetime`的方法：`datetime.datetime.strptime()`
+    * 函数接收两个参数（必须），`date_string`和`format`，前者为字符串时间，后者为解析格式。`%Y-%m-%d %H:%M:%S.%f`接收'1900-01-01 23:30:24.123234'格式的时间字符串。主要的就是，不同的字母（大小写有关）代表了不同的接收范围，比如%y是[00,99]，而%Y是四位数记年。([参考](https://zhidao.baidu.com/question/384981086.html))
+ 2. datetime的时间增减，当前时间往前推7天：
+ >datetime.datetime.now() + datetime.timedelta(day=-7)
 

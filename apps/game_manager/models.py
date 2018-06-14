@@ -202,9 +202,7 @@ class GameTxtPhantom:
     def get_by_state(self, state):
         if not self.txt_dict.get(state):
             self.txt_dict[state] = []
-            return []
-        else:
-            return self.txt_dict.get(state)
+        return self.txt_dict.get(state)
 
 
 class CharaterTxt:
@@ -215,4 +213,5 @@ class CharaterTxt:
         self.time = time
 
     def __str__(self):
-        return self.name + "(" + self.time + ")" + ":" + self.content
+        return self.name + "(" + str(self.time) + ")" + ":" + self.content
+
