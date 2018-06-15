@@ -1,0 +1,5 @@
+.room_text_board {
+    background-color:wheat;
+    height:280px;
+    overflow:auto;
+}

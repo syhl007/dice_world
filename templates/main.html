@@ -66,38 +66,7 @@
             $("div.sidelines_opi").toggle();
         }
 
-        var time_line = null;
-        function refresh_txt_board(url) {
-            $.ajax({
-                url: url,
-                type: 'get',
-                data: {'state': 'game', 'time_line': time_line},
-                success: function (data) {
-                    var data = JSON.parse(data);
-                    if (data.state == 0) {
-                        var txt = JSON.parse(data.data);
-                        time_line = txt.time_line;
-                        for(var i=0;i<txt.list.length;i++) {
-                            console.log(txt.list[i]);
-                            $("div.room_text_board").append(txt.list[i]);
-                            $("div.room_text_board").append('<br>')
-                        }
-                    }
-                },
-            });
-        }
 
-        function post_message() {
-            var form = $("form.room_post_msg");
-            $.ajax({
-                url: form.attr('action'),
-                type: form.attr('method'),
-                data: form.serialize(),
-                complete: function () {
-                    refresh_txt_board(form.attr('action'));
-                }
-            });
-        }
     </script>
 </head>
 <body>

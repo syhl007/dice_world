@@ -98,13 +98,17 @@ class RoomChat(generic.View):
             return JsonResponse(state=1, msg="房间id异常")
         game_txt_phantom = txt_board_storeroom.get(room_id)
         if game_txt_phantom:
-            txt_list = [str(txt) for txt in game_txt_phantom.get_by_state(state) if not time_line or txt.time > time_line]
-            return JsonResponse(state=0, data={'time_line': str(datetime.now()), 'list': txt_list})
+            txt_list = [str(txt) for txt in game_txt_phantom.get_by_state(state) if
+                        not time_line or txt.time > time_line]
+            if txt_list:
+                return JsonResponse(state=0, data={'time_line': str(datetime.now()), 'list': txt_list})
+            else:
+                return JsonResponse(state=2, msg="没有新的消息")
         else:
-            return JsonResponse(state=2, msg="没有新的消息")
+            return JsonResponse(state=2, msg="没有消息记录")
 
     def post(self, request, *args, **kwargs):
-        user = User.objects.all()[0]    # request.user
+        user = User.objects.all()[0]  # request.user
         room_id = kwargs.get('room_id')
         try:
             room = Room.objects.get(id=room_id)
@@ -133,4 +137,3 @@ class RoomChat(generic.View):
             txt_board_storeroom[room_id] = game_txt_phantom
         game_txt_phantom.get_by_state(state).append(CharaterTxt(name=name, content=text, time=time))
         return JsonResponse(state=0)
-

@@ -1057,3 +1057,32 @@ class JsonResponse(HttpResponse):
  2. datetime的时间增减，当前时间往前推7天：
  >datetime.datetime.now() + datetime.timedelta(day=-7)
 
+---
+
+##2018.06.15
+
+
+JavaScript设置定时和周期任务的方式：`setTimeout`和`setInterval`。
+
+
+* 定时任务（延迟任务）:`setTimeout()`
+    * 启动语法 
+    >var delay_task = setTimeout("function()", delay_time);
+
+    * 停止语法 
+    >clearTimeout(delay_task);
+
+    * 执行效果，function会延后delay_time(毫秒)开始执行，只执行一次。
+* 周期任务：`setInterval()`
+    * 启动语法 
+    >var cycle_task = setInterval("function()", interval_time);
+
+    * 停止语法 
+    >clearInteral(cycle_task);
+
+    * 执行效果，function会延后interval_time(毫秒)开始执行，执行完毕后，再过interval_time(毫秒)再次执行。
+
+看着很简单，但是用起来却有几个要注意的点。
+
+ 1. function可以传入参数，虽然整体是以字符串形式传递给JavaScript，但是参数会正确解析，包括对其他元素值引用的参数也一样。
+ 2. JavaScript并不是多线程，所以，对于周期任务和延迟任务，其实现并不是通过多线程实现，而是通过一个类似于消息队列的形式实现。setTimeoue和setInterval实际上是将function插入到队列中，在设置的延时时间到达后，尝试执行function，但若当时主线程没有空闲，则会进入等待，等待主线程空闲后再执行（setInterval的任务会在执行完成后重置计时器）。所以，__设定的延时时间到达后，任务不一定会按时执行，切记。__

@@ -1,8 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'room/room_style.css' %}"/>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script>
+        var room_chat_form = $("form.room_post_msg");
+
+        var room_chat_state = 'game';
+
+        function room_change_state(state) {
+            room_chat_state = state;
+            if (state == 'game') {
+                room_txt = room_game_txt;
+                time_line = game_chat_time_line;
+            } else {
+                room_txt = room_other_txt;
+                time_line = other_chat_time_line;
+            }
+            $("div.room_text_board").html(room_txt);
+            $("div.room_text_board").scrollTop(280);
+            refresh_txt_board(room_chat_form.attr('action'));
+        }
+
+        var room_game_txt = new Array();
+        var room_other_txt = new Array();
+        var room_txt = room_game_txt;
+
+        var game_chat_time_line = new Array(1);
+        var other_chat_time_line = new Array(1);
+        var time_line = game_chat_time_line;
+        function refresh_txt_board(url) {
+            $.ajax({
+                url: url,
+                type: 'get',
+                data: {'state': room_chat_state, 'time_line': time_line[0]},
+                success: function (data) {
+                    var data = JSON.parse(data);
+                    if (data.state == 0) {
+                        var txt = JSON.parse(data.data);
+                        time_line[0] = txt.time_line;
+                        for(var i=0; i<txt.list.length; i++) {
+                            room_txt.push(txt.list[i]+"<br>");
+                        }
+                        $("div.room_text_board").html(room_txt);
+                        $("div.room_text_board").scrollTop(280);
+                    }
+                }
+            });
+        }
+
+        var refresh_txt = setInterval("refresh_txt_board(room_chat_form.attr('action'))", 1500);
+
+        function post_message() {
+            $.ajax({
+                url: room_chat_form.attr('action'),
+                type: room_chat_form.attr('method'),
+                data: room_chat_form.serialize(),
+                complete: function () {
+                    refresh_txt_board(room_chat_form.attr('action'));
+                }
+            });
+        }
+    </script>
 </head>
 <body>
 {% if room %}
@@ -18,8 +79,8 @@
     </div>
     <div class="room_text_inport">
         <form method="post" action="" class="room_post_msg">
-            <input type="radio" name="state" value="game" checked>游戏发言
-            <input type="radio" name="state" value="other">闲聊发言<br>
+            <input type="radio" name="state" value="game" onclick="room_change_state('game')" checked>游戏发言
+            <input type="radio" name="state" value="other" onclick="room_change_state('other')">闲聊发言<br>
             <input type="text" name="text" class="room_chat_content">
             {% csrf_token %}
             <input type="button" onclick="post_message()" value="发送">
