@@ -1086,3 +1086,39 @@ JavaScript设置定时和周期任务的方式：`setTimeout`和`setInterval`。
 
  1. function可以传入参数，虽然整体是以字符串形式传递给JavaScript，但是参数会正确解析，包括对其他元素值引用的参数也一样。
  2. JavaScript并不是多线程，所以，对于周期任务和延迟任务，其实现并不是通过多线程实现，而是通过一个类似于消息队列的形式实现。setTimeoue和setInterval实际上是将function插入到队列中，在设置的延时时间到达后，尝试执行function，但若当时主线程没有空闲，则会进入等待，等待主线程空闲后再执行（setInterval的任务会在执行完成后重置计时器）。所以，__设定的延时时间到达后，任务不一定会按时执行，切记。__
+
+
+---
+
+##2018.06.20
+
+正则表达式获取骰子指令：`.ndm text`，其中，n为骰子数目，m为骰子面数，text为骰点原因。
+n可选且默认为1，m必须，text可选。
+正则表达式为：`r'^\.([1-9][0-9]*)?d([1-9][0-9]*)(\s)*(.+)?$'`
+说明：
+
+* .在正则表达式中为任意非\n字符，所以需要用\.来转义匹配.
+* n为可选项且默认为1，首位不能为0，允许大于1整数，且允许为空
+* m与n一致，只是不允许为空
+* 贪心匹配任意数量空白字符后获取text文本
+
+django自带的用户认证系统：
+```python
+from django.contrib.auth import authenticate, login
+
+class Login(generic.View):
+
+    def post(self, request, *args, **kwargs):
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return HttpResponseRedirect("/html/main.html")
+        else:
+            return HttpResponseRedirect("/html/login.html")
+```
+
+方便倒是很方便写，通过自带的authenticate函数认证用户名和密码，返回user对象，通过login函数将用户绑定到request上（通过session）
+当然，django也自带了很多通用的登录视图，有多种方法可以实现([官方文档](https://docs.djangoproject.com/zh-hans/2.0/topics/auth/default/#django.contrib.auth.forms.AuthenticationForm))，然而，问题是，原生的django中，对需求登录认证的视图、请求，是通过`login_required`装饰器实现的。。主要问题在于，没找到这个装饰器全局设置的方式，这就很难受了。
+另外，在实际使用的时候，发现报了异常，debug发现request在验证user属性的时候，当user为空时，报错。。。但在看异常返回时，request又加上了user属性。。所以这个user属性是在什么时候附加的？？

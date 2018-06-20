@@ -14,15 +14,16 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.urls import path, include
 
 
-def html_render(requeset, app_name=None, html=None):
+def html_render(requset, app_name=None, html=None):
     if app_name is None:
-        return render(requeset, html)
+        return render(requset, html)
     else:
-        return render(requeset, app_name+"/"+html)
+        return render(requset, app_name+"/"+html)
 
 
 urlpatterns = [

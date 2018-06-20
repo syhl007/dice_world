@@ -1,15 +1,17 @@
 import json
 import os
+import random
 import time
 from datetime import datetime
 
+from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views import generic
 
 from dice_world.settings import BASE_DIR
 from dice_world.standard import JsonResponse, txt_board_storeroom
-from dice_world.utils import WordFilter
+from dice_world.utils import WordFilter, DiceFilter
 from game_manager.models import Character, Room, Group, GroupMember, GameTxt, GameTxtPhantom, CharaterTxt
 from user_manager.models import User
 
@@ -129,6 +131,21 @@ class RoomChat(generic.View):
                 name = '神秘声音'
         else:
             name = user.username
+        if text.startswith('.'):
+            text_group = DiceFilter.handle(text)
+            if text_group:
+                if text_group.group(1):
+                    dice_num = int(text_group.group(1))
+                else:
+                    dice_num = 1
+                dice_face = 1 if int(text_group.group(2)) == 0 else int(text_group.group(2))
+                if text_group.group(4):
+                    reason = text_group.group(4)
+                else:
+                    reason = '测手气'
+                dice_list = [random.randint(1, dice_face) for i in range(dice_num)]
+                total = sum(dice_list)
+                text = '因为【' + reason + '】骰出：' + str(dice_list) + '=' + str(total)
         text = WordFilter.handle(text)
         time = datetime.now()
         game_txt_phantom = txt_board_storeroom.get(room_id)

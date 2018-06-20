@@ -47,6 +47,7 @@ INSTALLED_APPS = [
 
 # 用户类
 AUTH_USER_MODEL = 'user_manager.User'
+LOGIN_URL = '/html/login.html/'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
