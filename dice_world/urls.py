@@ -15,20 +15,24 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import path, include
 
 
-def html_render(requset, app_name=None, html=None):
+def html_render(request, app_name=None, html=None):
+    if not html.__contains__('login.html'):
+        if not request.user.is_authenticated:
+            return HttpResponseRedirect("/html/login.html/")
     if app_name is None:
-        return render(requset, html)
+        return render(request, html)
     else:
-        return render(requset, app_name+"/"+html)
+        return render(request, app_name+"/"+html)
 
 
 urlpatterns = [
-    path('html/<str:html>', html_render),
-    path('html/<str:app_name>/<str:html>', html_render),
+    path('html/<str:html>/', html_render),
+    path('html/<str:app_name>/<str:html>/', html_render),
     path('admin/', admin.site.urls),
     path('room/', include('game_manager.room_urls')),
     path('character/', include('game_manager.character_urls')),

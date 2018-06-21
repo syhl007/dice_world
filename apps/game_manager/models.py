@@ -149,7 +149,7 @@ class Group(models.Model):
 class Character(models.Model):
     id = models.UUIDField(verbose_name="UUID", max_length=64, primary_key=True, default=create_uuid)
     name = models.CharField(verbose_name=u"角色姓名", max_length=64, null=False, blank=True)
-    sex = models.SmallIntegerField(verbose_name=u"角色性别", default=0)
+    sex = models.SmallIntegerField(verbose_name=u"角色性别", default=0)  # 0-男|1-女|2-其他
     head = models.ImageField(verbose_name=u"角色头像", default="templates/character/default/no_img.jpg")
     detail = models.FileField(verbose_name=u"角色资料文件")
     creator = models.ForeignKey(verbose_name=u"创作者", to=User, related_name='creator', on_delete=models.CASCADE)

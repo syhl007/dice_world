@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form id="create_character" action="{% url 'character:character_create' %}" method="post" enctype="multipart/form-data">
+    <input name="id" type="hidden" value={{ character.id }}>
+    姓名：<input name="name" type="text"><br>
+    性别：
+    <input name="sex" type="radio" value="0" checked>男|
+    <input name="sex" type="radio" value="1">女|
+    <input name="sex" type="radio" value="2">其他<br>
+    头像：<input name="head" type="file" accept="image/png, image/jpg, image/jpeg"><br>
+    背景设定：<input name="detail" type="file" accept="text/csv"><br>
+    {% csrf_token %}
+    <input type="submit" value="提交">
+</form>
+</body>
+</html>

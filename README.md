@@ -1122,3 +1122,86 @@ class Login(generic.View):
 方便倒是很方便写，通过自带的authenticate函数认证用户名和密码，返回user对象，通过login函数将用户绑定到request上（通过session）
 当然，django也自带了很多通用的登录视图，有多种方法可以实现([官方文档](https://docs.djangoproject.com/zh-hans/2.0/topics/auth/default/#django.contrib.auth.forms.AuthenticationForm))，然而，问题是，原生的django中，对需求登录认证的视图、请求，是通过`login_required`装饰器实现的。。主要问题在于，没找到这个装饰器全局设置的方式，这就很难受了。
 另外，在实际使用的时候，发现报了异常，debug发现request在验证user属性的时候，当user为空时，报错。。。但在看异常返回时，request又加上了user属性。。所以这个user属性是在什么时候附加的？？
+
+
+---
+
+##2018.06.21
+
+debug之后发现，传入装饰器的对象居然是View类对象实例。仔细看`login_required`源码：
+```python
+    def decorator(view_func):
+        @wraps(view_func)
+        def _wrapped_view(request, *args, **kwargs):
+            if test_func(request.user):
+                return view_func(request, *args, **kwargs)
+            path = request.build_absolute_uri()
+            resolved_login_url = resolve_url(login_url or settings.LOGIN_URL)
+            # If the login url is the same scheme and net location then just
+            # use the path as the "next" url.
+            login_scheme, login_netloc = urlparse(resolved_login_url)[:2]
+            current_scheme, current_netloc = urlparse(path)[:2]
+            if ((not login_scheme or login_scheme == current_scheme) and
+                    (not login_netloc or login_netloc == current_netloc)):
+                path = request.get_full_path()
+            from django.contrib.auth.views import redirect_to_login
+            return redirect_to_login(
+                path, resolved_login_url, redirect_field_name)
+        return _wrapped_view
+```
+这个装饰器方法将第一个参数作为`request`，然而，在通用视图类中，第一个参数为`self`即，类实例本身，故引起bug。
+解决办法是：因为`login_required`作用的是原生的view方法，所以，在urls.py中添加限制即可（因为`as_view`返回的就是一个标准view对象，因此可以被`login_required`装饰），如下：
+```python
+app_name = 'room'
+urlpatterns = [
+    path('list/', login_required(views.ListRoom.as_view()), name='room_list'),
+    path('create/', login_required(views.CreateRoom.as_view()), name='room_create'),
+    ...
+]
+```
+
+发现前端setInterval和setTimeout有时候会发生重复请求，即同一时间点两个请求都执行，导致了聊天记录重复（因为在自己发送信息之后，会刷新聊天记录，如果时间点正好到周期刷新时，就会添加两条刚刚发送的信息，然而实际的服务器记录只有一条）说好的js单线程呢。
+状况不明，只能在每次发送完毕的complete回调函数中取消之前的setInterval对象，再重新建立。
+```JavaScript
+function post_message() {
+    $.ajax({
+        url: room_chat_form.attr('action'),
+        type: room_chat_form.attr('method'),
+        data: room_chat_form.serialize(),
+        complete: function () {
+            clearInterval(refresh_txt)
+            setTimeout("refresh_txt_board(room_chat_form.attr('action'))", 0);
+            refresh_txt = setInterval("refresh_txt_board(room_chat_form.attr('action'))", 1500);
+       }
+    });
+}
+```
+
+Django的CreateView真好用~~（真香）~~，可以自动接收前端页面的表单文件上传并保存到对应字段，可以说很不错了。
+一些注意的点：
+
+* 在CreateView的`fields`属性列表中，会自动检查数据的有效性性，比如字段为UUID，则会要求表单提交的也是UUID
+* 前端表单在提交上传文件时，需要增加属性`enctype="multipart/form-data"`
+* `input`标签的`type='image'`并不是上传图片。。。。上传图片请依然使用`type='file'`，并加上`accept="image/png, image/jpg, image/jpeg"`来筛选文件
+* `accpet="text/csv"`在chrome上似乎没有起效
+* CreateView中接收的文件会默认保存到工程根目录，可以在model中修改字段设置来规定默认目录
+* 另外，由于想要复用这个页面，我增加了一个hidden的id字段在前端表单中，由Django在解析页面时填写值，添加上下文的方式。
+
+    ```python
+    return render(request, 'index.html', {'data': data})
+    ```
+    然后就可以在前端像下面这样获取
+    ```HTML
+    <div>{{ data }}</div>
+    ```
+* 但是在传递给js时，需要进行修改，首先js传递的是json：
+
+    ```python
+    return render(request, 'index.html', {
+                'List': json.dumps(list),
+            })
+    ```
+    然后前端获取的时候要添加safe过滤
+    ```JavaScript
+    var List = {{ List|safe }};
+    ```

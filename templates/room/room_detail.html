@@ -20,8 +20,8 @@
                 time_line = other_chat_time_line;
             }
             $("div.room_text_board").html(room_txt);
-            $("div.room_text_board").scrollTop(280);
-            refresh_txt_board(room_chat_form.attr('action'));
+            $("div.room_text_board").scrollTop(99999);
+            setTimeout("refresh_txt_board(room_chat_form.attr('action'))", 1);
         }
 
         var room_game_txt = new Array();
@@ -45,7 +45,7 @@
                             room_txt.push(txt.list[i]+"<br>");
                         }
                         $("div.room_text_board").html(room_txt);
-                        $("div.room_text_board").scrollTop(280);
+                        $("div.room_text_board").scrollTop(99999);
                     }
                 }
             });
@@ -59,7 +59,9 @@
                 type: room_chat_form.attr('method'),
                 data: room_chat_form.serialize(),
                 complete: function () {
-                    refresh_txt_board(room_chat_form.attr('action'));
+                    clearInterval(refresh_txt);
+                    setTimeout("refresh_txt_board(room_chat_form.attr('action'))", 0);
+                    refresh_txt = setInterval("refresh_txt_board(room_chat_form.attr('action'))", 1500);
                 }
             });
         }

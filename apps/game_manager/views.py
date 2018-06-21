@@ -43,7 +43,7 @@ class CreateRoom(generic.CreateView):
 
     def form_valid(self, form):
         with transaction.atomic():
-            form.instance.gm = User.objects.all()[0]
+            form.instance.gm = self.request.user
             form.save()
             room = Room.objects.get(id=form.instance.id)
             game_players = Group()
@@ -110,7 +110,7 @@ class RoomChat(generic.View):
             return JsonResponse(state=2, msg="没有消息记录")
 
     def post(self, request, *args, **kwargs):
-        user = User.objects.all()[0]  # request.user
+        user = request.user
         room_id = kwargs.get('room_id')
         try:
             room = Room.objects.get(id=room_id)
@@ -154,3 +154,21 @@ class RoomChat(generic.View):
             txt_board_storeroom[room_id] = game_txt_phantom
         game_txt_phantom.get_by_state(state).append(CharaterTxt(name=name, content=text, time=time))
         return JsonResponse(state=0)
+
+
+class CreateCharater(generic.CreateView):
+    model = Character
+    fields = ['name', 'sex', 'head', 'detail']
+    template_name = 'character/create_character.html'
+
+    def form_valid(self, form):
+        with transaction.atomic():
+            if form.data.get('id'):
+                form.instance.editor = self.request.user
+            else:
+                form.instance.creator = self.request.user
+                form.instance.editor = self.request.user
+            form.save()
+            return JsonResponse(0)
+
+
