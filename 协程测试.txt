@@ -1,0 +1,30 @@
+import asyncio
+import time
+import csv
+
+async def qq(w,l,count):
+    w.writerow(l)
+    count += 1
+    await asyncio.sleep(1)
+    return count
+
+
+async def q(path, ls):
+    with open(path, 'w+', encoding='utf8', newline='') as csvfile:
+        w = csv.writer(csvfile)
+        count = 0
+        for l in ls:
+            print('[l]',l)
+            count = await qq(w,l,count)            
+            print('[count]',count)
+
+
+loop = asyncio.get_event_loop()
+x=q('G:/t1.csv', ['1,2,3','a,b,c','qweqweqweqw','asdasdasdasdadasd'])
+y=q('G:/t1.csv', '总时间为4s左右')
+tasks = [
+    asyncio.ensure_future(x),
+    asyncio.ensure_future(y),
+]
+loop.run_until_complete(asyncio.wait(tasks))
+
