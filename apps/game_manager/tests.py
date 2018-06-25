@@ -151,6 +151,7 @@ class CharacterViewTest(TestCase):
         print(response.content)
         self.assertIs(len(response.context['character_list']) == Character.objects.all().count(), True)
 
+
 # class CeleryTest(TestCase):
 #
 #     def test_base(self):

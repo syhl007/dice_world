@@ -1,22 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7cbbf86d-dca6-4027-ad2b-0d5a1d1b4f02" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/apps/game_manager/controlor.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/apps/game_manager/game_urls.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/apps/game_manager/migrations/0006_auto_20180625_1358.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/apps/game_manager/migrations/0007_auto_20180625_1527.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/templates/game/task_create.html" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
-      <change beforePath="$PROJECT_DIR$/apps/game_manager/character_urls.py" afterPath="$PROJECT_DIR$/apps/game_manager/character_urls.py" />
-      <change beforePath="$PROJECT_DIR$/apps/game_manager/models.py" afterPath="$PROJECT_DIR$/apps/game_manager/models.py" />
-      <change beforePath="$PROJECT_DIR$/apps/game_manager/tests.py" afterPath="$PROJECT_DIR$/apps/game_manager/tests.py" />
-      <change beforePath="$PROJECT_DIR$/apps/game_manager/views.py" afterPath="$PROJECT_DIR$/apps/game_manager/views.py" />
-      <change beforePath="$PROJECT_DIR$/dice_world/urls.py" afterPath="$PROJECT_DIR$/dice_world/urls.py" />
-      <change beforePath="$PROJECT_DIR$/templates/character/create_character.html" afterPath="$PROJECT_DIR$/templates/character/character_create.html" />
-      <change beforePath="$PROJECT_DIR$/templates/room/character_list.html" afterPath="$PROJECT_DIR$/templates/character/character_list.html" />
+    <list default="true" id="8ad0ee19-5b93-4b29-a3d0-002b40513ca5" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/game_manager/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/game_manager/tests.py" afterDir="false" />
     </list>
+    <ignored path="$PROJECT_DIR$/venv/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -24,250 +13,39 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/dice_world$dice_world.coverage" NAME="dice_world Coverage Results" MODIFIED="1529911468296" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/dice_world$Test__.coverage" NAME="Test:  Coverage Results" MODIFIED="1528778936872" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
-    <SUITE FILE_PATH="coverage/dice_world$Test__game_manager.coverage" NAME="Test: game_manager Coverage Results" MODIFIED="1529918897208" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
-  </component>
-  <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
-    <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
-  </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/apps/game_manager/views.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="296">
-              <caret line="26" column="38" lean-forward="false" selection-start-line="26" selection-start-column="38" selection-end-line="26" selection-end-column="38" />
-              <folding>
-                <element signature="e#0#11#0" expanded="true" />
-                <element signature="e#906#1261#0" expanded="false" />
-                <element signature="e#1306#2747#0" expanded="false" />
-                <element signature="e#1519#2646#0" expanded="false" />
-                <element signature="e#2792#2848#0" expanded="false" />
-                <element signature="e#3337#6370#0" expanded="false" />
-                <element signature="e#3386#4299#0" expanded="false" />
-                <element signature="e#4355#6370#0" expanded="false" />
-                <element signature="e#4924#5215#0" expanded="false" />
-                <element signature="e#6420#7173#0" expanded="false" />
-                <element signature="e#6593#6820#0" expanded="false" />
-                <element signature="e#6862#7173#0" expanded="false" />
-                <element signature="e#7218#7412#0" expanded="false" />
-                <element signature="e#7351#7412#0" expanded="false" />
-                <element signature="e#7453#7507#0" expanded="false" />
-                <element signature="e#7551#8038#0" expanded="false" />
-                <element signature="e#7670#8038#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="list.py" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/views/generic/list.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-30">
-              <caret line="140" column="8" lean-forward="false" selection-start-line="140" selection-start-column="8" selection-end-line="140" selection-end-column="8" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
+    <leaf>
       <file leaf-file-name="tests.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/apps/game_manager/tests.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="472">
-              <caret line="151" column="70" lean-forward="true" selection-start-line="151" selection-start-column="70" selection-end-line="151" selection-end-column="70" />
+            <state relative-caret-position="592">
+              <caret line="153" lean-forward="true" selection-start-line="153" selection-end-line="153" />
               <folding>
-                <element signature="e#271#2380#0" expanded="false" />
+                <element signature="e#0#13#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="character_list.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/character/character_list.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="288">
-              <caret line="8" column="19" lean-forward="false" selection-start-line="8" selection-start-column="10" selection-end-line="8" selection-end-column="19" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="room_list.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/room/room_list.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="288">
-              <caret line="8" column="20" lean-forward="false" selection-start-line="8" selection-start-column="20" selection-end-line="8" selection-end-column="20" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/apps/game_manager/models.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="222">
-              <caret line="173" column="59" lean-forward="true" selection-start-line="173" selection-start-column="59" selection-end-line="173" selection-end-column="59" />
-              <folding>
-                <element signature="e#277#406#0" expanded="false" />
-                <element signature="e#440#542#0" expanded="false" />
-                <element signature="e#580#2850#0" expanded="false" />
-                <element signature="e#3678#4307#0" expanded="false" />
-                <element signature="e#5268#5284#0" expanded="false" />
-                <element signature="e#5310#5375#0" expanded="false" />
-                <element signature="e#8689#9117#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="character_urls.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/apps/game_manager/character_urls.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="10" column="34" lean-forward="false" selection-start-line="10" selection-start-column="34" selection-end-line="10" selection-end-column="34" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="room_urls.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/apps/game_manager/room_urls.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-72">
-              <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-              <folding />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="HTML File" />
-        <option value="Python Script" />
-      </list>
-    </option>
-  </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>_trans</find>
-      <find>default_error_messages</find>
-      <find>get_queryset</find>
-      <find>model</find>
-      <find>post</find>
-      <find>render_to_response</find>
-      <find>creator</find>
-      <find>rooms</find>
-      <find>get_success_url</find>
-      <find>template_name_field</find>
-      <find>field</find>
-      <find>get_form_kwargs</find>
-      <find>get_form_class</find>
-      <find>instance</find>
-      <find>form_invalid</find>
-      <find>form_valid</find>
-      <find>load</find>
-      <find>objects</find>
-      <find>_prepare</find>
-      <find>default</find>
-      <find>JsonResponse</find>
-      <find>HttpResponse(JsonResponse</find>
-      <find>console.log(&quot;[1]&quot;+room_chat_state);</find>
-      <find>room_chat_state</find>
-      <find>refresh_txt_board</find>
-      <find>user</find>
-      <find>280</find>
-      <find>character</find>
-      <find>get_form</find>
-      <find>get_context_data</find>
-    </findStrings>
-    <replaceStrings>
-      <replace>JsonResponse</replace>
-    </replaceStrings>
-  </component>
   <component name="Git.Settings">
-    <option name="ROOT_SYNC" value="DONT_SYNC" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/apps/chat_room/models.py" />
-        <option value="$PROJECT_DIR$/apps/chat_room/views.py" />
-        <option value="$PROJECT_DIR$/apps/chat_room/urls.py" />
-        <option value="$PROJECT_DIR$/apps/chat_room/apps.py" />
-        <option value="$PROJECT_DIR$/templates/room/character_list.html" />
-        <option value="$PROJECT_DIR$/templates/room/testcss.html" />
-        <option value="$PROJECT_DIR$/apps/user_manager/models.py" />
-        <option value="$PROJECT_DIR$/static/user/style.css" />
-        <option value="$PROJECT_DIR$/templates/room/test.html" />
-        <option value="$PROJECT_DIR$/templates/main/main.html" />
-        <option value="$PROJECT_DIR$/templates/user/user_list.html" />
-        <option value="$PROJECT_DIR$/static/main/main_style.css" />
-        <option value="$PROJECT_DIR$/templates/room/room_list.html" />
-        <option value="$PROJECT_DIR$/templates/room/create_room.html" />
-        <option value="$APPLICATION_HOME_DIR$/helpers/python-skeletons/__builtin__.py" />
-        <option value="$PROJECT_DIR$/dice_world/__init__.py" />
-        <option value="$PROJECT_DIR$/apps/game_manager/task.py" />
-        <option value="$PROJECT_DIR$/apps/game_manager/tasks.py" />
-        <option value="$PROJECT_DIR$/dice_world/celery.py" />
-        <option value="$PROJECT_DIR$/apps/game_manager/__init__.py" />
-        <option value="$PROJECT_DIR$/dice_world/standard.py" />
-        <option value="$PROJECT_DIR$/templates/main.html" />
-        <option value="$PROJECT_DIR$/static/room/room.css" />
-        <option value="$PROJECT_DIR$/static/room/room_style.css" />
-        <option value="$PROJECT_DIR$/apps/user_manager/apps.py" />
-        <option value="$PROJECT_DIR$/dice_world/utils.py" />
-        <option value="$PROJECT_DIR$/apps/user_manager/views.py" />
-        <option value="$PROJECT_DIR$/templates/login.html" />
-        <option value="$PROJECT_DIR$/dice_world/settings.py" />
-        <option value="$PROJECT_DIR$/apps/user_manager/urls.py" />
-        <option value="$PROJECT_DIR$/templates/room/room_detail.html" />
-        <option value="$PROJECT_DIR$/templates/character/create_character.html" />
-        <option value="$PROJECT_DIR$/apps/game_manager/controlor.py" />
-        <option value="$PROJECT_DIR$/apps/game_manager/room_urls.py" />
-        <option value="$PROJECT_DIR$/apps/game_manager/game_urls.py" />
-        <option value="$PROJECT_DIR$/dice_world/urls.py" />
-        <option value="$PROJECT_DIR$/templates/game/create_task.html" />
-        <option value="$PROJECT_DIR$/templates/game/task_create.html" />
-        <option value="$PROJECT_DIR$/apps/game_manager/character_urls.py" />
-        <option value="$PROJECT_DIR$/apps/game_manager/models.py" />
-        <option value="$PROJECT_DIR$/README.md" />
-        <option value="$PROJECT_DIR$/templates/character/character_create.html" />
-        <option value="$PROJECT_DIR$/templates/character/character_list.html" />
-        <option value="$PROJECT_DIR$/apps/game_manager/views.py" />
         <option value="$PROJECT_DIR$/apps/game_manager/tests.py" />
       </list>
     </option>
   </component>
-  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
-  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
-  <component name="JsGulpfileManager">
-    <detection-done>true</detection-done>
-    <sorting>DEFINITION_ORDER</sorting>
-  </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="-7" />
     <option name="width" value="1378" />
     <option name="height" value="735" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
-      <flattenPackages />
-      <showMembers />
-      <showModules />
-      <showLibraryContents />
-      <hideEmptyPackages />
-      <abbreviatePackageNames />
-      <autoscrollToSource />
-      <autoscrollFromSource />
-      <sortByType />
-      <manualOrder />
+    <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
@@ -292,71 +70,14 @@
             <path>
               <item name="dice_world" type="b2602c69:ProjectViewProjectNode" />
               <item name="dice_world" type="462c0819:PsiDirectoryNode" />
-              <item name="apps" type="462c0819:PsiDirectoryNode" />
-              <item name="user_manager" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="dice_world" type="b2602c69:ProjectViewProjectNode" />
-              <item name="dice_world" type="462c0819:PsiDirectoryNode" />
-              <item name="dice_world" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="dice_world" type="b2602c69:ProjectViewProjectNode" />
-              <item name="dice_world" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="dice_world" type="b2602c69:ProjectViewProjectNode" />
-              <item name="dice_world" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="dice_world" type="b2602c69:ProjectViewProjectNode" />
-              <item name="dice_world" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-              <item name="character" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="dice_world" type="b2602c69:ProjectViewProjectNode" />
-              <item name="dice_world" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-              <item name="game" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="dice_world" type="b2602c69:ProjectViewProjectNode" />
-              <item name="dice_world" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-              <item name="room" type="462c0819:PsiDirectoryNode" />
+              <item name="celery_tasks" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
       <pane id="Scope" />
-      <pane id="Scratches" />
     </panes>
-  </component>
-  <component name="PropertiesComponent">
-    <property name="DefaultHtmlFileTemplate" value="HTML File" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/manage.py" />
-    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
-  </component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="G:\兴趣使然\Django2\dice_world\templates\game" />
-      <recent name="G:\兴趣使然\Django2\dice_world\apps\game_manager" />
-      <recent name="G:\兴趣使然\Django2\dice_world\static\js" />
-      <recent name="G:\兴趣使然\Django2\dice_world\apps\user_manager" />
-      <recent name="G:\兴趣使然\Django2\dice_world\templates\user" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="G:\兴趣使然\Django2\dice_world\templates\character" />
-      <recent name="G:\兴趣使然\Django2\dice_world\celery_tasks" />
-      <recent name="G:\兴趣使然\Django2\dice_world\templates" />
-      <recent name="G:\兴趣使然\Django2\dice_world\apps" />
-    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -370,616 +91,55 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
-    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="C:\Users\YU-HOME\Envs\django2\Scripts\python.exe" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="dice_world" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-    </configuration>
-    <configuration name="dice_world" type="PythonConfigurationType" factoryName="Python">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="C:\Users\Yu\Envs\django2\Scripts\python.exe" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="dice_world" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/manage.py" />
-      <option name="PARAMETERS" value="runserver" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-    </configuration>
-  </component>
-  <component name="ShelveChangesManager" show_recycled="false">
-    <option name="remove_strategy" value="false" />
-  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="7cbbf86d-dca6-4027-ad2b-0d5a1d1b4f02" name="Default" comment="" />
-      <created>1527560327261</created>
+      <changelist id="8ad0ee19-5b93-4b29-a3d0-002b40513ca5" name="Default" comment="" />
+      <created>1529929325275</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1527560327261</updated>
+      <updated>1529929325275</updated>
     </task>
     <servers />
   </component>
-  <component name="TestHistory">
-    <history-entry file="Test__game_manager - 2018.06.25 at 17h 00m 38s.xml">
-      <configuration name="Test: game_manager" configurationId="DjangoTestsConfigurationType" />
-    </history-entry>
-    <history-entry file="Test__game_manager - 2018.06.25 at 17h 04m 36s.xml">
-      <configuration name="Test: game_manager" configurationId="DjangoTestsConfigurationType" />
-    </history-entry>
-    <history-entry file="Test__game_manager - 2018.06.25 at 17h 08m 25s.xml">
-      <configuration name="Test: game_manager" configurationId="DjangoTestsConfigurationType" />
-    </history-entry>
-    <history-entry file="Test__game_manager - 2018.06.25 at 17h 13m 44s.xml">
-      <configuration name="Test: game_manager" configurationId="DjangoTestsConfigurationType" />
-    </history-entry>
-    <history-entry file="Test__game_manager - 2018.06.25 at 17h 18m 52s.xml">
-      <configuration name="Test: game_manager" configurationId="DjangoTestsConfigurationType" />
-    </history-entry>
-    <history-entry file="Test__game_manager - 2018.06.25 at 17h 21m 33s.xml">
-      <configuration name="Test: game_manager" configurationId="DjangoTestsConfigurationType" />
-    </history-entry>
-    <history-entry file="Test__game_manager - 2018.06.25 at 17h 24m 03s.xml">
-      <configuration name="Test: game_manager" configurationId="DjangoTestsConfigurationType" />
-    </history-entry>
-    <history-entry file="Test__game_manager - 2018.06.25 at 17h 26m 20s.xml">
-      <configuration name="Test: game_manager" configurationId="DjangoTestsConfigurationType" />
-    </history-entry>
-    <history-entry file="Test__game_manager - 2018.06.25 at 17h 27m 37s.xml">
-      <configuration name="Test: game_manager" configurationId="DjangoTestsConfigurationType" />
-    </history-entry>
-    <history-entry file="Test__game_manager - 2018.06.25 at 17h 29m 11s.xml">
-      <configuration name="Test: game_manager" configurationId="DjangoTestsConfigurationType" />
-    </history-entry>
-  </component>
-  <component name="TodoView">
-    <todo-panel id="selected-file">
-      <is-autoscroll-to-source value="true" />
-    </todo-panel>
-    <todo-panel id="all">
-      <are-packages-shown value="true" />
-      <is-autoscroll-to-source value="true" />
-    </todo-panel>
-  </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
+    <editor active="true" />
     <layout>
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32824427" sideWeight="0.49947312" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32569557" sideWeight="0.50052685" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32733223" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5139116" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.67757773" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.59738135" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22163388" sideWeight="0.4942717" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="manage.py@dice_world" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.48608837" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="SciView" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22163388" sideWeight="0.5057283" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4304419" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24973656" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Python Console" order="7" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.3293348" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" />
     </layout>
-  </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/apps/game_manager/views.py</url>
-          <line>47</line>
-          <option name="timeStamp" value="67" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$USER_HOME$/Envs/django2/Lib/site-packages/django/views/generic/detail.py</url>
-          <line>93</line>
-          <option name="timeStamp" value="83" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$USER_HOME$/Envs/django2/Lib/site-packages/django/views/generic/list.py</url>
-          <line>142</line>
-          <option name="timeStamp" value="85" />
-        </line-breakpoint>
-      </breakpoints>
-      <option name="time" value="86" />
-    </breakpoint-manager>
-    <watches-manager>
-      <configuration name="Python.DjangoServer">
-        <watch expression="wrapper" />
-      </configuration>
-    </watches-manager>
-  </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/middleware/clickjacking.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="25" column="0" lean-forward="false" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/utils/deprecation.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="96" column="0" lean-forward="false" selection-start-line="96" selection-start-column="0" selection-end-line="96" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/db/models/options.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="345" column="0" lean-forward="false" selection-start-line="345" selection-start-column="0" selection-end-line="345" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/db/models/manager.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="193" column="0" lean-forward="false" selection-start-line="193" selection-start-column="0" selection-end-line="193" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/.PyCharm2017.3/system/python_stubs/32576052/builtins.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="3601" column="8" lean-forward="false" selection-start-line="3601" selection-start-column="8" selection-end-line="3601" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/json/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2059">
-          <caret line="184" column="15" lean-forward="false" selection-start-line="184" selection-start-column="8" selection-end-line="184" selection-end-column="15" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/core/handlers/exception.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="222">
-          <caret line="37" column="0" lean-forward="false" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/http/response.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="281" column="30" lean-forward="false" selection-start-line="281" selection-start-column="23" selection-end-line="281" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/_strptime.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="73">
-          <caret line="361" column="0" lean-forward="false" selection-start-line="361" selection-start-column="0" selection-end-line="361" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/datetime.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="1712" column="8" lean-forward="false" selection-start-line="1712" selection-start-column="8" selection-end-line="1712" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/db/models/sql/compiler.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="73">
-          <caret line="38" column="0" lean-forward="false" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/main.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="3" column="4" lean-forward="false" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_HOME_DIR$/helpers/typeshed/stdlib/3/typing.pyi">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="312" column="8" lean-forward="false" selection-start-line="312" selection-start-column="8" selection-end-line="312" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/room/room_style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="16" lean-forward="false" selection-start-line="0" selection-start-column="1" selection-end-line="0" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/asyncio/events.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="186">
-          <caret line="631" column="4" lean-forward="false" selection-start-line="631" selection-start-column="4" selection-end-line="631" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/user_manager/apps.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="2" column="0" lean-forward="true" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/main/main_style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="5" column="4" lean-forward="false" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dice_world/utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="12" column="17" lean-forward="true" selection-start-line="12" selection-start-column="17" selection-end-line="12" selection-end-column="17" />
-          <folding>
-            <element signature="e#35#90#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/asyncio/tasks.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="468" column="44" lean-forward="false" selection-start-line="468" selection-start-column="44" selection-end-line="468" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/core/handlers/base.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="125" column="0" lean-forward="false" selection-start-line="125" selection-start-column="0" selection-end-line="125" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/contrib/auth/decorators.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="65">
-          <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dice_world/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="184">
-          <caret line="87" column="16" lean-forward="true" selection-start-line="87" selection-start-column="16" selection-end-line="87" selection-end-column="16" />
-          <folding>
-            <element signature="e#1319#1718#0" expanded="false" />
-            <element signature="e#1766#2281#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/login.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="504">
-          <caret line="14" column="7" lean-forward="true" selection-start-line="14" selection-start-column="7" selection-end-line="14" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/user_manager/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="87">
-          <caret line="4" column="19" lean-forward="false" selection-start-line="4" selection-start-column="19" selection-end-line="4" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/room/room_detail.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="756">
-          <caret line="61" column="47" lean-forward="false" selection-start-line="61" selection-start-column="47" selection-end-line="61" selection-end-column="47" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/user_manager/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="27" column="66" lean-forward="true" selection-start-line="27" selection-start-column="66" selection-end-line="27" selection-end-column="66" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dice_world/standard.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="7" column="33" lean-forward="false" selection-start-line="7" selection-start-column="33" selection-end-line="7" selection-end-column="33" />
-          <folding>
-            <element signature="e#0#11#0" expanded="false" />
-            <element signature="e#116#608#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/forms/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="110">
-          <caret line="548" column="0" lean-forward="false" selection-start-line="548" selection-start-column="0" selection-end-line="548" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/room/create_room.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="7" column="61" lean-forward="true" selection-start-line="7" selection-start-column="5" selection-end-line="7" selection-end-column="61" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/db/models/fields/files.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="226" column="22" lean-forward="false" selection-start-line="226" selection-start-column="13" selection-end-line="226" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dice_world/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="37" column="44" lean-forward="false" selection-start-line="37" selection-start-column="44" selection-end-line="37" selection-end-column="44" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/game_manager/game_urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="8" column="22" lean-forward="false" selection-start-line="8" selection-start-column="22" selection-end-line="8" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/game/task_create.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="10" column="27" lean-forward="false" selection-start-line="10" selection-start-column="27" selection-end-line="10" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/test/client.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3166">
-          <caret line="406" column="6" lean-forward="false" selection-start-line="406" selection-start-column="6" selection-end-line="406" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/test/testcases.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="66">
-          <caret line="149" column="23" lean-forward="false" selection-start-line="149" selection-start-column="23" selection-end-line="149" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/user_manager/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="7" column="32" lean-forward="true" selection-start-line="7" selection-start-column="32" selection-end-line="7" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/forms/forms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="178" column="0" lean-forward="false" selection-start-line="178" selection-start-column="0" selection-end-line="178" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/game_manager/controlor.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/views/generic/edit.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="172">
-          <caret line="66" column="30" lean-forward="false" selection-start-line="66" selection-start-column="30" selection-end-line="66" selection-end-column="30" />
-          <folding>
-            <element signature="e#2554#3731#0" expanded="false" />
-            <element signature="e#3772#3988#0" expanded="false" />
-            <element signature="e#4029#4513#0" expanded="false" />
-            <element signature="e#4555#4683#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/views/generic/base.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="98">
-          <caret line="22" column="8" lean-forward="false" selection-start-line="22" selection-start-column="8" selection-end-line="22" selection-end-column="8" />
-          <folding>
-            <element signature="e#1132#1457#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/views/generic/detail.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="109">
-          <caret line="89" column="24" lean-forward="false" selection-start-line="89" selection-start-column="8" selection-end-line="89" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="275">
-            <caret line="1294" column="30" lean-forward="false" selection-start-line="1294" selection-start-column="30" selection-end-line="1294" selection-end-column="30" />
-            <folding>
-              <marker date="1529916605281" expanded="true" signature="17859:17969" ph="{...}" />
-              <marker date="1529916605281" expanded="true" signature="18247:18332" ph="..." />
-              <marker date="1529916605281" expanded="true" signature="18656:18982" ph="{...}" />
-              <marker date="1529916605281" expanded="true" signature="18719:18970" ph="{...}" />
-              <marker date="1529916605281" expanded="true" signature="18782:18955" ph="{...}" />
-              <marker date="1529916605281" expanded="true" signature="22036:22141" ph="{...}" />
-              <marker date="1529916605281" expanded="true" signature="22036:22574" ph="{...}" />
-              <marker date="1529916605281" expanded="true" signature="22097:22141" ph="{&quot;dataType&quot;: &quot;html&quot;...}" />
-              <marker date="1529916605281" expanded="true" signature="22259:22564" ph="{...}" />
-              <marker date="1529916605281" expanded="true" signature="22333:22554" ph="{...}" />
-              <marker date="1529916605281" expanded="true" signature="23672:23855" ph="{...}" />
-              <marker date="1529916605281" expanded="true" signature="39798:40209" ph="{...}" />
-              <marker date="1529916605281" expanded="true" signature="39811:40205" ph="{...}" />
-              <marker date="1529916605281" expanded="true" signature="39974:40199" ph="{...}" />
-              <marker date="1529916605281" expanded="true" signature="44727:45387" ph="..." />
-              <marker date="1529916605281" expanded="true" signature="44848:45019" ph="..." />
-              <marker date="1529916605281" expanded="true" signature="44911:45015" ph="..." />
-            </folding>
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="17" column="17" lean-forward="false" selection-start-line="17" selection-start-column="17" selection-end-line="17" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/character/character_create.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="9" column="14" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/game_manager/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="222">
-          <caret line="173" column="59" lean-forward="true" selection-start-line="173" selection-start-column="59" selection-end-line="173" selection-end-column="59" />
-          <folding>
-            <element signature="e#277#406#0" expanded="false" />
-            <element signature="e#440#542#0" expanded="false" />
-            <element signature="e#580#2850#0" expanded="false" />
-            <element signature="e#3678#4307#0" expanded="false" />
-            <element signature="e#5268#5284#0" expanded="false" />
-            <element signature="e#5310#5375#0" expanded="false" />
-            <element signature="e#8689#9117#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/game_manager/character_urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="10" column="34" lean-forward="false" selection-start-line="10" selection-start-column="34" selection-end-line="10" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/character/character_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="8" column="19" lean-forward="false" selection-start-line="8" selection-start-column="10" selection-end-line="8" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/room/room_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="8" column="20" lean-forward="false" selection-start-line="8" selection-start-column="20" selection-end-line="8" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/game_manager/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="296">
-          <caret line="26" column="38" lean-forward="false" selection-start-line="26" selection-start-column="38" selection-end-line="26" selection-end-column="38" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-            <element signature="e#906#1261#0" expanded="false" />
-            <element signature="e#1306#2747#0" expanded="false" />
-            <element signature="e#1519#2646#0" expanded="false" />
-            <element signature="e#2792#2848#0" expanded="false" />
-            <element signature="e#3337#6370#0" expanded="false" />
-            <element signature="e#3386#4299#0" expanded="false" />
-            <element signature="e#4355#6370#0" expanded="false" />
-            <element signature="e#4924#5215#0" expanded="false" />
-            <element signature="e#6420#7173#0" expanded="false" />
-            <element signature="e#6593#6820#0" expanded="false" />
-            <element signature="e#6862#7173#0" expanded="false" />
-            <element signature="e#7218#7412#0" expanded="false" />
-            <element signature="e#7351#7412#0" expanded="false" />
-            <element signature="e#7453#7507#0" expanded="false" />
-            <element signature="e#7551#8038#0" expanded="false" />
-            <element signature="e#7670#8038#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/views/generic/list.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-30">
-          <caret line="140" column="8" lean-forward="false" selection-start-line="140" selection-start-column="8" selection-end-line="140" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/game_manager/room_urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-72">
-          <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/celery_tasks/tests.py">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/game_manager/tests.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="472">
-          <caret line="151" column="70" lean-forward="true" selection-start-line="151" selection-start-column="70" selection-end-line="151" selection-end-column="70" />
+        <state relative-caret-position="592">
+          <caret line="153" lean-forward="true" selection-start-line="153" selection-end-line="153" />
           <folding>
-            <element signature="e#271#2380#0" expanded="false" />
+            <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>
