@@ -35,6 +35,7 @@ urlpatterns = [
     path('html/<str:app_name>/<str:html>/', html_render),
     path('admin/', admin.site.urls),
     path('room/', include('game_manager.room_urls')),
+    path('game/', include('game_manager.game_urls')),
     path('character/', include('game_manager.character_urls')),
     path('user/', include('user_manager.urls')),
 ]

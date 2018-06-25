@@ -1222,3 +1222,88 @@ Django的CreateView真好用~~（真香）~~，可以自动接收前端页面的
     在async/await语法中，await所修饰对象有限制([详细参见](http://python.jobbole.com/86481/))，需要返回一个具有`__await__(self)`函数的对象（即awaitable对象），而这个对象必须返回一个非协程迭代器。当然，协程本身也是一个awaitable对象。
     很迷。
     
+---
+
+##2018.06.25
+
+最近感觉又陷入重复机械劳动循环中了，没有获取新的知识，只是在反复的调试和码代码，困扰。
+
+今天添加了几个新的model对象，用于管理游戏相关数据，以文本形式存放如任务物品信息等，另外创建一个关联房间、任务的中间model对象记录任务进度。
+然后就是开始写单元测试，说实话之前一直说写都没有写，因为觉得很麻烦，特别是加入了登录认证之后，的确不知道怎么来写，不过今天还是去啃了一下。
+client的登录通过，client.login(username=, password=)来实现，登录之后client保存session数据，client为已认证状态。
+需要注意的是，由于在测试中使用的是测试数据库所以，在登录之前需要生成一个用户，生成用户需要使用`create_user`，而不是`create`，不然password不会加密，使用password登录异常。
+因为登录之后client是保存的session，目前我还不知道如何获取其中的user信息，所以，在创建一些关联到用户表的数据时，外键比较麻烦，不过正好测试对象的生成表单页面，也就没管了。但是就有下面这个问题了，单元测试中的文件传输问题。
+因为很多解构是关联了文件field的，所以需要上传文件作为输入，虽然在数据库中是以`str`路径来保存的就是了。。。
+解决方式如下：
+```python_test
+User.objects.create_user(username='test', password='123456')
+        self.client.login(username='test', password='123456')
+        with open('文件上传测试.txt', 'r') as f:
+            response = self.client.post(reverse("character:character_create"),
+                                        {'name': 'test1', 'sex': 0, 'head': None, 'detail': f})
+```
+另外，今天看了Django的Form表单类，发现很是方便，笔记如下：
+
+Form表单类是Django中用于连接数据库model和前端html的一个胶水类，能够很方便的生成html表单代码，并提供输入验证等实用功能。
+定义Form类有两种方式：
+
+* 继承forms.Form
+    ```python
+    from django import forms
+    class ContactForm(forms.Form):
+        subject = forms.CharField(max_length=100,label='主题')
+        message = form.CharField(widget=forms.TextArea)
+        sender = form.EmailField()
+        cc_myself = forms.BooleanField(required=False)
+    ```
+    
+    其中，每个需要输入的字段都由forms中相关字段（field）生成，这些field与model中的field基本可以相互对应，Form类也就是通过这些field来进行数据的输入验证、html代码转化等操作。
+* 继承forms.ModelForm
+    ```python
+    #models.py
+    class Contact(models.Model):
+        title = models.CharField(max_length=30)
+        content = models.CharField(max_length=20)
+     
+    #form.py
+    class ConotactForm(forms.ModelForm):
+        class Meta:
+            model = Contact
+            field = ('title','content') #只显示model中指定的字段
+    ```
+    
+    forms.ModelForm简化了Form的生成，直接用Model中的field来生成Form中的field，很是方便。CreateView中就使用的第二种方法，动态生成一个ModelForm用于生成和接收表单，调用的方法为`get_form`。
+
+Form类可以通过传入request.POST数据（一个dict类）来生成一个关联至model的实例，通过实例的`is_vaild`方式来进行数据输入验证。或者直接空数据生成表单数据返回前端，通过`as_p`等方法在前端调用转化为对应标签显示。
+
+* Form的前端显示
+    简单的方式直接就是在前端通过`{{ form }}`来获取上下文中的'form'对象用于显示，需要注意的是，这种显示就是最基础的显示，没有做任何的改动修饰。通常使用中，会通过`as_p`等方法将form每一个属性加上`<p>`标签，同理还有`as_ul`等方法。
+    
+实际使用中，由于使用的CreateView，所以很多操作由Django代为完成，总得来说效果不错，但是有些字段，如性别、状态码字段，为了方便以后拓展，设置为int类型，CreateView转化的就是一个数值输入，对用户不友好，需要改为选择窗口，需要对`get`方法进行改写。
+```python
+def get(self, request, *args, **kwargs):
+    # 在get_context_data时，会注入一个object对象，然而这个类不具有这个属性，需要设置为None不然会报AttributeError，莫名其妙。
+    self.object = None
+    form = self.get_form()
+    # form的字段存放在fields中，是一个dict类型数据，更换为选择field
+    # choices元祖中的元素元祖，第一个值为实际传值数据，第二个值为显示值。
+    # label为显示到html中的名称。
+    form.fields['sex'] = forms.ChoiceField(choices=((0, '男'), (1, '女'), (2, '其他')), label='性别')
+    # CreateView的get_context_data方法，在不传入form时，会自动调用get_form方法获取form并填入。
+    return self.render_to_response(self.get_context_data(form=form))
+```
+通过`as_p`生成的前端代码如下（居然自己生成了个id）：：
+```html
+<form id="create_character" action="/character/create/" method="post" enctype="multipart/form-data">
+    <p><label for="id_name">角色姓名:</label> <input type="text" name="name" maxlength="64" required id="id_name" /></p>
+<p><label for="id_sex">性别:</label> <select name="sex" id="id_sex">
+  <option value="0">男</option>
+  <option value="1">女</option>
+  <option value="2">其他</option>
+</select></p>
+<p><label for="id_head">角色头像:</label> <input type="file" name="head" id="id_head" /></p>
+<p><label for="id_detail">角色资料文件:</label> <input type="file" name="detail" required id="id_detail" /></p>
+    <input type='hidden' name='csrfmiddlewaretoken' value='Jc1JrI6nZn6CBKVy6y6N0fTwJ9744QrNSpoMFZP3yu44RvB5tdVBNRnokSe9pRv4' />
+    <input type="submit" value="提交">
+</form>
+```

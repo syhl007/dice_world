@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form id="create_task" action="{% url 'game:task_create' %}" method="post" enctype="multipart/form-data">
+    <input name="id" type="hidden" value={{ character.id }}>
+    任务名称：<input name="name" type="text"><br>
+    任务详情：<input name="init_file" type="file" accept="text/xml"><br>
+    {% csrf_token %}
+    <input type="submit" value="提交">
+</form>
+</body>
+</html>

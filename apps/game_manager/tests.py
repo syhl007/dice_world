@@ -4,14 +4,14 @@ import time
 from django.db import IntegrityError
 from django.test import TestCase
 
-
 # 房间类测试
 from django.urls import reverse
 
-from game_manager.models import Room
+from game_manager.models import Room, Character
 from user_manager.models import User
 
 
+# 房间模型测试
 class RoomModelTest(TestCase):
 
     # 房间名不能重复
@@ -67,7 +67,10 @@ class RoomModelTest(TestCase):
 
 # 房间列表视图测试
 class RoomViewTest(TestCase):
+
     def test_html_ready(self):
+        User.objects.create_user(username='test', password='123456')
+        self.client.login(username='test', password='123456')
         response = self.client.get(reverse('room:room_list'))
         self.assertContains(response, 'No room are available.')
         user = User.objects.create(username="atman")
@@ -78,14 +81,16 @@ class RoomViewTest(TestCase):
         room_3 = Room.objects.create(name="auto_test_003", gm=user)
         response = self.client.get(reverse('room:room_list'))
         self.assertIs(response.status_code == 200, True)
-        self.assertIs(len(response.context['room_list']) == Room.objects.all().count(), True)
         print(response.context['room_list'])
+        self.assertIs(len(response.context['room_list']) == Room.objects.all().count(), True)
         index = random.randint(0, len(response.context['room_list']) - 2)
         room_a = response.context['room_list'][index]
         room_b = response.context['room_list'][index + 1]
         self.assertIs(room_b.add_time <= room_a.add_time, True)
 
     def test_post_filter(self):
+        User.objects.create_user(username='test', password='123456')
+        self.client.login(username='test', password='123456')
         user = User.objects.create()
         room_1 = Room.objects.create(name="asd", gm=user, tag=['测试', '无效'])
         time.sleep(1)
@@ -102,18 +107,49 @@ class RoomViewTest(TestCase):
         # self.assertEqual(response.context['room_list'][0].name, '123')
 
     def test_create_room(self):
+        User.objects.create_user(username='test', password='123456')
+        self.client.login(username='test', password='123456')
         g_resp = self.client.get(reverse('room:room_create'), data={'name': 'test'})
         print("[get]", g_resp.content)
-        User.objects.create()
-        user = User.objects.all()[0]
         response = self.client.get(reverse('room:room_list'))
         print(response.context['room_list'])
-        p_resp = self.client.post(reverse('room:room_create'), data={'name': 'test', 'gm': user})
+        p_resp = self.client.post(reverse('room:room_create'), data={'name': 'test'})
         print("[post]", str(p_resp.content))
         response = self.client.get(reverse('room:room_list'))
         print("[room_list]", response.context['room_list'])
         self.assertIs(len(response.context['room_list']) == Room.objects.all().count(), True)
 
+
+# 角色视图测试
+class CharacterViewTest(TestCase):
+
+    # 测试创建角色
+    def test_create_character(self):
+        User.objects.create_user(username='test', password='123456')
+        self.client.login(username='test', password='123456')
+        with open('文件上传测试.txt', 'r') as f:
+            response = self.client.post(reverse("character:character_create"),
+                                        {'name': 'test1', 'sex': 0, 'head': None, 'detail': f})
+        self.assertIs(Character.objects.all().count() == 1, True)
+        self.assertIs(Character.objects.all()[0].name == 'test1', True)
+        self.assertIs(Character.objects.all()[0].sex == 0, True)
+        self.assertIs(Character.objects.all()[0].creator == User.objects.all()[0], True)
+
+    # 角色列表测试
+    def test_list_character(self):
+        User.objects.create_user(username='test', password='123456')
+        self.client.login(username='test', password='123456')
+        response = self.client.get(reverse('character:character_list'))
+        self.assertContains(response, 'No character are available.')
+        response = self.client.get(reverse('character:character_list'))
+        self.assertIs(response.status_code == 200, True)
+        print(len(response.context['character_list']))
+        with open('文件上传测试.txt', 'r') as f:
+            self.client.post(reverse("character:character_create"),
+                             {'name': 'test1', 'sex': 0, 'head': None, 'detail': f})
+        print(response.context['character_list'])
+        print(response.content)
+        self.assertIs(len(response.context['character_list']) == Character.objects.all().count(), True)
 
 # class CeleryTest(TestCase):
 #
@@ -121,5 +157,3 @@ class RoomViewTest(TestCase):
 #         from celery_tasks.tasks import add
 #         print("[test]")
 #         add.delay(2, 3)
-
-

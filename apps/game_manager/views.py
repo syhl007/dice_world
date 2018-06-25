@@ -4,6 +4,7 @@ import random
 import time
 from datetime import datetime
 
+from django import forms
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.http import HttpResponse, HttpResponseRedirect
@@ -12,7 +13,8 @@ from django.views import generic
 from dice_world.settings import BASE_DIR
 from dice_world.standard import JsonResponse, txt_board_storeroom
 from dice_world.utils import WordFilter, DiceFilter
-from game_manager.models import Character, Room, Group, GroupMember, GameTxt, GameTxtPhantom, CharaterTxt
+from game_manager.models import Character, Room, Group, GroupMember, GameTxt, GameTxtPhantom, CharacterTxt, Task, \
+    TaskRecord
 from user_manager.models import User
 
 
@@ -78,12 +80,18 @@ class RoomDetail(generic.DetailView):
 
 class ListCharacter(generic.ListView):
     model = Character
-    template_name = 'room/character_list.html'
+    context_object_name = 'character_list'
+    template_name = 'character/character_list.html'
+
+    def get(self, request, *args, **kwargs):
+        obj = super(ListCharacter, self).get(request, *args, **kwargs)
+        print(self.object_list)
+        return obj
 
 
 class ListGroupCharacter(generic.ListView):
     queryset = GroupMember
-    template_name = 'room/character_list.html'
+    template_name = 'character/character_list.html'
 
 
 class RoomChat(generic.View):
@@ -147,19 +155,25 @@ class RoomChat(generic.View):
                 total = sum(dice_list)
                 text = '因为【' + reason + '】骰出：' + str(dice_list) + '=' + str(total)
         text = WordFilter.handle(text)
-        time = datetime.now()
+        t = datetime.now()
         game_txt_phantom = txt_board_storeroom.get(room_id)
         if not game_txt_phantom:
             game_txt_phantom = GameTxtPhantom()
             txt_board_storeroom[room_id] = game_txt_phantom
-        game_txt_phantom.get_by_state(state).append(CharaterTxt(name=name, content=text, time=time))
+        game_txt_phantom.get_by_state(state).append(CharacterTxt(name=name, content=text, time=t))
         return JsonResponse(state=0)
 
 
-class CreateCharater(generic.CreateView):
+class CreateCharacter(generic.CreateView):
     model = Character
     fields = ['name', 'sex', 'head', 'detail']
-    template_name = 'character/create_character.html'
+    template_name = 'character/character_create.html'
+
+    def get(self, request, *args, **kwargs):
+        self.object = None  # 迷
+        form = self.get_form()
+        form.fields['sex'] = forms.ChoiceField(choices=((0, '男'), (1, '女'), (2, '其他')), label='性别')
+        return self.render_to_response(self.get_context_data(form=form))
 
     def form_valid(self, form):
         with transaction.atomic():
@@ -172,3 +186,34 @@ class CreateCharater(generic.CreateView):
             return JsonResponse(0)
 
 
+class CreateTask(generic.CreateView):
+    model = Task
+    fields = ['name', 'init_file']
+    template_name = 'game/task_create.html'
+
+    def form_valid(self, form):
+        form.instance.creator = self.request.user
+        form.save()
+
+
+class ListTask(generic.ListView):
+    model = Task
+    template_name = 'game/task_list.html'
+
+
+class StartTask(generic.CreateView):
+    model = TaskRecord
+    fields = []
+    template_name = 'game/task_start.html'
+
+    def form_valid(self, form):
+        room_id = form.data.get('room_id')
+        form.instance.room = Room.objects.get(id=room_id)
+        task_id = form.data.get('task_id')
+        form.instance.task = Task.objects.get(id=task_id)
+        start = form.data.get('start')
+        path = None
+        with open(path, 'w') as f:
+            f.write(start)
+        form.instance.file = path
+        form.save()
