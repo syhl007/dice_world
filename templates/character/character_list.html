@@ -1,10 +1,20 @@
+<head>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/character/character_style.css' %}"/>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
 {% if character_list %}
     <ul>
         {% for character in character_list %}
-            <li><img src={{ character.head }}><a href="{'character:detail' character.id}/">{{ character.name }}</a>
+            <li>
+                <div><img class="character_head" src=/{{ character.head.name }}></div>
+                <a href="{%  url 'character:character_detail' character.id %}">{{ character.name }}</a>
             </li>
         {% endfor %}
     </ul>
 {% else %}
     <p>No character are available.</p>
 {% endif %}
+</body>

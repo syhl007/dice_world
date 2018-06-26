@@ -1307,3 +1307,24 @@ def get(self, request, *args, **kwargs):
     <input type="submit" value="提交">
 </form>
 ```
+
+---
+
+##2018.06.26
+
+今天主要是修改了一下工程目录结构，让图片资源可以显示在前端页面中了。另外就是python中解析xml文件的尝试。
+
+首先，由于Django的机制，在接收到请求时，会先去查找urls.py中的配置，之前的配置中，都是对于功能请求的配置，没有静态文件的配置，按理说，在访问静态文件如图片、css、js等文件时也会进入urls.py然后由于没有配置导致404错误。但是之前在读取各种js、css却没有出现这个问题。
+原因就在于，js和css的引用，是通过`{% static 'path' %}`来实现的，其中，`static`关键字将读取`setting.py`中`STATIC_URL`的配置值，然后拼接path，生成访问路径。而Django在遇到`STATIC_URL`开头的请求时也会跳过验证而直接去返回静态文件资源。
+看上去似乎图片显示也应该如此解决。但是有个问题是，这个图片是用户上传的角色头像，通过`ImageField`中的`upload_to`属性存放到默认目录中，由于`upload_to`的根目录为工程目录，所以需要从`static/`开始写。那么在前端获取用户头像文件路径时，若通过`{% static path %}`的方式，则会多出一个`static/`，则需要修改前端对图片路径的获取。又已知，在前端`{{ character.head }}`返回的就是以工程目录为根目录的头像文件相对路径，那么可以通过以下代码获取头像图片路径：（注意，需要在前面加上'/'声明改请求也是由根路径发出，而不是附加到当前请求url之后）
+```html
+<img src=/{{charater.head}}>
+```
+
+然后就是python处理xml
+有三个库可以用于处理xml([参考资料](https://www.cnblogs.com/deadwood-2016/p/8116863.html)):
+
+ 1. from xml import sax
+ 2. from xml import dom
+ 3. from xml.etree import ElementTree as ET # 推荐
+

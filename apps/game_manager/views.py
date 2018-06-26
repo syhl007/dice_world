@@ -3,6 +3,7 @@ import os
 import random
 import time
 from datetime import datetime
+from xml.etree import ElementTree as ET
 
 from django import forms
 from django.contrib.auth.decorators import login_required
@@ -85,7 +86,6 @@ class ListCharacter(generic.ListView):
 
     def get(self, request, *args, **kwargs):
         obj = super(ListCharacter, self).get(request, *args, **kwargs)
-        print(self.object_list)
         return obj
 
 
@@ -184,6 +184,37 @@ class CreateCharacter(generic.CreateView):
                 form.instance.editor = self.request.user
             form.save()
             return JsonResponse(0)
+
+
+class CharacterDetail(generic.View):
+
+    def get(self, request, *args, **kwargs):
+        character_id = kwargs['character_uuid']
+        character = Character.objects.get(id=character_id)
+        if character.sex == 0:
+            sex = '男'
+        elif character.sex == 1:
+            sex = '女'
+        else:
+            sex = '其他'
+        character_info = {'id': character.id.hex, 'name': character.name, 'sex': sex}
+        character_xml = ET.parse(character.detail)
+        r = character_xml.getroot()
+        print(r.tag)
+        if r.tag != 'character':
+            return JsonResponse(state=1, msg='文件不符合模板错误')
+        for i in r:
+            print(i.tag)
+            if i.tag == 'other':
+                for o in i:
+                    text = o.text.replace(o.tail, '')
+                    text = text.replace('\t', '')
+                    character_info["other_" + o.tag] = text
+            else:
+                text = i.text.replace(i.tail, '')
+                text = text.replace('\t', '')
+                character_info[i.tag] = text
+        return JsonResponse(state=0, data=json.dumps(character_info))
 
 
 class CreateTask(generic.CreateView):

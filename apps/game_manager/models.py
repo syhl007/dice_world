@@ -150,9 +150,9 @@ class Character(models.Model):
     id = models.UUIDField(verbose_name="UUID", max_length=64, primary_key=True, default=create_uuid)
     name = models.CharField(verbose_name=u"角色姓名", max_length=64)
     sex = models.SmallIntegerField(verbose_name=u"角色性别", default=0)  # 0-男|1-女|2-其他
-    head = models.ImageField(verbose_name=u"角色头像", upload_to="resource/character/head/",
-                             default="resource/character/head/default/no_img.jpg")
-    detail = models.FileField(verbose_name=u"角色资料文件", upload_to="resource/character/detail/")
+    head = models.ImageField(verbose_name=u"角色头像", upload_to="static/resource/character/head/",
+                             default="static/resource/character/head/default/no_img.jpg")
+    detail = models.FileField(verbose_name=u"角色资料文件", upload_to="static/resource/character/detail/")
     creator = models.ForeignKey(verbose_name=u"创作者", to=User, related_name='creator+', on_delete=models.CASCADE)
     add_time = models.DateTimeField(verbose_name=u"创建时间", default=datetime.now)
     editor = models.ForeignKey(verbose_name=u"修改者", to=User, related_name='editor', on_delete=models.CASCADE)
@@ -190,7 +190,7 @@ class Area(models.Model):
     name = models.CharField(verbose_name=u"任务模组名", max_length=127)
     creator = models.ForeignKey(verbose_name=u"创作者", to=User, related_name='creator+', on_delete=models.CASCADE)
     description = models.TextField(verbose_name=u"描述")
-    map = models.ImageField(verbose_name=u"地图", upload_to="resource/game/maps/", null=True)
+    map = models.ImageField(verbose_name=u"地图", upload_to="static/resource/game/maps/", null=True)
     add_time = models.DateTimeField(verbose_name=u"创建时间", default=datetime.now)
 
 
@@ -198,7 +198,7 @@ class Task(models.Model):
     id = models.UUIDField(verbose_name="UUID", max_length=64, primary_key=True, default=create_uuid)
     name = models.CharField(verbose_name=u"任务模组名", max_length=127)
     creator = models.ForeignKey(verbose_name=u"创作者", to=User, related_name='creator+', on_delete=models.CASCADE)
-    init_file = models.FileField(verbose_name=u"任务模组文件", upload_to="resource/game/tasks/")
+    init_file = models.FileField(verbose_name=u"任务模组文件", upload_to="static/resource/game/tasks/")
     add_time = models.DateTimeField(verbose_name=u"创建时间", default=datetime.now)
 
 
@@ -207,7 +207,7 @@ class TaskRecord(models.Model):
     room = models.ForeignKey(verbose_name=u"房间", to=Room, related_name="room+", on_delete=models.CASCADE)
     task = models.ForeignKey(verbose_name=u"任务", to=Task, related_name="task", on_delete=models.CASCADE)
     done = models.BooleanField(verbose_name=u"是否完成", default=False)
-    file = models.FileField(verbose_name=u"日志记录", upload_to="resource/game/records/", null=True)
+    file = models.FileField(verbose_name=u"日志记录", upload_to="static/resource/game/records/", null=True)
     add_time = models.DateTimeField(verbose_name=u"创建时间", default=datetime.now)
     update_time = models.DateTimeField(verbose_name=u"更新时间", default=datetime.now)
 
@@ -216,7 +216,7 @@ class Item(models.Model):
     id = models.UUIDField(verbose_name="UUID", max_length=64, primary_key=True, default=create_uuid)
     name = models.CharField(verbose_name=u"物品名称", max_length=127)
     creator = models.ForeignKey(verbose_name=u"创作者", to=User, related_name='creator+', on_delete=models.CASCADE)
-    file = models.FileField(verbose_name=u"物品资料文件", upload_to="resource/game/items/")
+    file = models.FileField(verbose_name=u"物品资料文件", upload_to="static/resource/game/items/")
     add_time = models.DateTimeField(verbose_name=u"创建时间", default=datetime.now)
 
 

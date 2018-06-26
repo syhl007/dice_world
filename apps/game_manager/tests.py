@@ -141,15 +141,14 @@ class CharacterViewTest(TestCase):
         self.client.login(username='test', password='123456')
         response = self.client.get(reverse('character:character_list'))
         self.assertContains(response, 'No character are available.')
-        response = self.client.get(reverse('character:character_list'))
-        self.assertIs(response.status_code == 200, True)
-        print(len(response.context['character_list']))
         with open('文件上传测试.txt', 'r') as f:
             self.client.post(reverse("character:character_create"),
                              {'name': 'test1', 'sex': 0, 'head': None, 'detail': f})
-        print(response.context['character_list'])
-        print(response.content)
+        response = self.client.get(reverse('character:character_list'))
+        self.assertIs(response.status_code == 200, True)
         self.assertIs(len(response.context['character_list']) == Character.objects.all().count(), True)
+
+
 
 
 # class CeleryTest(TestCase):
