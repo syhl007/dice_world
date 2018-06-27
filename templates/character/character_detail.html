@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <div>
+        <img src=/{{ character.head }}>
+    </div>
+    <div>
+        <ul>
+            {% if character_info.status %}
+                {{ character_info.status }}<br>
+            {% endif %}
+            <h4>{{ character_info.name }}</h4>
+            <p>{{ character_info.sex }}<br></p>
+            <HR>
+            {{ character_info.appearance }}
+            <HR>
+            {{ character_info.background }}
+            <HR>
+        </ul>
+
+        {% for k,v in character_info.items %}
+            {% if k != 'id' and k != 'name' and k != 'sex' and k != 'appearance' and k != 'background' and k != 'status' %}
+                <ul>
+                    {{ k }}: {{ v }}
+                    <HR>
+                </ul>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+</body>
+</html>

@@ -6,7 +6,8 @@
 </head>
 <body>
 <form id="create_room" action="{% url 'room:room_create' %}" method="post">
-    房间名：<input type="text" name="name"><br>
+    <p>房间名：<input type="text" name="name"></p>
+    <p><textarea rows="4" cols="50" name="background" form="create_room" maxlength="256" placeholder="背景描述(127字以内)"></textarea></p>
     <input type="checkbox" name="sidelines_allowed" onclick="sidelines_opi()">允许旁观<br>
     <div class="sidelines_opi" style="display:none">
         <input type="checkbox" name="sidelines_sendmsg">旁观者禁言<br>

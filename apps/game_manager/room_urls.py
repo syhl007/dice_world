@@ -12,5 +12,6 @@ urlpatterns = [
     # path('drop/', None, name='drop'),
     path('<uuid:pk>/', login_required(views.RoomDetail.as_view()), name='room_detail'),
     path('<uuid:room_id>/chat/', login_required(views.RoomChat.as_view()), name='room_chat'),
+path('<uuid:room_id>/chat/save/', login_required(views.SaveRoomChat.as_view()), name='room_chat'),
     path('<uuid:pk>/list_character/', login_required(views.ListCharacter.as_view()), name='list_character'),
 ]

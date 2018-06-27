@@ -36,7 +36,9 @@
                                 var url = '/room/' + room_id + '/';
                                 $("input.exit_room").attr('value', "退出房间");
                                 $("span.title").text("房间详情");
-                                $("#main_window").load(url)
+                                $("#main_window").load(url, function () {
+                                    $("form.room_post_msg").attr("action", "/room/" + id + "/chat/");
+                                });
                             }
                         }
                     })

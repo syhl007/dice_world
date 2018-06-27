@@ -1328,3 +1328,29 @@ def get(self, request, *args, **kwargs):
  2. from xml import dom
  3. from xml.etree import ElementTree as ET # 推荐
 
+---
+
+##2018.06.27
+
+* 修改了部分model的数据结构，以完成后面的功能
+* 通过xml.etree.ElementTree读取角色详细信息xml并显示
+* 新增保存聊天记录的接口
+
+知识点：
+
+* CreateView的`get`函数中，没有返回`model`的`from`对象，前端表单生成需要手动或改写`get`函数
+* 前端对于dict类型数据，可以使用`for k,v in dict.items`来获取k-v
+* `open('path_str', 'a')`
+    * r——默认，只读，文件开头
+    * r+——读写，文件开头，覆盖
+    * w——写入，文件开头，覆盖，新建
+    * w+——读写，文件开头，覆盖，新建
+    * a——只读，文件末尾，附加，新建
+    * a+——读写，文件末尾，附加，新建
+* html前端，`herf`标签
+    * 新窗口打开：添加属性`target="_blank"`
+* html前端，`textarea`标签
+    * 附加到`form`中：添加属性`form="form_id"`
+    * 提示性背景描述文字：添加属性`placeholder="description_text"`
+
+---

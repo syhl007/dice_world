@@ -120,6 +120,7 @@ class Room(models.Model):
     name = models.CharField(verbose_name=u"房间名", max_length=64, default=time.time)
     gm = models.ForeignKey(verbose_name=u"GM", to=User, related_name="gm", on_delete=models.CASCADE)
     state = models.SmallIntegerField(verbose_name=u"房间状态", default=0)
+    background = models.CharField(verbose_name=u"游戏背景描述", max_length=256, null=True)
     tag = JSONField(verbose_name=u"标签", null=True, blank=True)
     add_time = models.DateTimeField(verbose_name=u"创建时间", default=datetime.now)
 
@@ -157,6 +158,7 @@ class Character(models.Model):
     add_time = models.DateTimeField(verbose_name=u"创建时间", default=datetime.now)
     editor = models.ForeignKey(verbose_name=u"修改者", to=User, related_name='editor', on_delete=models.CASCADE)
     update_time = models.DateTimeField(verbose_name=u"更新时间", auto_now=True)
+    private = models.BooleanField(verbose_name=u"私人角色", default=True)
 
     def __str__(self):
         return self.name
@@ -222,6 +224,7 @@ class Item(models.Model):
 
 class GameTxt(models.Model):
     id = models.UUIDField(verbose_name="UUID", max_length=64, primary_key=True, default=create_uuid)
+    room_id = models.CharField(verbose_name=u"游戏房间", max_length=64, unique=True)
     user = models.ForeignKey(verbose_name=u"上传者", to=User, related_name="user+", on_delete=models.CASCADE)
     file = models.FileField(verbose_name=u"游戏记录文件")
     add_time = models.DateTimeField(verbose_name=u"创建时间", default=datetime.now)

@@ -9,6 +9,7 @@ from django import forms
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render
 from django.views import generic
 
 from dice_world.settings import BASE_DIR
@@ -41,7 +42,7 @@ class ListRoom(generic.ListView):
 
 class CreateRoom(generic.CreateView):
     model = Room  # 生成的模型对象类、不设置这个的话就会去检测self.object和self.queryset来确定
-    fields = ['name', ]  # 需要获取的字段，必须
+    fields = ['name', 'background', ]  # 需要获取的字段，必须
     template_name = 'room/create_room.html'  # 当request以GET请求时返回的页面
 
     def form_valid(self, form):
@@ -65,7 +66,7 @@ class CreateRoom(generic.CreateView):
             txt_path = os.path.join(dir_path, "[" + room.id.hex + "-" + room.name + "]" + str(time.time()) + ".txt")
             with open(txt_path, 'w') as txt:
                 pass
-            GameTxt.objects.create(user=room.gm, file=txt_path)
+            GameTxt.objects.create(room_id=str(room.id), user=room.gm, file=txt_path)
             txt_board_storeroom[room.id] = GameTxtPhantom()
             return JsonResponse(0, data={'room_id': str(room.id)})
 
@@ -85,6 +86,7 @@ class ListCharacter(generic.ListView):
     template_name = 'character/character_list.html'
 
     def get(self, request, *args, **kwargs):
+        self.object_list = Character.objects.filter(creator=request.user)
         obj = super(ListCharacter, self).get(request, *args, **kwargs)
         return obj
 
@@ -164,9 +166,38 @@ class RoomChat(generic.View):
         return JsonResponse(state=0)
 
 
+class SaveRoomChat(generic.View):
+
+    def get(self, request, *args, **kwargs):
+        return JsonResponse(state=2, msg="不接收get请求")
+
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        room_id = kwargs['room_id']
+        room = Room.objects.get(id=room_id)
+        if room.gm != user:
+            return JsonResponse(state=1, msg='不具有权限')
+        game_txt_phantom = txt_board_storeroom.get(room_id)
+        if game_txt_phantom:
+            txt_list = [str(txt) for txt in game_txt_phantom.get_by_state('game')]
+            if txt_list:
+                game_txt = GameTxt.objects.filter(user=request.user).get(room_id=room_id)
+                with open(game_txt.file.path, 'a') as f:
+                    for t in txt_list:
+                        f.write(t)
+                        f.write('\n')
+                    f.write('\n-------------------------\n存盘时间：'+str(datetime.now())+'\n-------------------------\n')
+                txt_board_storeroom.pop(room_id)
+                return JsonResponse(state=0)
+            else:
+                return JsonResponse(state=1, msg="没有消息记录")
+        else:
+            return JsonResponse(state=1, msg="没有消息记录")
+
+
 class CreateCharacter(generic.CreateView):
     model = Character
-    fields = ['name', 'sex', 'head', 'detail']
+    fields = ['name', 'sex', 'head', 'detail', 'private']
     template_name = 'character/character_create.html'
 
     def get(self, request, *args, **kwargs):
@@ -204,17 +235,11 @@ class CharacterDetail(generic.View):
         if r.tag != 'character':
             return JsonResponse(state=1, msg='文件不符合模板错误')
         for i in r:
-            print(i.tag)
-            if i.tag == 'other':
-                for o in i:
-                    text = o.text.replace(o.tail, '')
-                    text = text.replace('\t', '')
-                    character_info["other_" + o.tag] = text
-            else:
-                text = i.text.replace(i.tail, '')
-                text = text.replace('\t', '')
-                character_info[i.tag] = text
-        return JsonResponse(state=0, data=json.dumps(character_info))
+            text = i.text.replace(i.tail, '')
+            text = text.replace('\t', '')
+            character_info[i.tag] = text
+        return render(request, 'character/character_detail.html',
+                      context={'character': character, 'character_info': character_info})
 
 
 class CreateTask(generic.CreateView):
