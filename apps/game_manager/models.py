@@ -120,7 +120,7 @@ class Room(models.Model):
     name = models.CharField(verbose_name=u"房间名", max_length=64, default=time.time)
     gm = models.ForeignKey(verbose_name=u"GM", to=User, related_name="gm", on_delete=models.CASCADE)
     state = models.SmallIntegerField(verbose_name=u"房间状态", default=0)
-    background = models.CharField(verbose_name=u"游戏背景描述", max_length=256, null=True)
+    background = models.CharField(verbose_name=u"游戏背景描述", max_length=256, null=True, blank=True)
     tag = JSONField(verbose_name=u"标签", null=True, blank=True)
     add_time = models.DateTimeField(verbose_name=u"创建时间", default=datetime.now)
 
@@ -185,6 +185,7 @@ class GroupMember(models.Model):
     class Meta:
         verbose_name = u"团队信息"
         verbose_name_plural = verbose_name
+        unique_together = ('user', 'group',)
 
 
 class Area(models.Model):

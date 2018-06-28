@@ -1,0 +1,37 @@
+
+<head>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/character/character_style.css' %}"/>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/static/js/jquery-3.3.1.js" type="text/javascript"></script>
+    <script>
+       function list_charater_from_group(button) {
+           var group_id = $(button).attr('group_id');
+           if (group_id != null)
+               window.open('{%  url 'character:character_list'  %}'+group_id+"/")
+       }
+    </script>
+</head>
+<body>
+{% if groupmember_list %}
+    <ul>
+        {% for groupmember in groupmember_list %}
+            {% if groupmember.character %}
+                <li>
+                    <img class="character_head" src=/{{ groupmember.character.head.name }}>
+                    {{ groupmember.user.username }} 扮演
+                    <a href="{%  url 'character:character_detail' groupmember.character.id %}" target="_blank">{{ groupmember.character.name }}</a>
+                </li>
+            {% else %}
+                <li>
+                    {{ groupmember.user.username }}
+                    <button group_id={{ groupmember.group.id }} onclick="list_charater_from_group(this)">关联角色</button>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No group member are available.</p>
+{% endif %}
+</body>

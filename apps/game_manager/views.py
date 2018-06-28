@@ -8,6 +8,7 @@ from xml.etree import ElementTree as ET
 from django import forms
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
+from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.views import generic
@@ -29,12 +30,12 @@ class ListRoom(generic.ListView):
         return super(ListRoom, self).get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        filter = request.POST['filter']
+        filter = request.POST.get('filter')
         print("[filter]", filter)
         if filter is not None:
             filter = json.loads(filter)
             print("[filter_loads]", filter)
-        self.object_list = Room.objects.filter(**filter)
+        self.queryset = Room.objects.filter(**filter)
         context = self.get_context_data()
         response = self.render_to_response(context)
         return response
@@ -86,14 +87,33 @@ class ListCharacter(generic.ListView):
     template_name = 'character/character_list.html'
 
     def get(self, request, *args, **kwargs):
-        self.object_list = Character.objects.filter(creator=request.user)
-        obj = super(ListCharacter, self).get(request, *args, **kwargs)
-        return obj
+        self.queryset = Character.objects.filter(Q(creator=request.user) | Q(private=False))
+        self.object_list = self.get_queryset()
+        context = self.get_context_data()
+        if kwargs.get('group_id'):
+            context['group_id'] = kwargs['group_id']
+        return self.render_to_response(context)
+
+
+class LinkCharacter(generic.View):
+
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        group = Group.objects.get(id=request.POST.get('group_id'))
+        character = Character.objects.get(id=request.POST.get('character_id'))
+        GroupMember.objects.filter(group=group).filter(user=user).update(character=character)
+        return JsonResponse(state=0)
 
 
 class ListGroupCharacter(generic.ListView):
     queryset = GroupMember
-    template_name = 'character/character_list.html'
+    template_name = 'room/player_character_list.html'
+
+    def get(self, request, *args, **kwargs):
+        group = Group.objects.filter(room__id=kwargs["room_id"]).get(type=1)
+        self.queryset = GroupMember.objects.filter(group=group)
+        obj =  super(ListGroupCharacter, self).get(request, *args, **kwargs)
+        return obj
 
 
 class RoomChat(generic.View):
@@ -186,7 +206,8 @@ class SaveRoomChat(generic.View):
                     for t in txt_list:
                         f.write(t)
                         f.write('\n')
-                    f.write('\n-------------------------\n存盘时间：'+str(datetime.now())+'\n-------------------------\n')
+                    f.write(
+                        '\n-------------------------\n存盘时间：' + str(datetime.now()) + '\n-------------------------\n')
                 txt_board_storeroom.pop(room_id)
                 return JsonResponse(state=0)
             else:

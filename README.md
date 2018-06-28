@@ -1318,7 +1318,7 @@ def get(self, request, *args, **kwargs):
 原因就在于，js和css的引用，是通过`{% static 'path' %}`来实现的，其中，`static`关键字将读取`setting.py`中`STATIC_URL`的配置值，然后拼接path，生成访问路径。而Django在遇到`STATIC_URL`开头的请求时也会跳过验证而直接去返回静态文件资源。
 看上去似乎图片显示也应该如此解决。但是有个问题是，这个图片是用户上传的角色头像，通过`ImageField`中的`upload_to`属性存放到默认目录中，由于`upload_to`的根目录为工程目录，所以需要从`static/`开始写。那么在前端获取用户头像文件路径时，若通过`{% static path %}`的方式，则会多出一个`static/`，则需要修改前端对图片路径的获取。又已知，在前端`{{ character.head }}`返回的就是以工程目录为根目录的头像文件相对路径，那么可以通过以下代码获取头像图片路径：（注意，需要在前面加上'/'声明改请求也是由根路径发出，而不是附加到当前请求url之后）
 ```html
-<img src=/{{charater.head}}>
+<img src=/{{charater.head.name}}>
 ```
 
 然后就是python处理xml
@@ -1354,3 +1354,9 @@ def get(self, request, *args, **kwargs):
     * 提示性背景描述文字：添加属性`placeholder="description_text"`
 
 ---
+
+##2018.06.28
+
+* html前端，dom元素在添加事件时，可以传入this参数表示自身，在js事件处理中，可以通过$(this)来获取元素对象（需要jQuery），从而提取元素属性。
+* Django表单的vaild验证，如果允许为空的属性，需要再加上`blank=True`，这是因为前端表单在提交时，如果对应字段数据为null，会上传一个0长度的`str`，导致验证失败（因为这时字段不为null，而为blank）
+
