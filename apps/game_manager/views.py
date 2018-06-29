@@ -17,7 +17,7 @@ from dice_world.settings import BASE_DIR
 from dice_world.standard import JsonResponse, txt_board_storeroom
 from dice_world.utils import WordFilter, DiceFilter
 from game_manager.models import Character, Room, Group, GroupMember, GameTxt, GameTxtPhantom, CharacterTxt, Task, \
-    TaskRecord
+    TaskRecord, Item
 from user_manager.models import User
 
 
@@ -45,6 +45,10 @@ class CreateRoom(generic.CreateView):
     model = Room  # 生成的模型对象类、不设置这个的话就会去检测self.object和self.queryset来确定
     fields = ['name', 'background', ]  # 需要获取的字段，必须
     template_name = 'room/create_room.html'  # 当request以GET请求时返回的页面
+
+    def get(self, request, *args, **kwargs):
+        obj = super().get(request,*args,**kwargs)
+        return obj
 
     def form_valid(self, form):
         with transaction.atomic():
@@ -265,7 +269,7 @@ class CharacterDetail(generic.View):
 
 class CreateTask(generic.CreateView):
     model = Task
-    fields = ['name', 'init_file']
+    fields = ['name', 'init_file', 'private']
     template_name = 'game/task_create.html'
 
     def form_valid(self, form):
@@ -294,3 +298,9 @@ class StartTask(generic.CreateView):
             f.write(start)
         form.instance.file = path
         form.save()
+
+
+class CreateItem(generic.CreateView):
+    model = Item
+    fields = ['name', 'file', 'private']
+    template_name = 'game/item_create.html'

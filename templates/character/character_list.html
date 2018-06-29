@@ -12,7 +12,13 @@
                 type: 'post',
                 data: {'character_id':character_id,'group_id':'{{ group_id }}','csrfmiddlewaretoken':'{{ csrf_token }}'},
                 async: true,
-
+                success: function (data) {
+                    var obj = JSON.parse(data);
+                    if(obj.state==0){
+                        alert("关联成功");
+                        window.history.back(-1);
+                    }
+                }
             })
         }
     </script>

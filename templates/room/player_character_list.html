@@ -9,7 +9,7 @@
        function list_charater_from_group(button) {
            var group_id = $(button).attr('group_id');
            if (group_id != null)
-               window.open('{%  url 'character:character_list'  %}'+group_id+"/")
+               self.location='{%  url 'character:character_list'  %}'+group_id+"/"
        }
     </script>
 </head>
@@ -20,7 +20,7 @@
             {% if groupmember.character %}
                 <li>
                     <img class="character_head" src=/{{ groupmember.character.head.name }}>
-                    {{ groupmember.user.username }} 扮演
+                    {{ groupmember.user.username }} ——
                     <a href="{%  url 'character:character_detail' groupmember.character.id %}" target="_blank">{{ groupmember.character.name }}</a>
                 </li>
             {% else %}

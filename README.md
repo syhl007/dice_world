@@ -1338,7 +1338,7 @@ def get(self, request, *args, **kwargs):
 
 知识点：
 
-* CreateView的`get`函数中，没有返回`model`的`from`对象，前端表单生成需要手动或改写`get`函数
+* CreateView的`get`函数中，是有返回`form`对象的，对象内容与已选的fields一致。
 * 前端对于dict类型数据，可以使用`for k,v in dict.items`来获取k-v
 * `open('path_str', 'a')`
     * r——默认，只读，文件开头
@@ -1359,4 +1359,45 @@ def get(self, request, *args, **kwargs):
 
 * html前端，dom元素在添加事件时，可以传入this参数表示自身，在js事件处理中，可以通过$(this)来获取元素对象（需要jQuery），从而提取元素属性。
 * Django表单的vaild验证，如果允许为空的属性，需要再加上`blank=True`，这是因为前端表单在提交时，如果对应字段数据为null，会上传一个0长度的`str`，导致验证失败（因为这时字段不为null，而为blank）
+* $.ajax()的post请求，由于Django的跨域验证，需要加入`csrfmiddlewaretoken`属性，取值为`{{ csrf_token }}`
 
+---
+
+##2018.06.29
+
+进过这么久的对协程的学习，最后发现，果然用协程来做文件异步IO太麻烦了。
+不过还是总结一下感觉需要记住的知识点吧。
+
+首先，协程，好理解的说，就是可以中断和从中断点返回继续执行的子程序。
+那么：
+
+ 1. 协程中可以中断、也可以从中断处返回继续执行。也就是说，协程能够保存上一次调用离开时的状态，也可以在中断处返回或接受数据。
+ 2. 协程本质上是一个子程序，所以不管多少个协程都是运行在同一个线程下面。
+ 
+那么，协程的优点和利用场景在于：
+ 1. 单线程执行，在协程切换的时候不用考虑锁与同步的开销，也不需要切换上下文。
+ 2. 让单线程实现并发（注意不是并行，并行是同时刻处理多事件，并发是同时段响应多事件）
+ 3. 因为是单线程，任意协程的blocking都会导致整个线程blocking，所以协程需要通过异步+回调的事件循环机制来实现。
+ 4. 让单线程具有并发能力，对于python，可以通过多进程+协程来突破GIL对python的单核cpu限制
+ 5. 大多耗时操作为IO操作，所以都用在具有异步IO工具支持的IO处理部分，比如web。
+ 
+python中的协程底层是由Future类作为信息传递工具的，也就是说，yield和yield from（和后面的await）处理的都是Future类对象([参考资料](https://blog.csdn.net/xinkexueguanli/article/details/52552123))。文章内容简单说，就是：
+
+* 生成器的底层实现
+* 关于Task、Future的作用（在asyncio中已封装）：
+    * 首先，生成一个Task类对象，用于初始化协程事件，协程事件中包含一个Future类对象。
+    * 在初始化时，Task调用协程事件的send(None)开启协程的第一次循环，协程事件执行到耗时操作时，通过异步处理工具挂起并将自身的Future类对象的回调注册到事件循环中，并yield自身的Future类对象。（__正是因为现在没什么业界统一好用的文件异步IO工具，导致协程读写文件很麻烦__）
+    * Task获取到协程事件返回Future类对象，在其回调函数中注册下一步调用协程`send()`的`step()`函数。
+    * 当事件循环发现异步处理已完成，调用Future回调函数，列表执行注册到Future类对象中的回调函数，最后便会调用在上一步注册的`step()`函数，让Task中的协程事件从yield处继续执行，完成协程处理。
+
+所以，可以看见，网上python协程基本都是在用`asyncio.sleep()`来做异步IO模拟，因为这是最简单的异步工具，不然就是`asyncio`中实现的`aiohttp`，大多是一些爬虫例子，对于协程文件异步io没啥帮助。虽然github上有个`aiofiles`工程，但是似乎实际效率并不高。
+
+如前文言，协程循环运作的实现是由于Future类的信息传递，所以python在3.5中规范了协程，通过async来定义协程（称为‘自然协程’- native coroutine），通过await来返回一个Future对象（当然，实际上是一个awaitable对象，而协程对象继承于awaitable，协程对象执行时又会被自动封装成Future对象）。现在看来主要目的就是砍掉腿，让用户不去自己实现awaitable对象，而是调用现成的异步IO工具，需要说明的是，不管什么异步工具，最终能返回事件循环的，都是基于yield生成器产出的，await只不过是传递协程信息而已。（|[Python 3.5 协程究竟是个啥](http://python.jobbole.com/86481/)|——|[论坛讨论](https://www.v2ex.com/t/369299)|）
+
+网上也有人表示“怎么都是`asyncio.sleep()`”，然后尝试了一个新的事件循环函数`run_in_executor`,[网页在此](https://blog.csdn.net/j_object/article/details/79626229)。
+我按照他的代码测试了一下，发现果然有同步的效果（明明使用的是blocking的`time.sleep`啊。。。），不过秉着学习的态度，我加上了`print(threading.currentThread())`来查看每个任务线程号。然后果然发现，其实他们运行的并不在同一线程下，这完全就是多线程带来的并发而已，并不是协程。针对这个函数，[网上有解释到](https://segmentfault.com/q/1010000007863971)：1、用线程池执行给定函数，与 asyncio 毫无关系；2、给线程池执行结果增加一个回调，该回调会在 event loop 的下一次循环中保存执行结果。[api](https://docs.python.org/3/library/asyncio-eventloop.html?highlight=run_in_executor#asyncio.AbstractEventLoop.run_in_executor)上说：三个参数，第一个是线程池，第二个是需要执行的函数，后面的是函数的参数列表。
+所以果然实现自己的异步很难啊。。。
+
+不过也不是没有尝试的就是了，比如`aiofiles`，这个需要涉及到操作系统的支持了，比如上面的那个Task、Future演示例子，用的就是`selector`来做的异步。
+
+总的来说，虽然没有实现我想的效果，但是，也算学习知识了。

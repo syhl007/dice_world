@@ -194,6 +194,7 @@ class Area(models.Model):
     creator = models.ForeignKey(verbose_name=u"创作者", to=User, related_name='creator+', on_delete=models.CASCADE)
     description = models.TextField(verbose_name=u"描述")
     map = models.ImageField(verbose_name=u"地图", upload_to="static/resource/game/maps/", null=True)
+    private = models.BooleanField(verbose_name=u"是否公开", default=False)
     add_time = models.DateTimeField(verbose_name=u"创建时间", default=datetime.now)
 
 
@@ -202,6 +203,7 @@ class Task(models.Model):
     name = models.CharField(verbose_name=u"任务模组名", max_length=127)
     creator = models.ForeignKey(verbose_name=u"创作者", to=User, related_name='creator+', on_delete=models.CASCADE)
     init_file = models.FileField(verbose_name=u"任务模组文件", upload_to="static/resource/game/tasks/")
+    private = models.BooleanField(verbose_name=u"是否公开", default=False)
     add_time = models.DateTimeField(verbose_name=u"创建时间", default=datetime.now)
 
 
@@ -220,6 +222,7 @@ class Item(models.Model):
     name = models.CharField(verbose_name=u"物品名称", max_length=127)
     creator = models.ForeignKey(verbose_name=u"创作者", to=User, related_name='creator+', on_delete=models.CASCADE)
     file = models.FileField(verbose_name=u"物品资料文件", upload_to="static/resource/game/items/")
+    private = models.BooleanField(verbose_name=u"是否公开", default=False)
     add_time = models.DateTimeField(verbose_name=u"创建时间", default=datetime.now)
 
 
