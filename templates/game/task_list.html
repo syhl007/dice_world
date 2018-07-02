@@ -1,0 +1,21 @@
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table class="table table-border table-bg">
+    {% if task_list %}
+        <tbody>
+        {% for task in task_list %}
+            <tr>
+                <td> {{ task.name }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    {% else %}
+        <div>No room are available.</div>
+    {% endif %}
+</table>
+</body>
+
+

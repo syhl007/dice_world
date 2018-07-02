@@ -304,3 +304,9 @@ class CreateItem(generic.CreateView):
     model = Item
     fields = ['name', 'file', 'private']
     template_name = 'game/item_create.html'
+
+
+class ListItem(generic.ListView):
+    model = Item
+    template_name = 'game/item_list.html'
+

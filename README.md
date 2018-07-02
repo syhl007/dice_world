@@ -1401,3 +1401,21 @@ python中的协程底层是由Future类作为信息传递工具的，也就是�
 不过也不是没有尝试的就是了，比如`aiofiles`，这个需要涉及到操作系统的支持了，比如上面的那个Task、Future演示例子，用的就是`selector`来做的异步。
 
 总的来说，虽然没有实现我想的效果，但是，也算学习知识了。
+
+---
+
+##2018.07.02
+
+~~今天真忙。。。雨好大啊。。。~~
+
+
+考虑到“私聊”的存在，决定还是要加入websocket，[参考文章](https://www.cnblogs.com/huguodong/p/6611602.html)。
+记得上一个工程也是这么配置的，这次在配置过程中却报了一个setting中没有‘MIDDLEWARE_CLASSES’的异常，查看之前工程代码，没有发现相关配置；查看pip版本，两个的dwebsocket版本一致。
+那么就有两个可能：
+1.因为现在使用的是Django2，而以前的是Django1.11，setting中不在默认有‘MIDDLEWARE_CLASSES’。
+2.因为之前的代码中间层加上了rest_framework，关于‘MIDDLEWARE_CLASSES’的配置在rest_framework中配置了。
+
+在Django1.9版本之后，`MIDDLEWARE`就取代了`MIDDLEWARE_CLASSES`配置，但是在后续1.x版本中，多处配置中依然提到了`MIDDLEWARE_CLASSES`并警告如果配置了`MIDDLEWARE`，`MIDDLEWARE_CLASSES`的配置会失去作用。
+
+另外，在以前工程中，使用了`crispy_forms`，里面具有一个`test_setting.py`文件中配置`MIDDLEWARE_CLASSES`，里面配置内容与debug到dwebsocket时`setting`内容一致，然而我注销了他在app中的配置，依然没有差别。
+另外发现了在`global_setting.py`中，设置了`MIDDLEWARE_CLASSES`。但是debug依然没有断点到。很神奇。

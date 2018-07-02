@@ -6,6 +6,23 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script>
+        $(document).ready(function () {
+           if (window.s) {
+                window.s.close()
+            }
+            /*创建socket连接*/
+            var socket = new WebSocket("ws://" + window.location.host + "/ws/private_chat/");
+            socket.onopen = function () {
+                console.log('WebSocket open');//成功连接上Websocket
+            };
+            socket.onmessage = function (e) {
+                console.log('message: ' + e.data);//打印出服务端返回过来的数据
+                $('#messagecontainer').prepend('<p>' + e.data + '</p>');
+            };
+            // Call onopen directly if socket is already open
+            if (socket.readyState == WebSocket.OPEN) socket.onopen();
+            window.s = socket;
+        });
         var room_chat_form = $("form.room_post_msg");
 
         var room_chat_state = 'game';
@@ -31,6 +48,7 @@
         var game_chat_time_line = new Array(1);
         var other_chat_time_line = new Array(1);
         var time_line = game_chat_time_line;
+
         function refresh_txt_board(url) {
             $.ajax({
                 url: url,
@@ -41,8 +59,8 @@
                     if (data.state == 0) {
                         var txt = JSON.parse(data.data);
                         time_line[0] = txt.time_line;
-                        for(var i=0; i<txt.list.length; i++) {
-                            room_txt.push(txt.list[i]+"<br>");
+                        for (var i = 0; i < txt.list.length; i++) {
+                            room_txt.push(txt.list[i] + "<br>");
                         }
                         $("div.room_text_board").html(room_txt);
                         $("div.room_text_board").scrollTop(99999);

@@ -59,6 +59,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# dwebsocket需求
+MIDDLEWARE_CLASSES = []
+
 ROOT_URLCONF = 'dice_world.urls'
 
 TEMPLATES = [

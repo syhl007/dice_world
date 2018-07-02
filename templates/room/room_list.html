@@ -14,22 +14,23 @@
     </tr>
     </thead>
     {% if room_list %}
-    <tbody>
-    {% for room in room_list %}
-    <tr>
-        <td> {{ room.num }}</td>
-        <!--<td><a href="{% url 'room:room_detail' room.id %}"> 【{{ room.name }}】 </a></td>-->
-        <td> 【{{ room.name }}】</td>
-        <td> {{ room.gm.username }}</td>
-        <td> {{ room.add_time }}</td>
-        <td>
-            <button class="btn btn-primary join_room" onclick="join_room(this.id)" id="{{ room.id }}">加入房间</button>
-        </td>
-    </tr>
-    {% endfor %}
-    </tbody>
+        <tbody>
+        {% for room in room_list %}
+            <tr>
+                <td> {{ room.num }}</td>
+                <!--<td><a href="{% url 'room:room_detail' room.id %}"> 【{{ room.name }}】 </a></td>-->
+                <td> 【{{ room.name }}】</td>
+                <td> {{ room.gm.username }}</td>
+                <td> {{ room.add_time }}</td>
+                <td>
+                    <button class="btn btn-primary join_room" onclick="join_room(this.id)" id="{{ room.id }}">加入房间
+                    </button>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
     {% else %}
-    <div>No room are available.</div>
+        <div>No room are available.</div>
     {% endif %}
 </table>
 </body>
