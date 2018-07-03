@@ -116,8 +116,10 @@ class ListGroupCharacter(generic.ListView):
     def get(self, request, *args, **kwargs):
         group = Group.objects.filter(room__id=kwargs["room_id"]).get(type=1)
         self.queryset = GroupMember.objects.filter(group=group)
-        obj =  super(ListGroupCharacter, self).get(request, *args, **kwargs)
-        return obj
+        self.object_list = self.get_queryset()
+        context = self.get_context_data()
+        context['room_id'] = kwargs['room_id']
+        return self.render_to_response(context)
 
 
 class RoomChat(generic.View):

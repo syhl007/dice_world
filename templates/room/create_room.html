@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script>
+        function sidelines_opi() {
+            $("div.sidelines_opi").toggle();
+        }
+    </script>
 </head>
 <body>
 <form id="create_room" action="{% url 'room:room_create' %}" method="post">

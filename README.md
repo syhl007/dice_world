@@ -1419,3 +1419,74 @@ python中的协程底层是由Future类作为信息传递工具的，也就是�
 
 另外，在以前工程中，使用了`crispy_forms`，里面具有一个`test_setting.py`文件中配置`MIDDLEWARE_CLASSES`，里面配置内容与debug到dwebsocket时`setting`内容一致，然而我注销了他在app中的配置，依然没有差别。
 另外发现了在`global_setting.py`中，设置了`MIDDLEWARE_CLASSES`。但是debug依然没有断点到。很神奇。
+
+---
+
+##2018.07.03
+
+要做到定点推送消息，那就需要做到服务器端能记录每个websocket对应的用户，也就是说，需要记录websocket和用户之间的对应关系，不过这就最好需要做一个单点登录的功能，不然就会造成新登录的websockct会抵消旧的记录。所以我最早的想法是用session来作为key，然后就涉及到用户操作时，向某个用户发送信息，如何通过用户去找到session，借这个机会去研究了一下django中的session机制。
+
+首先，session-cookie是分别存在服务器端和客户端的一种记录，当会话建立时，服务器端一般会产生一个针对这个会话的session（如果没有禁用session），然后在response中返回这个session的标志，比如sessionid，客户端在接收到这个response后会在之后会在cookie中记录这个数据，之后的request会附加这个数据，以便服务器端识别查找对应会话session。
+
+在Django中，原本的request是不具有session属性的，类似于user、websocket等属性，都是通过中间件层附加到request上的，可以查看官网文档的[详细setting属性配置说明](https://docs.djangoproject.com/zh-hans/2.0/ref/settings/#sessions)
+```python::setting.py
+INSTALLED_APPS = [
+    ....
+    'django.contrib.sessions',  # 数据库相关表单生成
+    ....
+]
+
+MIDDLEWARE = [
+    ....
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    ....
+]
+
+# session过期时间，默认两周（1209600s）
+# SESSION_COOKIE_AGE = 1209600 
+# session在cookie中存放用的key值名称，随意定义
+SESSION_COOKIE_NAME = 'sessionid'
+# session数据存放方式，默认随django的配置数据库，可以配置到cache中存储
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+# 如果使用了caches，这个值对应CACHES里面的key
+# SESSION_CACHE_ALIAS = 'default'
+# 序列化session数据的类
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
+```
+
+中间件`SessionMiddleware`源码如下，可以很清楚的看到处理过程：
+```python::middleware.py::SessionMiddleware
+class SessionMiddleware(MiddlewareMixin):
+    def __init__(self, get_response=None):
+        self.get_response = get_response
+        engine = import_module(settings.SESSION_ENGINE)
+        self.SessionStore = engine.SessionStore
+
+    def process_request(self, request):
+        session_key = request.COOKIES.get(settings.SESSION_COOKIE_NAME)
+        request.session = self.SessionStore(session_key)
+
+    def process_response(self, request, response):
+        ...
+```
+那么是怎么来通过session来获取user呢？
+Django的`auth`提供了方法：
+```python
+auth.get_user(request)
+```
+在这个方法中，通过以下代码获取了`user_id`:
+```python
+def _get_user_session_key(request):
+    # This value in the session is always serialized to a string, so we need
+    # to convert it back to Python whenever we access it.
+    return get_user_model()._meta.pk.to_python(request.session[SESSION_KEY])
+```
+通过`get_user_model()`获取用户类实际`model`对象，解析`request`的`session`获取主键并返回。
+
+
+参考：
+·[官方session文档](https://docs.djangoproject.com/zh-hans/2.0/topics/http/sessions/)
+·[官方setting中session相关配置说明](https://docs.djangoproject.com/zh-hans/2.0/ref/settings/#sessions)
+·[Django 是如何实现用户登录和登出机制的](https://www.cnblogs.com/xiangnan/p/5136428.html)
+
+

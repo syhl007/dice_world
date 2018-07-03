@@ -155,4 +155,3 @@ CELERY_RESULT_BACKEND = 'django-db'
 # BROKER_PASSWORD = "guest"
 # BROKER_VHOST = "/"
 
-
