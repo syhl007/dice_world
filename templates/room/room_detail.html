@@ -14,7 +14,6 @@
             var socket = new WebSocket("ws://" + window.location.host + "/ws/private_chat/");
             socket.onopen = function () {
                 console.log('WebSocket open');  //成功连接上Websocket
-                window.s.send("test");
             };
             socket.onmessage = function (e) {
                 console.log('message: ' + e.data);//打印出服务端返回过来的数据

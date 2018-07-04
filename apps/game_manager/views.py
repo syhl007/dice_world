@@ -17,7 +17,7 @@ from dice_world.settings import BASE_DIR
 from dice_world.standard import JsonResponse, txt_board_storeroom
 from dice_world.utils import WordFilter, DiceFilter
 from game_manager.models import Character, Room, Group, GroupMember, GameTxt, GameTxtPhantom, CharacterTxt, Task, \
-    TaskRecord, Item
+    TaskRecord, Item, UserLinkRoom
 from user_manager.models import User
 
 
@@ -27,7 +27,7 @@ class ListRoom(generic.ListView):
     ordering = '-add_time'
 
     def get(self, request, *args, **kwargs):
-        return super(ListRoom, self).get(request, *args, **kwargs)
+        return super().get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         filter = request.POST.get('filter')
@@ -47,7 +47,7 @@ class CreateRoom(generic.CreateView):
     template_name = 'room/create_room.html'  # 当request以GET请求时返回的页面
 
     def get(self, request, *args, **kwargs):
-        obj = super().get(request,*args,**kwargs)
+        obj = super().get(request, *args, **kwargs)
         return obj
 
     def form_valid(self, form):
@@ -84,6 +84,19 @@ class RoomDetail(generic.DetailView):
     model = Room
     template_name = 'room/room_detail.html'
 
+    def get(self, request, *args, **kwargs):
+        response = super().get(request, *args, **kwargs)
+        obj = self.object
+        UserLinkRoom.objects.create(user=request.user, room=obj)
+        return response
+
+
+class GetOnlineUserList(generic.View):
+
+    def get(self, request, *args, **kwargs):
+        room_id = kwargs['room_id']
+    pass
+
 
 class ListCharacter(generic.ListView):
     model = Character
@@ -118,7 +131,8 @@ class ListGroupCharacter(generic.ListView):
         self.queryset = GroupMember.objects.filter(group=group)
         self.object_list = self.get_queryset()
         context = self.get_context_data()
-        context['room_id'] = kwargs['room_id']
+        context['group_id'] = group.id
+        context['user_id'] = request.user.id
         return self.render_to_response(context)
 
 
@@ -311,4 +325,3 @@ class CreateItem(generic.CreateView):
 class ListItem(generic.ListView):
     model = Item
     template_name = 'game/item_list.html'
-

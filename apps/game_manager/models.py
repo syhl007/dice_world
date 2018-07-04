@@ -75,12 +75,18 @@ class GroupMember(models.Model):
     is_online = models.BooleanField(verbose_name=u"是否在线", default=False)
     tag = models.CharField(verbose_name=u"标签", max_length=127)
     add_time = models.DateTimeField(verbose_name=u"加入时间", default=datetime.now)
-    login_time = models.DateTimeField(verbose_name=u"登录时间", default=datetime.now)
 
     class Meta:
         verbose_name = u"团队信息"
         verbose_name_plural = verbose_name
         unique_together = ('user', 'group',)
+
+
+class UserLinkRoom(models.Model):
+    id = models.UUIDField(verbose_name="UUID", max_length=64, primary_key=True, default=create_uuid)
+    user = models.ForeignKey(verbose_name=u"用户", to=User, on_delete=models.CASCADE)
+    room = models.ForeignKey(verbose_name=u"房间", to=Room, on_delete=models.CASCADE)
+    login_time = models.DateTimeField(verbose_name=u"登录时间", default=datetime.now)
 
 
 class Area(models.Model):

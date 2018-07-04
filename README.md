@@ -1490,3 +1490,17 @@ def _get_user_session_key(request):
 ·[Django 是如何实现用户登录和登出机制的](https://www.cnblogs.com/xiangnan/p/5136428.html)
 
 
+---
+
+##2018.07.04
+
+在考虑如何设计用户离线状态判别。
+主要原因：
+1、用户离线方式多样，不能依靠前端的`onerror`来实现稳定判断。
+2、dwebsocket好像没有相关的钩子函数，网上关于dwebsocket的资料有点少，大多都是抄来抄去的，[git工程地址](https://github.com/duanhongyi/dwebsocket)。
+
+在debug中，发现客户端离开页面时，会发送一个`None`的message，这个发送操作由谁执行尚不清楚，不过可以通过判断服务器接收到的信息来进行用户的离线操作。
+
+突然发现一个问题，在离开页面时就引发了websocket的前后断链，那么也就是说一个用户只能在一个房间里面保持websocket长连接了，唔，好像也没什么问题就，就是没有跨房间的私聊功能了。
+
+---
