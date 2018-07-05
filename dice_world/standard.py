@@ -64,7 +64,8 @@ class JSONField(models.Field):
     '''
 
     def to_python(self, value):
-        if value is not None and isinstance(value, str):
+        value = value.strip();
+        if value and isinstance(value, str):
             try:
                 value = value.replace("'", '"')
                 return json.loads(value)

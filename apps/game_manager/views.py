@@ -7,17 +7,18 @@ from xml.etree import ElementTree as ET
 
 from django import forms
 from django.contrib.auth.decorators import login_required
-from django.db import transaction
+from django.db import transaction, connection
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
+from django.template.response import TemplateResponse
 from django.views import generic
 
 from dice_world.settings import BASE_DIR
 from dice_world.standard import JsonResponse, txt_board_storeroom
 from dice_world.utils import WordFilter, DiceFilter
 from game_manager.models import Character, Room, Group, GroupMember, GameTxt, GameTxtPhantom, CharacterTxt, Task, \
-    TaskRecord, Item, UserLinkRoom
+    TaskRecord, Item
 from user_manager.models import User
 
 
@@ -52,20 +53,22 @@ class CreateRoom(generic.CreateView):
 
     def form_valid(self, form):
         with transaction.atomic():
+            if form.data.get('password'):
+                form.instance.password = form.data.get('password')
             form.instance.gm = self.request.user
             form.save()
             room = Room.objects.get(id=form.instance.id)
-            game_players = Group()
-            game_players.room = room
-            game_players.type = 1
-            game_players.save()
+            game_players = Group.objects.create(room=room, type=0)
             GroupMember.objects.create(group=game_players, user=room.gm)
             if form.data.get('sidelines_allowed'):
                 bystanders = Group()
                 bystanders.room = room
+                bystanders.type = 1
                 if form.data.get('sidelines_sendmsg'):
                     bystanders.send_msg = False
                 bystanders.save()
+            if not form.data.get('password'):
+                Group.objects.create(room=room, type=2)
             dir_path = os.path.join(BASE_DIR, "txt/" + room.gm.username)
             os.makedirs(dir_path, exist_ok=True)
             txt_path = os.path.join(dir_path, "[" + room.id.hex + "-" + room.name + "]" + str(time.time()) + ".txt")
@@ -80,22 +83,52 @@ class CreateRoom(generic.CreateView):
     #     pass
 
 
+class JoinRoom(generic.View):
+
+    def get(self, request, *args, **kwargs):
+        room_id = kwargs['room_id']
+        room = Room.objects.get(id=room_id)
+        if room.state == -1:
+            return JsonResponse(state=1, msg="游戏已结束")
+        elif room.state == 1 and not room.sidelines:
+            return JsonResponse(state=1, msg="游戏已开始，且不允许旁观")
+        elif room.password:
+            return JsonResponse(state=2, msg="需要输入密码")
+        else:
+            return JsonResponse(state=0)
+
+    def post(self, request, *args, **kwargs):
+        room_id = kwargs['room_id']
+        room = Room.objects.get(id=room_id)
+        if room.password:
+            password = request.POST.get('password')
+            if not password or password != room.password:
+                return JsonResponse(state=1, msg="密码错误")
+            if room.state == 1 and room.sidelines:
+                group = Group.objects.get(Q(room=room) & Q(type=0))
+                GroupMember.objects.create(user=request.user, group=group)
+            elif room.state == 0:
+                group = Group.objects.get(Q(room=room) & Q(type=1))
+                GroupMember.objects.create(user=request.user, group=group)
+            else:
+                return JsonResponse(state=1, msg="加入房间失败")
+        else:
+            if room.state != -1:
+                group = Group.objects.get(Q(room=room) & Q(type=2))
+                GroupMember.objects.create(user=request.user, group=group)
+            else:
+                return JsonResponse(state=1, msg="加入房间失败")
+
+
 class RoomDetail(generic.DetailView):
     model = Room
     template_name = 'room/room_detail.html'
 
     def get(self, request, *args, **kwargs):
         response = super().get(request, *args, **kwargs)
-        obj = self.object
-        UserLinkRoom.objects.create(user=request.user, room=obj)
+        room = self.object
+        Group.objects.get(Q(users=request.user) & Q(room=room)).group.filter(user=request.user).update(is_online=True)
         return response
-
-
-class GetOnlineUserList(generic.View):
-
-    def get(self, request, *args, **kwargs):
-        room_id = kwargs['room_id']
-    pass
 
 
 class ListCharacter(generic.ListView):
@@ -122,13 +155,29 @@ class LinkCharacter(generic.View):
         return JsonResponse(state=0)
 
 
+class ListGroup(generic.View):
+    template_name = 'room/group_label.html'
+
+    def get(self, request, *args, **kwargs):
+        groups = Group.objects.filter(room__id=kwargs['room_id']).order_by('type')
+        groups_list = []
+        for g in groups:
+            groups_list.append({'id': g.id, 'type': g.type, 'send_msg': g.send_msg})
+        context = {'groups': groups_list, 'room_id': kwargs['room_id']}
+        return TemplateResponse(
+            request=request,
+            template=self.template_name,
+            context=context, )
+
+
 class ListGroupCharacter(generic.ListView):
     queryset = GroupMember
     template_name = 'room/player_character_list.html'
 
     def get(self, request, *args, **kwargs):
-        group = Group.objects.filter(room__id=kwargs["room_id"]).get(type=1)
-        self.queryset = GroupMember.objects.filter(group=group)
+        group = Group.objects.get(id=kwargs["group_id"])
+        self.queryset = GroupMember.objects.select_related('user', 'character').filter(group=group).order_by(
+            '-is_online')
         self.object_list = self.get_queryset()
         context = self.get_context_data()
         context['group_id'] = group.id
@@ -136,10 +185,23 @@ class ListGroupCharacter(generic.ListView):
         return self.render_to_response(context)
 
 
+class ManageGroup(generic.View):
+
+    def post(self, request, *args, **kwargs):
+        room = Room.objects.get(id=kwargs['room_id'])
+        if room.gm != request.user:
+            return JsonResponse(state=1, msg="权限不足")
+        operation = request.POST.get('operation')
+        if operation == 1:
+            Group.objects.filter(Q(user__id=request.POST.get('user_id')) & Q(room=room))
+            pass
+        pass
+
+
 class RoomChat(generic.View):
 
     def get(self, request, *args, **kwargs):
-        room_id = kwargs.get('room_id')
+        room_id = kwargs['room_id']
         state = request.GET.get('state')
         time_line = request.GET.get('time_line')
         if time_line:
@@ -161,7 +223,7 @@ class RoomChat(generic.View):
 
     def post(self, request, *args, **kwargs):
         user = request.user
-        room_id = kwargs.get('room_id')
+        room_id = kwargs['room_id']
         try:
             room = Room.objects.get(id=room_id)
             group = Group.objects.filter(room=room).get(users=user)

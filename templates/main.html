@@ -43,13 +43,14 @@
 
         function join_room(id) {
             var url = '/room/' + id + '/';
-            $("span.title").text("房间详情");
-            $("input.create_room").hide();
-            $("input.exit_room").show();
-            $("#nav").load("/room/"+id+"/list_character/");
             $("#main_window").load(url, function () {
                 $("form.room_post_msg").attr("action", "/room/" + id + "/chat/");
             });
+            $("span.title").text("房间详情");
+            $("input.create_room").hide();
+            $("input.exit_room").show();
+            $("div#nav_label_box").toggle();
+            $("div#nav_label_box").load("/room/" + id + "/list/group/");
         }
 
         function back_room_list() {
@@ -67,9 +68,13 @@
 </div>
 
 <div id="nav">
-    London<br>
-    Paris<br>
-    Tokyo<br>
+    <div id="nav_label_box" style="display: none">
+    </div>
+    <div id="nav_main">
+        London<br>
+        Paris<br>
+        Tokyo<br>
+    </div>
 </div>
 
 <div id="section">

@@ -53,11 +53,12 @@
             {% if groupmember.character %}
                 <li>
                     <div class="player_character_item">
-                        <img class="character_list_head" src=/{{ groupmember.character.head.name }}>
-                        <p>{{ groupmember.user.username }}</p>
+                        <img class="character_list_head{% if not groupmember.is_online %} character_off_line{% endif %}" src=/{{ groupmember.character.head.name }}>
+                        <p>{{ groupmember.user.username }}{% if not groupmember.is_online %} (离线){% endif %}</p>
                         <a href="{% url 'character:character_detail' groupmember.character.id %}"
                            target="_blank">{{ groupmember.character.name }}</a>
                         {% if user_id != groupmember.user.id %}
+                            <button user_id="{{ groupmember.user.id }}" onclick="kick_out(this)">踢出房间</button>
                             <button user_id="{{ groupmember.user.id }}" onclick="prviate_chat_form(this)">私信</button>
                             <form id="{{ groupmember.user.id }}" class="prviate_chat_form" method="post"
                                   style="display:none">

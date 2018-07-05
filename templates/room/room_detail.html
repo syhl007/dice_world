@@ -77,7 +77,7 @@
                 data: room_chat_form.serialize(),
                 complete: function () {
                     clearInterval(refresh_txt);
-                    setTimeout("refresh_txt_board(room_chat_form.attr('action'))", 0);
+                    setTimeout("refresh_txt_board(room_chat_form.attr('action'))", 1);
                     refresh_txt = setInterval("refresh_txt_board(room_chat_form.attr('action'))", 1500);
                 }
             });

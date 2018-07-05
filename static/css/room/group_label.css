@@ -1,0 +1,25 @@
+#tabs {
+    height: 60px;
+    width: 100%;
+    border: 1px solid #cbcbcb;
+    background-color: #f2f6fb;
+}
+
+.menu {
+    width: 50%;
+}
+
+.menu li.col_label {
+    display: block;
+    list-style: none;
+    float: left;
+    padding: 4px;
+    width: 50px;
+    text-align: center;
+    cursor: pointer;
+    background: #FFFFff;
+}
+
+.menu li.hover {
+    background: #f2f6fb;
+}

@@ -1504,3 +1504,19 @@ def _get_user_session_key(request):
 突然发现一个问题，在离开页面时就引发了websocket的前后断链，那么也就是说一个用户只能在一个房间里面保持websocket长连接了，唔，好像也没什么问题就，就是没有跨房间的私聊功能了。
 
 ---
+
+##2018.07.05
+
+今天主要的问题在于从新认识了一下Django中的`related_name`属性，以前这个属性我都是用在`select_related()`和`prefetch_related()`中，然后发现以前用错了。。。。。这里写明一下。（这两个函数是用于多表关联查询时整合sql语句减少sql请求次数，[参考资料](https://blog.csdn.net/cugbabybear/article/details/38460877)）
+
+* `select_related()`
+一般用于外键、一对一的情况。使用后，Django在查询时会添加JOIN语句对应的请求字段用于一次优化查询。简单的可以直接调用`select_related(fk_field_name)`，若针对特定字段可以使用`select_related(fk_field_name__field_name)`。
+由于一次查询就查询出完整数据，故后面再针对引用数据调用时，变不会再次请求数据库。
+* `prefetch_related()`
+一般是用在多对多，或者一对多（Fk）的情况。由于是多对多的关系，`prefetch_related()`不再使用JOIN语句来优化（因为这样得出的表会很长），而是分别查询每个表，然后在python中来处理他们的关系。
+这个比较复杂，所以建议看一下[参考资料](https://blog.csdn.net/cugbabybear/article/details/38362489)
+`prefetch_related()`也可以查关联的关联，`prefetch_related(fk_related_name__fk_field_name)`
+* `related_name`属性
+说回这个属性，这个属性我最早是用在`prefetch_related()`函数中，用于关联查询其他表的，然后以为两个表上都该这么做。然而不是这样。主表上，使用的就是定义时的属性命名；外联表上，使用的就是`related_name`属性。这么说有两个方面：1、在`prefetch_related()`等需要填写`field_name`的函数中，外联表可以通过`related_name`来作为参数。2、外联表对象可以直接调用`related_name`属性，获取关联集合管理器（然后再filter查找等）
+
+---

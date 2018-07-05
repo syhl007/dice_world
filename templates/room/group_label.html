@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/room/group_label.css' %}"/>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/static/js/jquery-3.3.1.js" type="text/javascript"></script>
+    <script>
+        $(document).ready(function () {
+            $('ul.menu li:first-child').addClass("hover");
+            var group_id = $('ul.menu li:first-child').attr('group_id')
+            $("div#nav_main").load("/room/" + "{{ room_id }}" + "/list/character/" + group_id);
+        });
+
+        function change_label(li) {
+
+        }
+    </script>
+</head>
+<body>
+<div id="tabs">
+    <ul class="menu">
+        {% if groups %}
+            {% for group in groups %}
+                <li class="col_label" group_id="{{ group.id }}" onclick="change_label(this)">
+                    {% if group.type == 0 %}
+                        游戏者
+                    {% elif group.type == 1 %}
+                        旁观
+                    {% elif group.type == 2 %}
+                        申请者
+                    {% endif %}
+                </li>
+            {% endfor %}
+        {% endif %}
+    </ul>
+</div>
+</body>
+</html>
