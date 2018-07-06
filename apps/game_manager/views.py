@@ -100,6 +100,14 @@ class JoinRoom(generic.View):
     def post(self, request, *args, **kwargs):
         room_id = kwargs['room_id']
         room = Room.objects.get(id=room_id)
+        try:
+            group = Group.objects.get(Q(users=request.user) & Q(room=room))
+            if group.type == 2:
+                return JsonResponse(state=2, msg="申请尚未通过")
+            else:
+                return JsonResponse(state=0)
+        except Exception as e:
+            pass
         if room.password:
             password = request.POST.get('password')
             if not password or password != room.password:
@@ -107,15 +115,18 @@ class JoinRoom(generic.View):
             if room.state == 1 and room.sidelines:
                 group = Group.objects.get(Q(room=room) & Q(type=0))
                 GroupMember.objects.create(user=request.user, group=group)
+                return JsonResponse(state=0)
             elif room.state == 0:
                 group = Group.objects.get(Q(room=room) & Q(type=1))
                 GroupMember.objects.create(user=request.user, group=group)
+                return JsonResponse(state=0)
             else:
                 return JsonResponse(state=1, msg="加入房间失败")
         else:
             if room.state != -1:
                 group = Group.objects.get(Q(room=room) & Q(type=2))
                 GroupMember.objects.create(user=request.user, group=group)
+                return JsonResponse(state=2, msg="已提交申请")
             else:
                 return JsonResponse(state=1, msg="加入房间失败")
 
@@ -161,9 +172,11 @@ class ListGroup(generic.View):
     def get(self, request, *args, **kwargs):
         groups = Group.objects.filter(room__id=kwargs['room_id']).order_by('type')
         groups_list = []
+        length = 0
         for g in groups:
             groups_list.append({'id': g.id, 'type': g.type, 'send_msg': g.send_msg})
-        context = {'groups': groups_list, 'room_id': kwargs['room_id']}
+            length += 1
+        context = {'groups': groups_list, 'group_length': length, 'room_id': kwargs['room_id']}
         return TemplateResponse(
             request=request,
             template=self.template_name,
@@ -182,6 +195,7 @@ class ListGroupCharacter(generic.ListView):
         context = self.get_context_data()
         context['group_id'] = group.id
         context['user_id'] = request.user.id
+        context['is_gm'] = (group.room.gm == request.user)
         return self.render_to_response(context)
 
 

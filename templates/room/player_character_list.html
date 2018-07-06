@@ -9,7 +9,7 @@
             $("form.prviate_chat_form").submit(function (even) {
                 even.preventDefault();
                 var form = $(this);
-                data = {
+                var data = {
                     'receiver': form.attr("id"),
                     'msg': form.children('input.chat_box')[0].value,
                     'group_id': "{{ group_id }}",
@@ -40,10 +40,14 @@
         }
 
         function prviate_chat_form(button) {
-            user_id = $(button).attr('user_id');
+            var user_id = $(button).parent().attr('user_id');
             $("form#" + user_id).toggle();
         }
 
+        function shut_up(button) {
+            var user_id = $(button).parent().attr('user_id');
+            console.log(user_id)
+        }
     </script>
 </head>
 <body>
@@ -52,23 +56,30 @@
         {% for groupmember in groupmember_list %}
             {% if groupmember.character %}
                 <li>
-                    <div class="player_character_item">
-                        <img class="character_list_head{% if not groupmember.is_online %} character_off_line{% endif %}" src=/{{ groupmember.character.head.name }}>
+                    <div class="player_character_item" user_id="{{ groupmember.user.id }}">
+                        <img class="character_list_head{% if not groupmember.is_online %} character_off_line{% endif %}"
+                             src=/{{ groupmember.character.head.name }}>
                         <p>{{ groupmember.user.username }}{% if not groupmember.is_online %} (离线){% endif %}</p>
                         <a href="{% url 'character:character_detail' groupmember.character.id %}"
                            target="_blank">{{ groupmember.character.name }}</a>
+                        {% if is_gm and groupmember.group.type != 0 and user_id != groupmember.user.id %}
+                            <button onclick="invitate_to_game(this)">拉入游戏</button>
+                        {% endif %}
                         {% if user_id != groupmember.user.id %}
-                            <button user_id="{{ groupmember.user.id }}" onclick="kick_out(this)">踢出房间</button>
-                            <button user_id="{{ groupmember.user.id }}" onclick="prviate_chat_form(this)">私信</button>
+                            <button onclick="prviate_chat_form(this)">私信</button>
+                            {% if is_gm %}
+                                <button onclick="shut_up(this)">禁言</button>
+                                <button onclick="kick_out(this)">踢出房间</button>
+                            {% endif %}
                             <form id="{{ groupmember.user.id }}" class="prviate_chat_form" method="post"
                                   style="display:none">
                                 <input class="chat_box" type="text" name="msg">
                                 <input type="submit" value="发送">
                             </form>
                         {% endif %}
+                        <HR>
                     </div>
                 </li>
-                <HR>
             {% else %}
                 <li>
                     {{ groupmember.user.username }}
@@ -77,7 +88,6 @@
                         </button>
                     {% endif %}
                 </li>
-                <HR>
             {% endif %}
         {% endfor %}
     </ul>

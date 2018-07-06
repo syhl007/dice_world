@@ -37,8 +37,8 @@ def private_chat(request, *args, **kwargs):
                             name = member.character.name
                         else:
                             name = '神秘声音'
-                        chat_message = {'sender': name, 'room': room, 'group': group, 'msg': msg}
+                        chat_message = {'sender': name, 'room': room.name, 'group': group.type, 'msg': msg}
                         ws.send(json.dumps(chat_message).encode(encoding='utf-8'))
         except Exception as e:
-            print("[socket]", e)
+            print("[websocket error]", e)
             continue

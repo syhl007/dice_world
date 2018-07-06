@@ -1520,3 +1520,19 @@ def _get_user_session_key(request):
 说回这个属性，这个属性我最早是用在`prefetch_related()`函数中，用于关联查询其他表的，然后以为两个表上都该这么做。然而不是这样。主表上，使用的就是定义时的属性命名；外联表上，使用的就是`related_name`属性。这么说有两个方面：1、在`prefetch_related()`等需要填写`field_name`的函数中，外联表可以通过`related_name`来作为参数。2、外联表对象可以直接调用`related_name`属性，获取关联集合管理器（然后再filter查找等）
 
 ---
+
+#2018.07.06
+
+~~前端真是个坑。。。。~~
+终于实现了标签水平排列的效果。。。调试了好久
+Django的模板运算：
+`{% widthratio 12 group_length 1%}` —— (12/group_length)*1 #group_length由后端传递。
+`{{value|add:10}}` —— value+10 #如果10是负数，则为减法
+其他更多的用法[参见](https://blog.csdn.net/u011181633/article/details/79337369)。
+
+---
+
+
+
+
+

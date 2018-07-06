@@ -8,33 +8,40 @@
     <script src="/static/js/jquery-3.3.1.js" type="text/javascript"></script>
     <script>
         $(document).ready(function () {
-            $('ul.menu li:first-child').addClass("hover");
-            var group_id = $('ul.menu li:first-child').attr('group_id')
+            $('div.hor_label_main div:first-child').addClass("hover");
+            var group_id = $('div.hor_label_main div:first-child').attr('group_id')
             $("div#nav_main").load("/room/" + "{{ room_id }}" + "/list/character/" + group_id);
         });
 
-        function change_label(li) {
-
+        function change_label(dom) {
+            var div = $(dom);
+            if (div.hasClass("hover")) {
+                return
+            }
+            $('div.hor_label_main div').removeClass("hover");
+            div.addClass("hover");
+            $("div#nav_main").load("/room/" + "{{ room_id }}" + "/list/character/" + div.attr('group_id'));
         }
     </script>
 </head>
 <body>
-<div id="tabs">
-    <ul class="menu">
+<div class="hor_label">
+    <div class="hor_label_main">
         {% if groups %}
             {% for group in groups %}
-                <li class="col_label" group_id="{{ group.id }}" onclick="change_label(this)">
+                <div class="col-xs-12 col-sm-{% widthratio 12 group_length 1%} hor_label_item" group_id="{{ group.id }}" onclick="change_label(this)">
                     {% if group.type == 0 %}
                         游戏者
                     {% elif group.type == 1 %}
-                        旁观
+                        旁观者
                     {% elif group.type == 2 %}
                         申请者
                     {% endif %}
-                </li>
+                </div>
             {% endfor %}
         {% endif %}
-    </ul>
+    </div>
 </div>
+<HR>
 </body>
 </html>

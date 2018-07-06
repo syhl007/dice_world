@@ -16,15 +16,29 @@
     {% if room_list %}
         <tbody>
         {% for room in room_list %}
-            <tr>
+            <tr room_id="{{ room.id }}">
                 <td> {{ room.num }}</td>
                 <!--<td><a href="{% url 'room:room_detail' room.id %}"> 【{{ room.name }}】 </a></td>-->
                 <td> 【{{ room.name }}】</td>
                 <td> {{ room.gm.username }}</td>
                 <td> {{ room.add_time }}</td>
                 <td>
-                    <button class="btn btn-primary join_room" onclick="join_room(this.id)" id="{{ room.id }}">加入房间
-                    </button>
+                    {% if room.state == -1 %}
+                        <td>已结团</td>
+                    {% elif room.state == 1 and not room.sidelines %}
+                        <td>跑团中，禁止旁观</td>
+                    {% elif room.password %}
+                        <button class="room_password_box" onclick="room_password_box(this.id)">输入密码
+                        </button>
+                        <form id="{{ groupmember.user.id }}" class="prviate_chat_form" method="post"
+                              style="display:none">
+                            <input class="chat_box" type="text" name="msg">
+                            <input type="submit" value="发送">
+                        </form>
+                    {% else %}
+                        <button class="btn btn-primary join_room" onclick="join_room(this)">加入房间
+                        </button>
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}

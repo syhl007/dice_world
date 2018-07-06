@@ -1,25 +1,18 @@
-#tabs {
-    height: 60px;
+div.hor_label {
+    height: 100%;
     width: 100%;
-    border: 1px solid #cbcbcb;
-    background-color: #f2f6fb;
 }
 
-.menu {
-    width: 50%;
+div.hor_label_main {
+    width: 100%;
 }
 
-.menu li.col_label {
-    display: block;
-    list-style: none;
-    float: left;
-    padding: 4px;
-    width: 50px;
+div.hor_label_item {
     text-align: center;
     cursor: pointer;
     background: #FFFFff;
 }
 
-.menu li.hover {
-    background: #f2f6fb;
+div.hover {
+    background: #fbfb69;
 }

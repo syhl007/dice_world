@@ -41,16 +41,36 @@
             });
         }
 
-        function join_room(id) {
-            var url = '/room/' + id + '/';
+        function apply_to_game(dom){
+            var dom_tr = $(dom).parent();
+            var room_id = dom_tr.attr('room_id');
+            var url = "/room/"+ room_id +"/apply/";
+            $.ajax({
+                url: url,
+                method: "get",
+                datatype: "json",
+                success: function (data) {
+                            var obj = JSON.parse(data);
+                            if (obj.state == 0) {
+                                join_room(room_id);
+                            }
+                            else if (obj.state == 2) {
+
+                            }
+                        }
+            })
+        }
+
+        function join_room(room_id) {
+            var url = '/room/' + room_id + '/';
             $("#main_window").load(url, function () {
-                $("form.room_post_msg").attr("action", "/room/" + id + "/chat/");
+                $("form.room_post_msg").attr("action", "/room/" + room_id + "/chat/");
             });
             $("span.title").text("房间详情");
             $("input.create_room").hide();
             $("input.exit_room").show();
             $("div#nav_label_box").toggle();
-            $("div#nav_label_box").load("/room/" + id + "/list/group/");
+            $("div#nav_label_box").load("/room/" + room_id + "/list/group/");
         }
 
         function back_room_list() {
