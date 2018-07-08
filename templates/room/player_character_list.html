@@ -44,6 +44,15 @@
             $("form#" + user_id).toggle();
         }
 
+        function kick_out(button) {
+            var user_id = $(button).parent().attr('user_id');
+            console.log(user_id)
+            $.ajax({
+                url = '././kick_out/'+user_id,
+                type = 'post'
+            });
+        }
+
         function shut_up(button) {
             var user_id = $(button).parent().attr('user_id');
             console.log(user_id)

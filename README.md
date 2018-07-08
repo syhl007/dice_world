@@ -245,7 +245,7 @@ Django中延迟加载如之前所述，核心实现在lazy函数，该函数的�
     判断返回上下文中数据列表是否与参数2相等（例子中是判断是否为空列）
     __注意__：这个判断方式很神奇的使用的是str匹配的相等判断。。也就是，显示出来的数据库列表是`['< Model: model.__str_ _ >', '...']`，大小写不同、空格不同、字符不同都会导致匹配失败，很是神奇，个人觉得不好用。。。
 
-另外，在今天的测试中，测试的都是`get`接口，前端向后端传递的数据也是固定在`urls.py`中写死了的，目前还不清楚如何灵活的传递，而至于`post`接口，由于django自带的crsf_token机制，使用postman无法测试，client却可以避开这个机制，或者说，他本身就带有了crsf验证。后续需要在这几个方向做研究：
+另外，在今天的测试中，测试的都是`get`接口，前端向后端传递的数据也是固定在`urls.py`中写死了的，目前还不清楚如何灵活的传递，而至于`post`接口，由于django自带的csrf_token机制，使用postman无法测试，client却可以避开这个机制，或者说，他本身就带有了crsf验证。后续需要在这几个方向做研究：
 * 尝试在client中添加新的数据信息，然后在TestCase中进行测试。
 * 重写基础视图，比如利用ListView实现接收post过滤信息返回过滤后的列表等自定义功能，而不影响原因的分页等功能。
 
@@ -1532,7 +1532,36 @@ Django的模板运算：
 
 ---
 
+##2018.07.08
 
+获取`input`标签的输入值：
+```JavaScript
+$("input[ name='test' ]").val()
+$(" input[ type='text' ]").attr("value")
+```
 
+jQuery获取子标签：
+```JavaScript
+    $("#test1").parent(); // 父节点
+    $("#test1").parents(); // 全部父节点
+    $("#test1").parents(".mui-content");
+    $("#test").children(); // 全部子节点
+    $("#test").children("#test1");
+    $("#test").contents(); // 返回下面的所有内容，包括节点和文本
+    $("#test").contents("#test1");
+    $("#test1").prev();  // 上一个兄弟节点
+    $("#test1").prevAll(); // 之前所有兄弟节点
+    $("#test1").next(); // 下一个兄弟节点
+    $("#test1").nextAll(); // 之后所有兄弟节点
+    $("#test1").siblings(); // 所有兄弟节点
+    $("#test1").siblings("#test2");
+    $("#test").find("#test1");
+```
 
+url规则：
+1.`/xxxx`——附加在当前根域名之后
+2.`./xxx` or `xxxx`——附加在当前url路径之后
+3.`../xx`——附加在当前路径上一级路径后（依次叠加，最底层为根域名）
+4.`//xxx`——新协议路径
 
+---

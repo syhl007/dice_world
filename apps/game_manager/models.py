@@ -143,7 +143,7 @@ class GameTxt(models.Model):
     id = models.UUIDField(verbose_name="UUID", max_length=64, primary_key=True, default=create_uuid)
     room_id = models.CharField(verbose_name=u"游戏房间", max_length=64, unique=True)
     user = models.ForeignKey(verbose_name=u"上传者", to=User, related_name="text_uploader", on_delete=models.CASCADE)
-    file = models.FileField(verbose_name=u"游戏记录文件")
+    file = models.FileField(verbose_name=u"游戏记录文件", max_length=512)
     add_time = models.DateTimeField(verbose_name=u"创建时间", default=datetime.now)
 
     class Meta:

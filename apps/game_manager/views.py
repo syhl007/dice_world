@@ -71,7 +71,7 @@ class CreateRoom(generic.CreateView):
                 Group.objects.create(room=room, type=2)
             dir_path = os.path.join(BASE_DIR, "txt/" + room.gm.username)
             os.makedirs(dir_path, exist_ok=True)
-            txt_path = os.path.join(dir_path, "[" + room.id.hex + "-" + room.name + "]" + str(time.time()) + ".txt")
+            txt_path = os.path.join(dir_path, "[" + str(int(time.time())) + "]" + room.id.hex + ".txt")
             with open(txt_path, 'w') as txt:
                 pass
             GameTxt.objects.create(room_id=str(room.id), user=room.gm, file=txt_path)
@@ -84,18 +84,6 @@ class CreateRoom(generic.CreateView):
 
 
 class JoinRoom(generic.View):
-
-    def get(self, request, *args, **kwargs):
-        room_id = kwargs['room_id']
-        room = Room.objects.get(id=room_id)
-        if room.state == -1:
-            return JsonResponse(state=1, msg="游戏已结束")
-        elif room.state == 1 and not room.sidelines:
-            return JsonResponse(state=1, msg="游戏已开始，且不允许旁观")
-        elif room.password:
-            return JsonResponse(state=2, msg="需要输入密码")
-        else:
-            return JsonResponse(state=0)
 
     def post(self, request, *args, **kwargs):
         room_id = kwargs['room_id']
@@ -111,13 +99,13 @@ class JoinRoom(generic.View):
         if room.password:
             password = request.POST.get('password')
             if not password or password != room.password:
-                return JsonResponse(state=1, msg="密码错误")
+                return JsonResponse(state=2, msg="密码错误")
             if room.state == 1 and room.sidelines:
-                group = Group.objects.get(Q(room=room) & Q(type=0))
+                group = Group.objects.get(Q(room=room) & Q(type=1))
                 GroupMember.objects.create(user=request.user, group=group)
                 return JsonResponse(state=0)
             elif room.state == 0:
-                group = Group.objects.get(Q(room=room) & Q(type=1))
+                group = Group.objects.get(Q(room=room) & Q(type=0))
                 GroupMember.objects.create(user=request.user, group=group)
                 return JsonResponse(state=0)
             else:
@@ -129,6 +117,30 @@ class JoinRoom(generic.View):
                 return JsonResponse(state=2, msg="已提交申请")
             else:
                 return JsonResponse(state=1, msg="加入房间失败")
+
+
+class KickOut(generic.View):
+
+    def post(self, request, *args, **kwargs):
+        room_id = kwargs['room_id']
+        room = Room.objects.get(id=room_id)
+        if room.gm != request.user:
+            return JsonResponse(state=2, msg="权限不足")
+        user = User.objects.get(kwargs['user_id'])
+        GroupMember.objects.filter(Q(group__room=room) & Q(user=user)).delete()
+        return JsonResponse(state=0)
+
+
+class ShutUp(generic.View):
+
+    def post(self, request, *args, **kwargs):
+        room_id = kwargs['room_id']
+        room = Room.objects.get(id=room_id)
+        if room.gm != request.user:
+            return JsonResponse(state=2, msg="权限不足")
+        user = User.objects.get(kwargs['user_id'])
+        GroupMember.objects.filter(Q(group__room=room) & Q(user=user)).update(send_msg=False)
+        return JsonResponse(state=0)
 
 
 class RoomDetail(generic.DetailView):
