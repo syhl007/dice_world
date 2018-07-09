@@ -38,7 +38,9 @@ urlpatterns = [
 
     path('room/', include('game_manager.room_urls')),
     path('game/', include('game_manager.game_urls')),
+    path('group/', include('game_manager.group_urls')),
     path('character/', include('game_manager.character_urls')),
+    path('personal/', include('game_manager.personal_urls')),
     path('user/', include('user_manager.urls')),
 
     path('ws/', include('game_manager.websocket_urls')),

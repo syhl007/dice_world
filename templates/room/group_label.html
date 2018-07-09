@@ -9,8 +9,8 @@
     <script>
         $(document).ready(function () {
             $('div.hor_label_main div:first-child').addClass("hover");
-            var group_id = $('div.hor_label_main div:first-child').attr('group_id')
-            $("div#nav_main").load("/room/" + "{{ room_id }}" + "/list/character/" + group_id);
+            var group_id = $('div.hor_label_main div:first-child').attr('group_id');
+            $("div#nav_main").load("/group/" + group_id+ "/list/character/");
         });
 
         function change_label(dom) {
@@ -20,7 +20,7 @@
             }
             $('div.hor_label_main div').removeClass("hover");
             div.addClass("hover");
-            $("div#nav_main").load("/room/" + "{{ room_id }}" + "/list/character/" + div.attr('group_id'));
+            $("div#nav_main").load("/group/" + div.attr('group_id'))+ "/list/character/";
         }
     </script>
 </head>

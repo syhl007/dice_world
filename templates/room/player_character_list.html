@@ -3,7 +3,8 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/room/player_character_list.css' %}"/>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script src="/static/js/jquery-3.3.1.js" type="text/javascript"></script>
+    <script src="{% static 'js/jquery-3.3.1.js' %}" type="text/javascript"></script>
+    <script src="{% static 'h-ui/js/H-ui.js' %}" type="text/javascript"></script>
     <script>
         $(document).ready(function () {
             $("form.prviate_chat_form").submit(function (even) {
@@ -44,18 +45,45 @@
             $("form#" + user_id).toggle();
         }
 
+        function invitate_to_game(button) {
+            var user_id = $(button).parent().attr('user_id');
+
+        }
+
         function kick_out(button) {
             var user_id = $(button).parent().attr('user_id');
-            console.log(user_id)
             $.ajax({
-                url = '././kick_out/'+user_id,
-                type = 'post'
+                url: '/group/' + '{{ group_id }}' + '/kick_out/' + user_id + "/",
+                type: 'post',
+                data: {"csrfmiddlewaretoken": '{{ csrf_token }}'},
+                dataType: 'json',
+                success: function (data) {
+                    if (data.state == 0) {
+                        $("div#nav_main").load("/group/" + '{{ csrf_token }}' + "/list/character/");
+                    }
+                    else {
+                        alert(data.msg);
+                    }
+                }
             });
         }
 
         function shut_up(button) {
             var user_id = $(button).parent().attr('user_id');
-            console.log(user_id)
+            $.ajax({
+                url: '/group/' + '{{ group_id }}' + '/shut_up/' + user_id + "/",
+                type: 'post',
+                data: {"csrfmiddlewaretoken": '{{ csrf_token }}'},
+                dataType: 'json',
+                success: function (data) {
+                    if (data.state == 0) {
+                        $("div#nav_main").load("/group/" + '{{ csrf_token }}' + "/list/character/");
+                    }
+                    else {
+                        alert(data.msg);
+                    }
+                }
+            });
         }
     </script>
 </head>

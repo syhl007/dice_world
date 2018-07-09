@@ -45,7 +45,7 @@ class ListRoom(generic.ListView):
 class CreateRoom(generic.CreateView):
     model = Room  # 生成的模型对象类、不设置这个的话就会去检测self.object和self.queryset来确定
     fields = ['name', 'background', ]  # 需要获取的字段，必须
-    template_name = 'room/create_room.html'  # 当request以GET请求时返回的页面
+    template_name = 'room/room_create.html'  # 当request以GET请求时返回的页面
 
     def get(self, request, *args, **kwargs):
         obj = super().get(request, *args, **kwargs)
@@ -119,27 +119,45 @@ class JoinRoom(generic.View):
                 return JsonResponse(state=1, msg="加入房间失败")
 
 
-class KickOut(generic.View):
+class InvitateToGame(generic.View):
 
     def post(self, request, *args, **kwargs):
         room_id = kwargs['room_id']
+        user_id = kwargs['user_id']
         room = Room.objects.get(id=room_id)
+        player = User.objects.get(id=user_id)
+        if room.gm != request.user:
+            return JsonResponse(state=2, msg='权限不足')
+        GroupMember.objects.filter(Q(group__type__ne=0) & Q(user=player)).delete()
+        group = Group.objects.get(Q(room=room) & Q(type=0))
+        try:
+            GroupMember.objects.create(group=group, user=player)
+            return JsonResponse(state=0)
+        except Exception:
+            return JsonResponse(state=2, msg='玩家已在游戏组中')
+
+
+class KickOut(generic.View):
+
+    def post(self, request, *args, **kwargs):
+        group_id = kwargs['group_id']
+        room = Room.objects.get(room__id=group_id)
         if room.gm != request.user:
             return JsonResponse(state=2, msg="权限不足")
-        user = User.objects.get(kwargs['user_id'])
-        GroupMember.objects.filter(Q(group__room=room) & Q(user=user)).delete()
+        player = User.objects.get(id=kwargs['user_id'])
+        GroupMember.objects.filter(Q(group__id=group_id) & Q(user=player)).delete()
         return JsonResponse(state=0)
 
 
 class ShutUp(generic.View):
 
     def post(self, request, *args, **kwargs):
-        room_id = kwargs['room_id']
-        room = Room.objects.get(id=room_id)
+        group_id = kwargs['group_id']
+        room = Room.objects.get(room__id=group_id)
         if room.gm != request.user:
             return JsonResponse(state=2, msg="权限不足")
-        user = User.objects.get(kwargs['user_id'])
-        GroupMember.objects.filter(Q(group__room=room) & Q(user=user)).update(send_msg=False)
+        player = User.objects.get(id=kwargs['user_id'])
+        GroupMember.objects.filter(Q(group__id=group_id) & Q(user=player)).update(send_msg=False)
         return JsonResponse(state=0)
 
 
@@ -343,7 +361,10 @@ class CreateCharacter(generic.CreateView):
                 form.instance.creator = self.request.user
                 form.instance.editor = self.request.user
             form.save()
-            return JsonResponse(0)
+            return JsonResponse(state=0)
+
+    def form_invalid(self, form):
+        return JsonResponse(state=2, msg='数据异常，请检查输入数据。')
 
 
 class CharacterDetail(generic.View):

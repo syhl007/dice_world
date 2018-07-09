@@ -1565,3 +1565,22 @@ url规则：
 4.`//xxx`——新协议路径
 
 ---
+
+##2018.07.09
+
+今天开始弄个人页面，主要就是管理创建的角色、事件、物品等等东西。
+
+* H-ui的弹窗，说实话不知道怎么弄的，似乎是用了bookstrap，总之他改写了jQuery，在其中添加了`modal`方法，需要在引入`jQuery.js`之后再引入`H-ui.js`。
+* 之前提到的`$("#test").find("#test1")`很好用，查找的是全部子节点（包括子节点的子节点）。
+* `$(selector).submit()`提交其他的表单
+* `$.ajax`若设置`dataType`为`json`则会自动尝试将结果使用JSON反序列化为对象（不用再次调用`JSON.parse(data)`）
+* Django模板的`{% url %}`函数因为是在生成模板的时候就执行得出结果了，所以无法获取js中提供的变量，解决办法是：先用某一特别常量赋值，然后在js中调用`replace`方法实现替换(然而还是好蠢，比如uuid，在`{% url %}`执行时便会验证url的合法性，导致必须传一个`00000000-0000-0000-0000-000000000000`过去，很傻。)
+* jQuery动态绑定事件（[参考](https://blog.csdn.net/xiaozhi_2016/article/details/52184328)）：
+    * `on(events [,selector]  [,eventData], handler)`——`data`可以省略，on("click",function(){}）
+    * `bind(events [,eventData], handler)`——和`on`基本一样，[差别参见](https://www.cnblogs.com/ranyonsue/p/6226222.html)。
+    * `live(events [,eventData], handler)`——唔，更绕了，其实都是调用`on`，三者差别[参见](https://www.cnblogs.com/wlingxiao/p/4566922.html)。
+    * `click(function)`——绑定onclick的简便方法
+    * `submit(function)`——绑定onsubmit的简便方法
+
+---
+
