@@ -10,4 +10,8 @@ urlpatterns = [
          name='list_character_sample'),
     path('self/list/character/', login_required(personal_view.ListCharacter.as_view()),
          name='list_character'),
+    path('self/list/item/sample/', login_required(personal_view.ListItemSample.as_view()),
+         name='list_item_sample'),
+    path('self/list/item/', login_required(personal_view.ListItem.as_view()),
+         name='list_item'),
 ]

@@ -121,6 +121,8 @@ class TaskRecord(models.Model):
 
 class Item(models.Model):
     id = models.UUIDField(verbose_name="UUID", max_length=64, primary_key=True, default=create_uuid)
+    pic = models.ImageField(verbose_name=u"物品图片", upload_to="static/resource/item/pic/",
+                             default="static/resource/item/pic/default/no_img.jpg")
     name = models.CharField(verbose_name=u"物品名称", max_length=127)
     description = models.CharField(verbose_name=u"物品描述", max_length=256, null=True, blank=True)
     creator = models.ForeignKey(verbose_name=u"创作者", to=User, related_name='item_creator', on_delete=models.CASCADE)

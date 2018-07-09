@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+<h3>已创建的物品</h3>
+    {% if item_list %}
+        {% for item in item_list %}
+            <div style="float: left">
+                <img id="{{ item.id }}" src=/{{ item.head.name }} class="img-responsive avatar size-XXXL thumbnail"
+                     alt="{{ item.name }}" onclick="item_detail(this.id)">
+                <p>{{ item.name }}</p>
+            </div>
+        {% endfor %}
+        <img src="{% static 'resource/create.jpg' %}" onclick="create_item()">
+        <img src="{% static 'resource/more.jpg' %}" onclick="personal_item_list()">
+    {% else %}
+        <img src="{% static 'resource/create.jpg' %}" onclick="create_item()">
+    {% endif %}
+</div>
+</body>
+</html>

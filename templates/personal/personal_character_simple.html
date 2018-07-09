@@ -2,81 +2,33 @@
 <html lang="en">
 <head>
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'h-ui/css/H-ui.css' %}"/>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script src="{% static 'js/jquery-3.3.1.js' %}" type="text/javascript"></script>
-    <script src="{% static 'h-ui/js/H-ui.js' %}" type="text/javascript"></script>
-    <script>
-        function character_detail(id) {
-            {#$('div#section').load('{% url 'character:character_detail' '00000000-0000-0000-0000-000000000000' %}'.replace('00000000-0000-0000-0000-000000000000', id));#}
-            self.location = '{% url 'character:character_detail' '00000000-0000-0000-0000-000000000000' %}'.replace('00000000-0000-0000-0000-000000000000', id);
-        }
-
-        function personal_character_list() {
-            {#$('div#section').load('{% url 'personal:list_character'%}');#}
-            self.location = '{% url 'personal:list_character'%}';
-        }
-
-        function create_character() {
-            $('div#create_dialog').find('h3.modal-title').text('创建新人物');
-            $('div#create_dialog').find('div.modal-body').load('{% url 'character:character_create' %}', function () {
-                $('form#create_character').submit(function (e) {
-                    e.preventDefault();
-                    console.log("test");
-                    var form = $(this);
-                    $.ajax({
-                        url: form.attr("action"),
-                        method: form.attr("method"),
-                        data: form.serialize(),
-                        dataType: "json",
-                        success: function (data) {
-                            if (data.state == 0) {
-                                $("div#create_dialog").modal("hide")
-                            }
-                            else {
-                                alert(data.msg);
-                            }
-                        }
-                    })
-                });
-            });
-            $('div#create_dialog').find('button.sure').click(function () {
-                $('form#create_character').submit()
-            });
-            $("div#create_dialog").modal("show")
-        }
-
-    </script>
 </head>
 <body>
-<div id="create_dialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content radius">
-            <div class="modal-header">
-                <h3 class="modal-title">标题</h3>
-                <a class="close" data-dismiss="modal" aria-hidden="true" href="javascript:void(0);">×</a>
-            </div>
-            <div class="modal-body">
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-primary sure">确定</button>
-                <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
-            </div>
-        </div>
-    </div>
-</div>
+<div>
 <h3>已创建的角色</h3>
-{% if character_list %}
-    {% for character in character_list %}
-        <img id="{{ character.id }}" src=/{{ character.head.name }} class="img-responsive avatar size-XXXL thumbnail"
-             alt="{{ character.name }}" onclick="character_detail(this.id)">
-    {% endfor %}
-    <img src="{% static 'resource/create.jpg' %}" onclick="create_character()">
-    <img src="{% static 'resource/more.jpg' %}" onclick="personal_character_list()">
-{% else %}
-    <img src="{% static 'resource/create.jpg' %}" onclick="create_character()">
-{% endif %}
+    {% if character_list %}
+        {% for character in character_list %}
+            <div style="float: left">
+                <img id="{{ character.id }}" src=/{{ character.head.name }}
+                     class="img-responsive avatar size-XXXL thumbnail"
+                     alt="{{ character.name }}" onclick="character_detail(this.id)">
+                <p>{{ character.name }}</p>
+            </div>
+        {% endfor %}
+        <div style="float: left">
+            <img src="{% static 'resource/create.jpg' %}" onclick="create_character()">
+        </div>
+        <div style="float: left">
+            <img src="{% static 'resource/more.jpg' %}" onclick="personal_character_list()">
+        </div>
+    {% else %}
+        <div style="float: left">
+            <img src="{% static 'resource/create.jpg' %}" onclick="create_character()">
+        </div>
+    {% endif %}
+</div>
+<HR>
 </body>
 </html>

@@ -60,11 +60,18 @@
                 window.location.reload();
             }
         }
+
+        function personal_page() {
+            $('div#section').load('/html/personal/personal_page.html/');
+        }
     </script>
 </head>
 <body>
 
 <div id="header">
+    <div id="personal_manager" style="float: right">
+        <button onclick="personal_page()">个人主页</button>
+    </div>
     <h1>City Gallery</h1>
 </div>
 
