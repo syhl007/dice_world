@@ -5,10 +5,10 @@
     <title>Title</title>
 </head>
 <body>
-<form id="create_task" action="{% url 'game:item_create' %}" method="post" enctype="multipart/form-data">
+<form id="create_item" action="{% url 'game:item_create' %}" method="post" enctype="multipart/form-data">
     {{ form.as_p }}
+    <p><textarea rows="4" cols="50" name="description" form="create_item" maxlength="256" placeholder="物品描述(127字以内)"></textarea></p>
     {% csrf_token %}
-    <input type="submit" value="提交">
 </form>
 </body>
 </html>

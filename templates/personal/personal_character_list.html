@@ -22,9 +22,13 @@
             <p>{{ character.name }}</p>
         </div>
     {% endfor %}
-    <img src="{% static 'resource/create.jpg' %}" onclick="create_character()">
+    <div style="float: left">
+        <img src="{% static 'resource/create.jpg' %}" onclick="create_character()">
+    </div>
 {% else %}
-    <img src="{% static 'resource/create.jpg' %}" onclick="create_character()">
+    <div style="float: left">
+        <img src="{% static 'resource/create.jpg' %}" onclick="create_character()">
+    </div>
 {% endif %}
 </body>
 </html>

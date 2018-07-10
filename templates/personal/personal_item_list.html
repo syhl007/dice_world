@@ -22,9 +22,13 @@
             <p>{{ item.name }}</p>
         </div>
     {% endfor %}
-    <img src="{% static 'resource/create.jpg' %}" onclick="create_item()">
+    <div style="float: left">
+        <img src="{% static 'resource/create.jpg' %}" onclick="create_item()">
+    </div>
 {% else %}
-    <img src="{% static 'resource/create.jpg' %}" onclick="create_item()">
+    <div style="float: left">
+        <img src="{% static 'resource/create.jpg' %}" onclick="create_item()">
+    </div>
 {% endif %}
 </body>
 </html>

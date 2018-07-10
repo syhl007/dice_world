@@ -1318,7 +1318,7 @@ def get(self, request, *args, **kwargs):
 原因就在于，js和css的引用，是通过`{% static 'path' %}`来实现的，其中，`static`关键字将读取`setting.py`中`STATIC_URL`的配置值，然后拼接path，生成访问路径。而Django在遇到`STATIC_URL`开头的请求时也会跳过验证而直接去返回静态文件资源。
 看上去似乎图片显示也应该如此解决。但是有个问题是，这个图片是用户上传的角色头像，通过`ImageField`中的`upload_to`属性存放到默认目录中，由于`upload_to`的根目录为工程目录，所以需要从`static/`开始写。那么在前端获取用户头像文件路径时，若通过`{% static path %}`的方式，则会多出一个`static/`，则需要修改前端对图片路径的获取。又已知，在前端`{{ character.head }}`返回的就是以工程目录为根目录的头像文件相对路径，那么可以通过以下代码获取头像图片路径：（注意，需要在前面加上'/'声明改请求也是由根路径发出，而不是附加到当前请求url之后）
 ```html
-<img src=/{{charater.head.name}}>
+<img src=/{{charater.head}}>
 ```
 
 然后就是python处理xml
@@ -1584,3 +1584,17 @@ url规则：
 
 ---
 
+##2018.07.10
+
+* 昨天遇到的一个问题，前一个`div`设置`style='float:left'`之后，后续标签排列异常问题。解决方式是，在后面添加一个`div`设置其属性为`style="clear:both"`，[参见](https://www.cnblogs.com/mq0036/p/4604443.html)
+* `div`标签添加垂直滚动条`style="OVERFLOW-Y: auto; OVERFLOW-X:hidden;"`
+* 另外是遇到了一个问题，由于前端格式，使用ajax提交表单，今天在测试时发现一个问题，就是ajax提交表单时`data:form.serialize()`并不能读取上传的文件内容，导致视为无文件上传，目前正在看如何解决这个问题。
+
+* 虽然说有一堆插件可以使用，不过没去看，因为H5自带了一个FormData类就可以解决这个问题，详细的参见[这里](https://blog.csdn.net/Inuyasha1121/article/details/51915742)，要注意下面几点：
+    * FormData对象可以通过选择器来选择表单赋值，可以使用js默认的`document.getElementById`；也可以使用jQuery选择器，不过需要注意到的是，jQuery选择器得到的结果都是一个list，需要使用index提取其中元素来生成FormData。
+    * `$.ajax`中的data属性直接赋予FormData对象
+    * `processData: false`，这个属性表示的是如何对data数据进行处理，默认为true，当然一般的表单提交也需要处理，而现在提交的是FormData对象，不需要做额外处理。
+    * `contentType: false`，这个属性表示提交request的type，默认的是"application/x-www-form-urlencoded"类型，这里也交由FormData来处理请求类型，故设置false防止ajax的处理。
+
+
+---

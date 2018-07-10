@@ -6,10 +6,8 @@ from datetime import datetime
 from xml.etree import ElementTree as ET
 
 from django import forms
-from django.contrib.auth.decorators import login_required
-from django.db import transaction, connection
+from django.db import transaction
 from django.db.models import Q
-from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.template.response import TemplateResponse
 from django.views import generic
@@ -17,6 +15,7 @@ from django.views import generic
 from dice_world.settings import BASE_DIR
 from dice_world.standard import JsonResponse, txt_board_storeroom
 from dice_world.utils import WordFilter, DiceFilter
+from game_manager.controlor import xml_file_check
 from game_manager.models import Character, Room, Group, GroupMember, GameTxt, GameTxtPhantom, CharacterTxt, Task, \
     TaskRecord, Item
 from user_manager.models import User
@@ -361,6 +360,7 @@ class CreateCharacter(generic.CreateView):
                 form.instance.creator = self.request.user
                 form.instance.editor = self.request.user
             form.save()
+            xml_file_check(form.instance.detail)
             return JsonResponse(state=0)
 
     def form_invalid(self, form):
@@ -398,13 +398,26 @@ class CreateTask(generic.CreateView):
     template_name = 'game/task_create.html'
 
     def form_valid(self, form):
-        form.instance.creator = self.request.user
-        form.save()
+        with transaction.atomic():
+            form.instance.creator = self.request.user
+            form.instance.description = form.data.get('description')
+            form.save()
+            xml_file_check(form.instance.init_file.name)
+            return JsonResponse(state=0)
 
 
 class ListTask(generic.ListView):
     model = Task
     template_name = 'game/task_list.html'
+
+
+class TaskDetail(generic.View):
+
+    def get(self, request, *args, **kwargs):
+        task_id = kwargs['task_id']
+        task = Task.objects.prefetch_related('task').select_related('task__room__name').get(id=task_id)
+        print(task)
+        pass
 
 
 class StartTask(generic.CreateView):
@@ -427,10 +440,40 @@ class StartTask(generic.CreateView):
 
 class CreateItem(generic.CreateView):
     model = Item
-    fields = ['name', 'file', 'private']
+    fields = ['name', 'pic', 'file', 'private', 'unique']
     template_name = 'game/item_create.html'
+
+    def form_valid(self, form):
+        with transaction.atomic():
+            form.instance.creator = self.request.user
+            form.instance.description = form.data.get('description')
+            form.save()
+            xml_file_check(form.instance.file.name)
+            return JsonResponse(state=0)
+
+    def form_invalid(self, form):
+        return JsonResponse(state=2, msg='数据异常，请检查输入数据。')
 
 
 class ListItem(generic.ListView):
     model = Item
     template_name = 'game/item_list.html'
+
+
+class ItemDetail(generic.View):
+
+    def get(self, request, *args, **kwargs):
+        item_id = kwargs['item_id']
+        item = Item.objects.get(id=item_id)
+        item_info = {}
+        character_xml = ET.parse(item.file)
+        r = character_xml.getroot()
+        print(r.tag)
+        if r.tag != 'item':
+            return JsonResponse(state=1, msg='文件不符合模板错误')
+        for i in r:
+            text = i.text.replace(i.tail, '')
+            text = text.replace('\t', '')
+            item_info[i.tag] = text
+        return render(request, 'game/item_detail.html',
+                      context={'item': item, 'item_info': item_info})

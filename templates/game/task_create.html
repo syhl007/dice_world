@@ -6,10 +6,9 @@
 </head>
 <body>
 <form id="create_task" action="{% url 'game:task_create' %}" method="post" enctype="multipart/form-data">
-    <input name="id" type="hidden" value={{ character.id }}>
     {{ form.as_p }}
+    <p><textarea rows="4" cols="50" name="description" form="create_task" maxlength="256" placeholder="任务描述(127字以内)"></textarea></p>
     {% csrf_token %}
-    <input type="submit" value="提交">
 </form>
 </body>
 </html>

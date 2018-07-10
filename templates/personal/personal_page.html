@@ -11,14 +11,23 @@
         $(document).ready(function () {
             $('div.personal_character_simple').load('{% url 'personal:list_character_sample' %}');
             $('div.personal_item_simple').load('{% url 'personal:list_item_sample' %}');
+            $('div.personal_task_simple').load('{% url 'personal:list_task_sample' %}');
         });
 
         function character_detail(id) {
             $('div#section').load('{% url 'character:character_detail' '00000000-0000-0000-0000-000000000000' %}'.replace('00000000-0000-0000-0000-000000000000', id));
         }
 
+        function item_detail(id) {
+            $('div#section').load('{% url 'game:item_detail' '00000000-0000-0000-0000-000000000000' %}'.replace('00000000-0000-0000-0000-000000000000', id));
+        }
+
         function personal_character_list() {
-            $('div#section').load('{% url 'personal:list_character'%}');
+            $('div#personal_main').load('{% url 'personal:list_character'%}');
+        }
+
+        function personal_item_list() {
+            $('div#personal_main').load('{% url 'personal:list_item'%}');
         }
 
         function create_character() {
@@ -26,31 +35,115 @@
             $('div#create_dialog').find('div.modal-body').load('{% url 'character:character_create' %}', function () {
                 $('form#create_character').submit(function (e) {
                     e.preventDefault();
-                    console.log("test");
                     var form = $(this);
+                    var form_data = new FormData(document.getElementById('create_character'));
                     $.ajax({
                         url: form.attr("action"),
                         method: form.attr("method"),
-                        data: form.serialize(),
+                        data: form_data,
+                        processData:false,
+                        contentType:false,
                         dataType: "json",
                         success: function (data) {
                             if (data.state == 0) {
-                                $("div#create_dialog").modal("hide");
+                                $('div#create_dialog').modal("hide");
                                 $('div#section').load('{% url 'personal:list_character'%}');
                             }
                             else {
                                 alert(data.msg);
                             }
+                            $('button.sure').attr("disabled", false);
+                            $('button.sure').removeClass("disabled");
+                            $('button.sure').addClass("btn-primary");
                         }
                     })
                 });
             });
             $('div#create_dialog').find('button.sure').click(function () {
+                $(this).attr("disabled", true);
+                $(this).removeClass("btn-primary");
+                $(this).addClass("disabled");
                 $('form#create_character').submit()
             });
             $("div#create_dialog").modal("show")
         }
 
+        function create_item() {
+            $('div#create_dialog').find('h3.modal-title').text('创建新物品');
+            $('div#create_dialog').find('div.modal-body').load('{% url 'game:item_create' %}', function () {
+                $('form#create_item').submit(function (e) {
+                    e.preventDefault();
+                    var form = $(this);
+                    var form_data = new FormData(document.getElementById('create_item'));
+                    console.log("test create_item");
+                    $.ajax({
+                        url: form.attr("action"),
+                        method: form.attr("method"),
+                        data: form_data,
+                        processData:false,
+                        contentType:false,
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.state == 0) {
+                                $("div#create_dialog").modal("hide");
+                                $('div#section').load('{% url 'personal:list_item'%}');
+                            }
+                            else {
+                                alert(data.msg);
+                            }
+                            $('button.sure').attr("disabled", false);
+                            $('button.sure').removeClass("disabled");
+                            $('button.sure').addClass("btn-primary");
+                        }
+                    })
+                });
+            });
+            $('div#create_dialog').find('button.sure').click(function () {
+                $(this).attr("disabled", true);
+                $(this).removeClass("btn-primary");
+                $(this).addClass("disabled");
+                $('form#create_item').submit()
+            });
+            $("div#create_dialog").modal("show")
+        }
+
+        function create_task() {
+            $('div#create_dialog').find('h3.modal-title').text('创建新任务');
+            $('div#create_dialog').find('div.modal-body').load('{% url 'game:task_create' %}', function () {
+                $('form#create_task').submit(function (e) {
+                    e.preventDefault();
+                    var form = $(this);
+                    var form_data = new FormData(document.getElementById('create_task'));
+                    $.ajax({
+                        url: form.attr("action"),
+                        method: form.attr("method"),
+                        data: form_data,
+                        processData:false,
+                        contentType:false,
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.state == 0) {
+                                $("div#create_dialog").modal("hide");
+                                $('div#section').load('{% url 'personal:list_task'%}');
+                            }
+                            else {
+                                alert(data.msg);
+                            }
+                            $('button.sure').attr("disabled", false);
+                            $('button.sure').removeClass("disabled");
+                            $('button.sure').addClass("btn-primary");
+                        }
+                    })
+                });
+            });
+            $('div#create_dialog').find('button.sure').click(function () {
+                $(this).attr("disabled", true);
+                $(this).removeClass("btn-primary");
+                $(this).addClass("disabled");
+                $('form#create_task').submit()
+            });
+            $("div#create_dialog").modal("show")
+        }
     </script>
 </head>
 <body style="width: 100%;">
@@ -71,14 +164,11 @@
         </div>
     </div>
 </div>
-<div id="personal_main" style="width: 100%;">
-    <div class="personal_character_simple" style="width: 100%;"></div>
-    <HR>
-    <div class="personal_item_simple" style="width: 100%;"></div>
-    <HR>
-    <div class="personal_area_simple"></div>
-    <HR>
-    <div class="personal_task_simple"></div>
+<div id="personal_main" style="width: 100%;height: 100%;OVERFLOW-Y: auto; OVERFLOW-X:hidden;">
+    <div class="personal_character_simple" style="clear:both">personal_character_simple</div>
+    <div class="personal_item_simple" style="clear:both">personal_item_simple</div>
+    <div class="personal_area_simple" style="clear:both">personal_area_simple</div>
+    <div class="personal_task_simple" style="clear:both">personal_task_simple</div>
 </div>
 </body>
 </html>

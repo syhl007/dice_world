@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.template.response import TemplateResponse
 from django.views import generic
 
-from game_manager.models import Character, Item
+from game_manager.models import Character, Item, Task
 
 
 class ListCharacterSample(generic.ListView):
@@ -32,6 +32,24 @@ class ListItemSample(generic.ListView):
 
     def get(self, request, *args, **kwargs):
         self.queryset = Item.objects.filter(creator=request.user).order_by('-add_time')[0:5]
+        return super().get(request, *args, **kwargs)
+
+
+class ListTask(generic.ListView):
+    model = Task
+    template_name = 'personal/personal_task_list.html'
+
+    def get(self, request, *args, **kwargs):
+        self.queryset = Task.objects.filter(creator=request.user).order_by('-add_time')
+        return super().get(request, *args, **kwargs)
+
+
+class ListTaskSample(generic.ListView):
+    model = Task
+    template_name = 'personal/personal_task_simple.html'
+
+    def get(self, request, *args, **kwargs):
+        self.queryset = Task.objects.filter(creator=request.user).order_by('-add_time')[0:5]
         return super().get(request, *args, **kwargs)
 
 

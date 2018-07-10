@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+<h3>已创建的任务</h3>
+    {% if task_list %}
+        {% for task in task_list %}
+            <div style="float: left">
+                <div  onclick="task_detail(this.id)">{{ task.name }}</div>
+            </div>
+        {% endfor %}
+        <div style="float: left">
+            <img src="{% static 'resource/create.jpg' %}" onclick="create_task()">
+        </div>
+        <div style="float: left">
+            <img src="{% static 'resource/more.jpg' %}" onclick="personal_task_list()">
+        </div>
+    {% else %}
+        <div style="float: left">
+            <img src="{% static 'resource/create.jpg' %}" onclick="create_task()">
+        </div>
+    {% endif %}
+</div>
+<div style="clear:both">
+    <HR>
+</div>
+</body>
+</html>

@@ -6,12 +6,12 @@
     <title>Title</title>
 </head>
 <body>
-<div>
+<div style="width: 100%;">
 <h3>已创建的角色</h3>
     {% if character_list %}
         {% for character in character_list %}
             <div style="float: left">
-                <img id="{{ character.id }}" src=/{{ character.head.name }}
+                <img id="{{ character.id }}" src=/{{ character.head }}
                      class="img-responsive avatar size-XXXL thumbnail"
                      alt="{{ character.name }}" onclick="character_detail(this.id)">
                 <p>{{ character.name }}</p>
@@ -29,6 +29,8 @@
         </div>
     {% endif %}
 </div>
-<HR>
+<div style="clear:both">
+    <HR>
+</div>
 </body>
 </html>

@@ -7,20 +7,29 @@
 </head>
 <body>
 <div>
-<h3>已创建的物品</h3>
+    <h3>已创建的物品</h3>
     {% if item_list %}
         {% for item in item_list %}
             <div style="float: left">
-                <img id="{{ item.id }}" src=/{{ item.head.name }} class="img-responsive avatar size-XXXL thumbnail"
+                <img id="{{ item.id }}" src=/{{ item.pic }} class="img-responsive avatar size-XXXL thumbnail"
                      alt="{{ item.name }}" onclick="item_detail(this.id)">
                 <p>{{ item.name }}</p>
             </div>
         {% endfor %}
-        <img src="{% static 'resource/create.jpg' %}" onclick="create_item()">
-        <img src="{% static 'resource/more.jpg' %}" onclick="personal_item_list()">
+        <div style="float: left">
+            <img src="{% static 'resource/create.jpg' %}" onclick="create_item()">
+        </div>
+        <div style="float: left">
+            <img src="{% static 'resource/more.jpg' %}" onclick="personal_item_list()">
+        </div>
     {% else %}
-        <img src="{% static 'resource/create.jpg' %}" onclick="create_item()">
+        <div style="float: left">
+            <img src="{% static 'resource/create.jpg' %}" onclick="create_item()">
+        </div>
     {% endif %}
+</div>
+<div style="clear:both">
+    <HR>
 </div>
 </body>
 </html>

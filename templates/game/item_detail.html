@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <div>
+        <img src=/{{ item.pic }} style="float: right">
+    </div>
+    <div>
+        <ul>
+            <h4>{{ item.name }}</h4>
+            <p>{% if item.unique %} 唯一的 {% else %} 普通 {% endif %}<br></p>
+            <HR>
+            <p>物品描述：{{ item.description }}<br></p>
+            <HR>
+        </ul>
+        {% for k,v in item_info.items %}
+            <ul>
+                {{ k }}: {{ v }}
+                <HR>
+            </ul>
+        {% endfor %}
+    </div>
+</div>
+</body>
+</html>

@@ -28,7 +28,7 @@
     <ul>
         {% for character in character_list %}
             <li>
-                <div><img class="character_head" src=/{{ character.head.name }}></div>
+                <div><img class="character_head" src=/{{ character.head }}></div>
                 <a href="{%  url 'character:character_detail' character.id %}" target="_blank">{{ character.name }}</a>
                 {% if group_id %}
                     <button character_id={{ character.id }} onclick="link_character(this)">关联</button>

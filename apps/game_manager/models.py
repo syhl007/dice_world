@@ -94,7 +94,7 @@ class Area(models.Model):
     id = models.UUIDField(verbose_name="UUID", max_length=64, primary_key=True, default=create_uuid)
     name = models.CharField(verbose_name=u"任务模组名", max_length=127)
     creator = models.ForeignKey(verbose_name=u"创作者", to=User, related_name='area_creator', on_delete=models.CASCADE)
-    description = models.TextField(verbose_name=u"描述")
+    description = models.TextField(verbose_name=u"描述", max_length=256, null=True, blank=True)
     map = models.ImageField(verbose_name=u"地图", upload_to="static/resource/game/maps/", null=True)
     private = models.BooleanField(verbose_name=u"是否公开", default=False)
     add_time = models.DateTimeField(verbose_name=u"创建时间", default=datetime.now)
@@ -104,6 +104,7 @@ class Task(models.Model):
     id = models.UUIDField(verbose_name="UUID", max_length=64, primary_key=True, default=create_uuid)
     name = models.CharField(verbose_name=u"任务模组名", max_length=127)
     creator = models.ForeignKey(verbose_name=u"创作者", to=User, related_name='task_creator', on_delete=models.CASCADE)
+    description = models.TextField(verbose_name=u"描述", max_length=256, null=True, blank=True)
     init_file = models.FileField(verbose_name=u"任务模组文件", upload_to="static/resource/game/tasks/")
     private = models.BooleanField(verbose_name=u"是否公开", default=False)
     add_time = models.DateTimeField(verbose_name=u"创建时间", default=datetime.now)
@@ -121,8 +122,8 @@ class TaskRecord(models.Model):
 
 class Item(models.Model):
     id = models.UUIDField(verbose_name="UUID", max_length=64, primary_key=True, default=create_uuid)
-    pic = models.ImageField(verbose_name=u"物品图片", upload_to="static/resource/item/pic/",
-                             default="static/resource/item/pic/default/no_img.jpg")
+    pic = models.ImageField(verbose_name=u"物品图片", upload_to="static/resource/game/items/",
+                            default="static/resource/items/default/no_img.jpg")
     name = models.CharField(verbose_name=u"物品名称", max_length=127)
     description = models.CharField(verbose_name=u"物品描述", max_length=256, null=True, blank=True)
     creator = models.ForeignKey(verbose_name=u"创作者", to=User, related_name='item_creator', on_delete=models.CASCADE)

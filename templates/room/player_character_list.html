@@ -95,7 +95,7 @@
                 <li>
                     <div class="player_character_item" user_id="{{ groupmember.user.id }}">
                         <img class="character_list_head{% if not groupmember.is_online %} character_off_line{% endif %}"
-                             src=/{{ groupmember.character.head.name }}>
+                             src=/{{ groupmember.character.head }}>
                         <p>{{ groupmember.user.username }}{% if not groupmember.is_online %} (离线){% endif %}</p>
                         <a href="{% url 'character:character_detail' groupmember.character.id %}"
                            target="_blank">{{ groupmember.character.name }}</a>

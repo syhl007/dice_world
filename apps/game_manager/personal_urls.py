@@ -14,4 +14,8 @@ urlpatterns = [
          name='list_item_sample'),
     path('self/list/item/', login_required(personal_view.ListItem.as_view()),
          name='list_item'),
+    path('self/list/task/sample/', login_required(personal_view.ListTaskSample.as_view()),
+         name='list_task_sample'),
+    path('self/list/task/', login_required(personal_view.ListTask.as_view()),
+         name='list_task'),
 ]
