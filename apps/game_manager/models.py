@@ -9,11 +9,34 @@ from dice_world.standard import JSONField, create_uuid, create_id
 from user_manager.models import User
 
 
+class Character(models.Model):
+    id = models.UUIDField(verbose_name="UUID", max_length=64, primary_key=True, default=create_uuid)
+    name = models.CharField(verbose_name=u"角色姓名", max_length=64)
+    sex = models.SmallIntegerField(verbose_name=u"角色性别", default=0)  # 0-男|1-女|2-其他
+    head = models.ImageField(verbose_name=u"角色头像", upload_to="static/resource/character/head/",
+                             default="static/resource/character/head/default/no_img.jpg")
+    detail = models.FileField(verbose_name=u"角色资料文件", upload_to="static/resource/character/detail/")
+    creator = models.ForeignKey(verbose_name=u"创作者", to=User, related_name='character_creator',
+                                on_delete=models.CASCADE)
+    add_time = models.DateTimeField(verbose_name=u"创建时间", default=datetime.now)
+    editor = models.ForeignKey(verbose_name=u"修改者", to=User, related_name='character_editor', on_delete=models.CASCADE)
+    update_time = models.DateTimeField(verbose_name=u"更新时间", auto_now=True)
+    private = models.BooleanField(verbose_name=u"私人角色", default=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = u"游戏角色"
+        verbose_name_plural = verbose_name
+
+
 class Room(models.Model):
     id = models.UUIDField(verbose_name="UUID", max_length=64, primary_key=True, default=create_uuid)
     num = models.CharField(verbose_name=u"房间号", max_length=64, unique=True, null=False, default=create_id)
     name = models.CharField(verbose_name=u"房间名", max_length=64, default=time.time)
     gm = models.ForeignKey(verbose_name=u"GM", to=User, related_name="gm", on_delete=models.CASCADE)
+    npcs = models.ManyToManyField(verbose_name=u"NPC列表", to=Character, related_name='npc_room', null=True, blank=True)
     # 0——游戏准备中
     # 1——游戏进行中
     # -1——游戏结束
@@ -45,28 +68,6 @@ class Group(models.Model):
 
     class Meta:
         verbose_name = u"团队"
-        verbose_name_plural = verbose_name
-
-
-class Character(models.Model):
-    id = models.UUIDField(verbose_name="UUID", max_length=64, primary_key=True, default=create_uuid)
-    name = models.CharField(verbose_name=u"角色姓名", max_length=64)
-    sex = models.SmallIntegerField(verbose_name=u"角色性别", default=0)  # 0-男|1-女|2-其他
-    head = models.ImageField(verbose_name=u"角色头像", upload_to="static/resource/character/head/",
-                             default="static/resource/character/head/default/no_img.jpg")
-    detail = models.FileField(verbose_name=u"角色资料文件", upload_to="static/resource/character/detail/")
-    creator = models.ForeignKey(verbose_name=u"创作者", to=User, related_name='character_creator',
-                                on_delete=models.CASCADE)
-    add_time = models.DateTimeField(verbose_name=u"创建时间", default=datetime.now)
-    editor = models.ForeignKey(verbose_name=u"修改者", to=User, related_name='character_editor', on_delete=models.CASCADE)
-    update_time = models.DateTimeField(verbose_name=u"更新时间", auto_now=True)
-    private = models.BooleanField(verbose_name=u"私人角色", default=True)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = u"游戏角色"
         verbose_name_plural = verbose_name
 
 

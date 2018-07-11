@@ -7,7 +7,8 @@ from game_manager import views
 app_name = 'character'
 urlpatterns = [
     path('list/', login_required(views.ListCharacter.as_view()), name='character_list'),
-    path('list/<uuid:group_id>/', login_required(views.ListCharacter.as_view()), name='character_list_from_group'),
+    path('list_from_group/<uuid:group_id>/', login_required(views.ListCharacter.as_view()), name='character_list_from_group'),
+    path('list_from_room/<uuid:room_id>/', login_required(views.ListCharacter.as_view()), name='character_list_from_room'),
     path('link/', login_required(views.LinkCharacter.as_view()), name='character_link'),
     path('create/', login_required(views.CreateCharacter.as_view()), name='character_create'),
     path('<uuid:character_uuid>/', login_required(views.CharacterDetail.as_view()), name='character_detail'),

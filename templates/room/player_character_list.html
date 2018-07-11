@@ -31,13 +31,16 @@
                     if (socket.readyState == WebSocket.OPEN) socket.onopen();
                     window.s = socket;
                 }
-            })
+            });
         });
 
-        function list_charater_from_group(button) {
-            var group_id = $(button).attr('group_id');
-            if (group_id != null)
-                self.location = '{%  url 'character:character_list'  %}' + group_id + "/"
+        function list_charater_from_group() {
+            $('div#dialog').find('h3.modal-title').text('关联角色');
+            $('div#dialog').find('div.modal-body').load('{% url 'character:character_list_from_group' group_id %}', function () {
+                $('div.character_list_before_main_page').css("display", "none");
+            });
+            $('div#dialog').find('button.sure').css("display", "none");
+            $("div#dialog").modal("show");
         }
 
         function prviate_chat_form(button) {
@@ -102,26 +105,26 @@
                         {% if is_gm and groupmember.group.type != 0 and user_id != groupmember.user.id %}
                             <button onclick="invitate_to_game(this)">拉入游戏</button>
                         {% endif %}
-                        {% if user_id != groupmember.user.id %}
+                        {% if user_id != groupmember.user.id and groupmember.is_online %}
                             <button onclick="prviate_chat_form(this)">私信</button>
-                            {% if is_gm %}
-                                <button onclick="shut_up(this)">禁言</button>
-                                <button onclick="kick_out(this)">踢出房间</button>
-                            {% endif %}
                             <form id="{{ groupmember.user.id }}" class="prviate_chat_form" method="post"
                                   style="display:none">
                                 <input class="chat_box" type="text" name="msg">
                                 <input type="submit" value="发送">
                             </form>
                         {% endif %}
+                        {% if user_id != groupmember.user.id and is_gm %}
+                            <button onclick="shut_up(this)">禁言</button>
+                            <button onclick="kick_out(this)">踢出房间</button>
+                        {% endif %}
                         <HR>
                     </div>
                 </li>
             {% else %}
                 <li>
-                    {{ groupmember.user.username }}
+                    <p>{{ groupmember.user.username }}{% if not groupmember.is_online %} (离线){% endif %}</p>
                     {% if user_id == groupmember.user.id %}
-                        <button group_id={{ groupmember.group.id }} onclick="list_charater_from_group(this)">关联角色
+                        <button onclick="list_charater_from_group()">关联角色
                         </button>
                     {% endif %}
                 </li>

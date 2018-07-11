@@ -165,10 +165,11 @@ class RoomDetail(generic.DetailView):
     template_name = 'room/room_detail.html'
 
     def get(self, request, *args, **kwargs):
-        response = super().get(request, *args, **kwargs)
-        room = self.object
-        Group.objects.get(Q(users=request.user) & Q(room=room)).group.filter(user=request.user).update(is_online=True)
-        return response
+        self.object = self.get_object()
+        context = self.get_context_data(object=self.object)
+        context['is_gm'] = (request.user == self.object.gm)
+        GroupMember.objects.filter(Q(user=request.user) & Q(group__room=self.object)).update(is_online=True)
+        return self.render_to_response(context)
 
 
 class ListCharacter(generic.ListView):
@@ -182,6 +183,9 @@ class ListCharacter(generic.ListView):
         context = self.get_context_data()
         if kwargs.get('group_id'):
             context['group_id'] = kwargs['group_id']
+        if kwargs.get('room_id'):
+            character_before_list = Character.objects.filter(npc_room__id=kwargs['room_id'])
+            context['character_before_list'] = character_before_list
         return self.render_to_response(context)
 
 
@@ -278,7 +282,10 @@ class RoomChat(generic.View):
         state = request.POST.get('state')
         if state == 'game':
             try:
-                character = GroupMember.objects.filter(group=group).get(user=user).character
+                group_member = GroupMember.objects.filter(group=group).get(user=user)
+                if not group_member.send_msg:
+                    return JsonResponse(state=1, msg="角色被禁言")
+                character = group_member.character
                 name = character.name
             except Exception as e:
                 # print(e)
@@ -311,6 +318,19 @@ class RoomChat(generic.View):
         return JsonResponse(state=0)
 
 
+class StartGame(generic.View):
+
+    def post(self, request, *args, **kwargs):
+        room_id = kwargs['room_id']
+        t = datetime.now()
+        game_txt_phantom = txt_board_storeroom.get(room_id)
+        if not game_txt_phantom:
+            game_txt_phantom = GameTxtPhantom()
+            txt_board_storeroom[room_id] = game_txt_phantom
+        game_txt_phantom.get_by_state('game').append(CharacterTxt(name='GM', content='游戏开始', time=t))
+        return JsonResponse(state=0)
+
+
 class SaveRoomChat(generic.View):
 
     def get(self, request, *args, **kwargs):
@@ -324,6 +344,8 @@ class SaveRoomChat(generic.View):
             return JsonResponse(state=1, msg='不具有权限')
         game_txt_phantom = txt_board_storeroom.get(room_id)
         if game_txt_phantom:
+            game_txt_phantom.get_by_state('game').append(CharacterTxt(name='GM', content='\n-------------------------\n存盘时间：' + str(datetime.now()) + '\n-------------------------\n', time=datetime.now()))
+            Group.objects.filter(Q(room=room) & Q(users=user)).update(send_msg=False)
             txt_list = [str(txt) for txt in game_txt_phantom.get_by_state('game')]
             if txt_list:
                 game_txt = GameTxt.objects.filter(user=request.user).get(room_id=room_id)
@@ -331,9 +353,8 @@ class SaveRoomChat(generic.View):
                     for t in txt_list:
                         f.write(t)
                         f.write('\n')
-                    f.write(
-                        '\n-------------------------\n存盘时间：' + str(datetime.now()) + '\n-------------------------\n')
                 txt_board_storeroom.pop(room_id)
+                Group.objects.filter(Q(room=room) & Q(users=user)).update(send_msg=False)
                 return JsonResponse(state=0)
             else:
                 return JsonResponse(state=1, msg="没有消息记录")

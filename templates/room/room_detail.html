@@ -5,9 +5,11 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/room/room_style.css' %}"/>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="{% static 'js/jquery-3.3.1.js' %}" type="text/javascript"></script>
+    <script src="{% static 'h-ui/js/H-ui.js' %}" type="text/javascript"></script>
     <script>
         $(document).ready(function () {
-           if (window.s) {
+            if (window.s) {
                 window.s.close()
             }
             /*创建socket连接*/
@@ -82,9 +84,36 @@
                 }
             });
         }
+
+        function list_charater_from_room() {
+            $('div#dialog').find('h3.modal-title').text('导入NPC（替换GM所扮演角色）');
+            $('div#dialog').find('div.modal-body').load('{% url 'character:character_list_from_room' room.id %}', function () {
+                $('div.character_list_before_main_page').css("display", "block");
+                $('div.character_list_before_main_page h6.character_list_before_title').text('预选NPC');
+                $('div.character_list_main_page h6.character_list_main_title').text('全部角色');
+            });
+            $('div#dialog').find('button.sure').css("display", "none");
+            $("div#dialog").modal("show");
+        }
     </script>
 </head>
 <body>
+<div id="dialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content radius">
+            <div class="modal-header">
+                <h3 class="modal-title">标题</h3>
+                <a class="close" data-dismiss="modal" aria-hidden="true" href="javascript:void(0);">×</a>
+            </div>
+            <div class="modal-body" style="width: 96%;height: 320px;OVERFLOW-Y: auto; OVERFLOW-X:hidden;">弹窗内容</div>
+            <div class="modal-footer">
+                <button class="btn btn-primary sure">确定</button>
+                <button class="btn cancel" data-dismiss="modal" aria-hidden="true">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
 {% if room %}
     <div class="room_info">
         {{ room.id }} ||【{{ room.num }}】{{ room.name }}
@@ -93,6 +122,16 @@
     </div>
     <div class="room_funcation_list">
         ---------------------------------------
+        {% if is_gm %}
+            <div class="gm_box" style="float: right">
+                <button>开始游戏</button>
+                <button>保存记录</button>
+                <button onclick="list_charater_from_room()">导入角色</button>
+                <button>导入任务</button>
+                <button>导入物品</button>
+                <button>导入区域</button>
+            </div>
+        {% endif %}
     </div>
     <div class="room_text_inport">
         <form method="post" action="" class="room_post_msg">
