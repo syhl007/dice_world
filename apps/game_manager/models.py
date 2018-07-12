@@ -31,12 +31,48 @@ class Character(models.Model):
         verbose_name_plural = verbose_name
 
 
+class Area(models.Model):
+    id = models.UUIDField(verbose_name="UUID", max_length=64, primary_key=True, default=create_uuid)
+    name = models.CharField(verbose_name=u"任务模组名", max_length=127)
+    creator = models.ForeignKey(verbose_name=u"创作者", to=User, related_name='area_creator', on_delete=models.CASCADE)
+    description = models.TextField(verbose_name=u"描述", max_length=256, null=True, blank=True)
+    map = models.ImageField(verbose_name=u"地图", upload_to="static/resource/game/maps/", null=True)
+    private = models.BooleanField(verbose_name=u"是否公开", default=False)
+    add_time = models.DateTimeField(verbose_name=u"创建时间", default=datetime.now)
+
+
+class Task(models.Model):
+    id = models.UUIDField(verbose_name="UUID", max_length=64, primary_key=True, default=create_uuid)
+    name = models.CharField(verbose_name=u"任务模组名", max_length=127)
+    creator = models.ForeignKey(verbose_name=u"创作者", to=User, related_name='task_creator', on_delete=models.CASCADE)
+    description = models.TextField(verbose_name=u"描述", max_length=256, null=True, blank=True)
+    init_file = models.FileField(verbose_name=u"任务模组文件", upload_to="static/resource/game/tasks/")
+    private = models.BooleanField(verbose_name=u"是否公开", default=False)
+    add_time = models.DateTimeField(verbose_name=u"创建时间", default=datetime.now)
+
+
+class Item(models.Model):
+    id = models.UUIDField(verbose_name="UUID", max_length=64, primary_key=True, default=create_uuid)
+    pic = models.ImageField(verbose_name=u"物品图片", upload_to="static/resource/game/items/",
+                            default="static/resource/items/default/no_img.jpg")
+    name = models.CharField(verbose_name=u"物品名称", max_length=127)
+    description = models.CharField(verbose_name=u"物品描述", max_length=256, null=True, blank=True)
+    creator = models.ForeignKey(verbose_name=u"创作者", to=User, related_name='item_creator', on_delete=models.CASCADE)
+    file = models.FileField(verbose_name=u"物品资料文件", upload_to="static/resource/game/items/", null=True, blank=True)
+    private = models.BooleanField(verbose_name=u"是否公开", default=False)
+    unique = models.BooleanField(verbose_name=u"是否唯一", default=False)
+    add_time = models.DateTimeField(verbose_name=u"创建时间", default=datetime.now)
+
+
 class Room(models.Model):
     id = models.UUIDField(verbose_name="UUID", max_length=64, primary_key=True, default=create_uuid)
     num = models.CharField(verbose_name=u"房间号", max_length=64, unique=True, null=False, default=create_id)
     name = models.CharField(verbose_name=u"房间名", max_length=64, default=time.time)
     gm = models.ForeignKey(verbose_name=u"GM", to=User, related_name="gm", on_delete=models.CASCADE)
-    npcs = models.ManyToManyField(verbose_name=u"NPC列表", to=Character, related_name='npc_room', null=True, blank=True)
+    npcs = models.ManyToManyField(verbose_name=u"NPC列表", to=Character, related_name='room_npc')
+    items = models.ManyToManyField(verbose_name=u"物品列表", to=Item, related_name='room_item')
+    areas = models.ManyToManyField(verbose_name=u"地区列表", to=Area, related_name='room_area')
+    tasks = models.ManyToManyField(verbose_name=u"任务列表", to=Task, related_name='room_task')
     # 0——游戏准备中
     # 1——游戏进行中
     # -1——游戏结束
@@ -91,26 +127,6 @@ class GroupMember(models.Model):
         unique_together = ('user', 'group',)
 
 
-class Area(models.Model):
-    id = models.UUIDField(verbose_name="UUID", max_length=64, primary_key=True, default=create_uuid)
-    name = models.CharField(verbose_name=u"任务模组名", max_length=127)
-    creator = models.ForeignKey(verbose_name=u"创作者", to=User, related_name='area_creator', on_delete=models.CASCADE)
-    description = models.TextField(verbose_name=u"描述", max_length=256, null=True, blank=True)
-    map = models.ImageField(verbose_name=u"地图", upload_to="static/resource/game/maps/", null=True)
-    private = models.BooleanField(verbose_name=u"是否公开", default=False)
-    add_time = models.DateTimeField(verbose_name=u"创建时间", default=datetime.now)
-
-
-class Task(models.Model):
-    id = models.UUIDField(verbose_name="UUID", max_length=64, primary_key=True, default=create_uuid)
-    name = models.CharField(verbose_name=u"任务模组名", max_length=127)
-    creator = models.ForeignKey(verbose_name=u"创作者", to=User, related_name='task_creator', on_delete=models.CASCADE)
-    description = models.TextField(verbose_name=u"描述", max_length=256, null=True, blank=True)
-    init_file = models.FileField(verbose_name=u"任务模组文件", upload_to="static/resource/game/tasks/")
-    private = models.BooleanField(verbose_name=u"是否公开", default=False)
-    add_time = models.DateTimeField(verbose_name=u"创建时间", default=datetime.now)
-
-
 class TaskRecord(models.Model):
     id = models.UUIDField(verbose_name="UUID", max_length=64, primary_key=True, default=create_uuid)
     room = models.ForeignKey(verbose_name=u"房间", to=Room, related_name="tesk_belong_room", on_delete=models.CASCADE)
@@ -121,23 +137,10 @@ class TaskRecord(models.Model):
     update_time = models.DateTimeField(verbose_name=u"更新时间", default=datetime.now)
 
 
-class Item(models.Model):
-    id = models.UUIDField(verbose_name="UUID", max_length=64, primary_key=True, default=create_uuid)
-    pic = models.ImageField(verbose_name=u"物品图片", upload_to="static/resource/game/items/",
-                            default="static/resource/items/default/no_img.jpg")
-    name = models.CharField(verbose_name=u"物品名称", max_length=127)
-    description = models.CharField(verbose_name=u"物品描述", max_length=256, null=True, blank=True)
-    creator = models.ForeignKey(verbose_name=u"创作者", to=User, related_name='item_creator', on_delete=models.CASCADE)
-    file = models.FileField(verbose_name=u"物品资料文件", upload_to="static/resource/game/items/", null=True, blank=True)
-    private = models.BooleanField(verbose_name=u"是否公开", default=False)
-    unique = models.BooleanField(verbose_name=u"是否唯一", default=False)
-    add_time = models.DateTimeField(verbose_name=u"创建时间", default=datetime.now)
-
-
 class RoomItemRecord(models.Model):
     id = models.UUIDField(verbose_name="UUID", max_length=64, primary_key=True, default=create_uuid)
     room = models.ForeignKey(verbose_name=u"房间", to=Room, on_delete=models.CASCADE)
-    item = models.ForeignKey(verbose_name=u"物品", to=Item, on_delete=models.CASCADE)
+    item = models.ForeignKey(verbose_name=u"物品", to=Item, related_name='room_item_record', on_delete=models.CASCADE)
     player = models.ForeignKey(verbose_name=u"玩家", to=Character, on_delete=models.CASCADE)
     private = models.BooleanField(verbose_name=u"是否公开", default=False)
     add_time = models.DateTimeField(verbose_name=u"创建时间", default=datetime.now)

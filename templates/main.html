@@ -43,6 +43,7 @@
         }
 
         function join_room(room_id) {
+            $('div#personal_manager').css('display','none');
             var url = '/room/' + room_id + '/';
             $("#main_window").load(url, function () {
                 $("form.room_post_msg").attr("action", "/room/" + room_id + "/chat/");

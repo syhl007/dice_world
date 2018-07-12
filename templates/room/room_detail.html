@@ -88,9 +88,33 @@
         function list_charater_from_room() {
             $('div#dialog').find('h3.modal-title').text('导入NPC（替换GM所扮演角色）');
             $('div#dialog').find('div.modal-body').load('{% url 'character:character_list_from_room' room.id %}', function () {
-                $('div.character_list_before_main_page').css("display", "block");
-                $('div.character_list_before_main_page h6.character_list_before_title').text('预选NPC');
-                $('div.character_list_main_page h6.character_list_main_title').text('全部角色');
+                $('div.before_main_page').css("display", "block");
+                $('div.before_main_page h6.title').text('预选NPC');
+                $('div.main_page h6.title').text('全部角色');
+            });
+            $('div#dialog').find('button.sure').css("display", "none");
+            $("div#dialog").modal("show");
+        }
+
+        function list_task_from_room() {
+            $('div#dialog').find('h3.modal-title').text('导入任务');
+            $('div#dialog').find('div.modal-body').load('{% url 'room:list_task' room.id %}', function () {
+                $('div.before_main_page').css("display", "block");
+                $('div.before_main_page h6.title').text('预选任务');
+                $('div.main_page h6.title').text('全部任务');
+            });
+            $('div#dialog').find('button.sure').css("display", "none");
+            $("div#dialog").modal("show");
+        }
+
+        function list_item_from_room() {
+            $('div#dialog').find('h3.modal-title').text('物品管理');
+            $('div#dialog').find('div.modal-body').load('{% url 'room:list_item' room.id %}', function () {
+                $('div.before_main_page').css("display", "block");
+                $('div.after_main_page').css("display", "block");
+                $('div.before_main_page h6.title').text('预选物品');
+                $('div.main_page h6.title').text('队伍已有物品');
+                $('div.after_main_page h6.title').text('全部物品');
             });
             $('div#dialog').find('button.sure').css("display", "none");
             $("div#dialog").modal("show");
@@ -127,9 +151,13 @@
                 <button>开始游戏</button>
                 <button>保存记录</button>
                 <button onclick="list_charater_from_room()">导入角色</button>
-                <button>导入任务</button>
-                <button>导入物品</button>
-                <button>导入区域</button>
+                <button onclick="list_task_from_room()">导入任务</button>
+                <button onclick="list_item_from_room()">导入物品</button>
+                <button onclick="list_area_from_room()">导入区域</button>
+            </div>
+        {% else %}
+            <div class="player_box" style="float: right">
+                <button onclick="list_personal_item_from_room()">查看物品</button>
             </div>
         {% endif %}
     </div>

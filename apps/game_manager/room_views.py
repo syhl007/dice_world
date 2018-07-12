@@ -17,7 +17,7 @@ from dice_world.standard import JsonResponse, txt_board_storeroom
 from dice_world.utils import WordFilter, DiceFilter
 from game_manager.controlor import xml_file_check
 from game_manager.models import Character, Room, Group, GroupMember, GameTxt, GameTxtPhantom, CharacterTxt, Task, \
-    TaskRecord, Item
+    TaskRecord, Item, RoomItemRecord
 from user_manager.models import User
 
 
@@ -136,30 +136,6 @@ class InvitateToGame(generic.View):
             return JsonResponse(state=2, msg='玩家已在游戏组中')
 
 
-class KickOut(generic.View):
-
-    def post(self, request, *args, **kwargs):
-        group_id = kwargs['group_id']
-        room = Room.objects.get(room__id=group_id)
-        if room.gm != request.user:
-            return JsonResponse(state=2, msg="权限不足")
-        player = User.objects.get(id=kwargs['user_id'])
-        GroupMember.objects.filter(Q(group__id=group_id) & Q(user=player)).delete()
-        return JsonResponse(state=0)
-
-
-class ShutUp(generic.View):
-
-    def post(self, request, *args, **kwargs):
-        group_id = kwargs['group_id']
-        room = Room.objects.get(room__id=group_id)
-        if room.gm != request.user:
-            return JsonResponse(state=2, msg="权限不足")
-        player = User.objects.get(id=kwargs['user_id'])
-        GroupMember.objects.filter(Q(group__id=group_id) & Q(user=player)).update(send_msg=False)
-        return JsonResponse(state=0)
-
-
 class RoomDetail(generic.DetailView):
     model = Room
     template_name = 'room/room_detail.html'
@@ -170,33 +146,6 @@ class RoomDetail(generic.DetailView):
         context['is_gm'] = (request.user == self.object.gm)
         GroupMember.objects.filter(Q(user=request.user) & Q(group__room=self.object)).update(is_online=True)
         return self.render_to_response(context)
-
-
-class ListCharacter(generic.ListView):
-    model = Character
-    context_object_name = 'character_list'
-    template_name = 'character/character_list.html'
-
-    def get(self, request, *args, **kwargs):
-        self.queryset = Character.objects.filter(Q(creator=request.user) | Q(private=False))
-        self.object_list = self.get_queryset()
-        context = self.get_context_data()
-        if kwargs.get('group_id'):
-            context['group_id'] = kwargs['group_id']
-        if kwargs.get('room_id'):
-            character_before_list = Character.objects.filter(npc_room__id=kwargs['room_id'])
-            context['character_before_list'] = character_before_list
-        return self.render_to_response(context)
-
-
-class LinkCharacter(generic.View):
-
-    def post(self, request, *args, **kwargs):
-        user = request.user
-        group = Group.objects.get(id=request.POST.get('group_id'))
-        character = Character.objects.get(id=request.POST.get('character_id'))
-        GroupMember.objects.filter(group=group).filter(user=user).update(character=character)
-        return JsonResponse(state=0)
 
 
 class ListGroup(generic.View):
@@ -216,20 +165,14 @@ class ListGroup(generic.View):
             context=context, )
 
 
-class ListGroupCharacter(generic.ListView):
-    queryset = GroupMember
-    template_name = 'room/player_character_list.html'
+class ListPlayer(generic.View):
 
     def get(self, request, *args, **kwargs):
-        group = Group.objects.get(id=kwargs["group_id"])
-        self.queryset = GroupMember.objects.select_related('user', 'character').filter(group=group).order_by(
-            '-is_online')
-        self.object_list = self.get_queryset()
-        context = self.get_context_data()
-        context['group_id'] = group.id
-        context['user_id'] = request.user.id
-        context['is_gm'] = (group.room.gm == request.user)
-        return self.render_to_response(context)
+        characters = Character.objects.only('id', 'name').filter(group_character__group__room_id=kwargs['room_id'])
+        characters_list = []
+        for character in characters:
+            characters_list.append({'id': character.id.hex, 'name': character.name})
+        return JsonResponse(state=0, data=json.dumps(characters_list))
 
 
 class ManageGroup(generic.View):
@@ -344,7 +287,10 @@ class SaveRoomChat(generic.View):
             return JsonResponse(state=1, msg='不具有权限')
         game_txt_phantom = txt_board_storeroom.get(room_id)
         if game_txt_phantom:
-            game_txt_phantom.get_by_state('game').append(CharacterTxt(name='GM', content='\n-------------------------\n存盘时间：' + str(datetime.now()) + '\n-------------------------\n', time=datetime.now()))
+            game_txt_phantom.get_by_state('game').append(CharacterTxt(name='GM',
+                                                                      content='\n-------------------------\n存盘时间：' + str(
+                                                                          datetime.now()) + '\n-------------------------\n',
+                                                                      time=datetime.now()))
             Group.objects.filter(Q(room=room) & Q(users=user)).update(send_msg=False)
             txt_list = [str(txt) for txt in game_txt_phantom.get_by_state('game')]
             if txt_list:
@@ -362,83 +308,22 @@ class SaveRoomChat(generic.View):
             return JsonResponse(state=1, msg="没有消息记录")
 
 
-class CreateCharacter(generic.CreateView):
-    model = Character
-    fields = ['name', 'sex', 'head', 'detail', 'private']
-    template_name = 'character/character_create.html'
-
-    def get(self, request, *args, **kwargs):
-        self.object = None  # 迷
-        form = self.get_form()
-        form.fields['sex'] = forms.ChoiceField(choices=((0, '男'), (1, '女'), (2, '其他')), label='性别')
-        return self.render_to_response(self.get_context_data(form=form))
-
-    def form_valid(self, form):
-        with transaction.atomic():
-            if form.data.get('id'):
-                form.instance.editor = self.request.user
-            else:
-                form.instance.creator = self.request.user
-                form.instance.editor = self.request.user
-            form.save()
-            xml_file_check(form.instance.detail)
-            return JsonResponse(state=0)
-
-    def form_invalid(self, form):
-        return JsonResponse(state=2, msg='数据异常，请检查输入数据。')
-
-
-class CharacterDetail(generic.View):
-
-    def get(self, request, *args, **kwargs):
-        character_id = kwargs['character_uuid']
-        character = Character.objects.get(id=character_id)
-        if character.sex == 0:
-            sex = '男'
-        elif character.sex == 1:
-            sex = '女'
-        else:
-            sex = '其他'
-        character_info = {'id': character.id.hex, 'name': character.name, 'sex': sex}
-        character_xml = ET.parse(character.detail)
-        r = character_xml.getroot()
-        print(r.tag)
-        if r.tag != 'character':
-            return JsonResponse(state=1, msg='文件不符合模板错误')
-        for i in r:
-            text = i.text.replace(i.tail, '')
-            text = text.replace('\t', '')
-            character_info[i.tag] = text
-        return render(request, 'character/character_detail.html',
-                      context={'character': character, 'character_info': character_info})
-
-
-class CreateTask(generic.CreateView):
-    model = Task
-    fields = ['name', 'init_file', 'private']
-    template_name = 'game/task_create.html'
-
-    def form_valid(self, form):
-        with transaction.atomic():
-            form.instance.creator = self.request.user
-            form.instance.description = form.data.get('description')
-            form.save()
-            xml_file_check(form.instance.init_file.name)
-            return JsonResponse(state=0)
-
-
 class ListTask(generic.ListView):
     model = Task
-    template_name = 'game/task_list.html'
-
-
-class TaskDetail(generic.View):
+    template_name = 'room/task_list.html'
 
     def get(self, request, *args, **kwargs):
-        task_id = kwargs['task_id']
-        task = Task.objects.prefetch_related('task').select_related('task__room__name').get(id=task_id)
-        print(task)
-        pass
+        self.queryset = Task.objects.filter(Q(creator=request.user) | Q(private=False))
+        self.object_list = self.get_queryset()
+        context = self.get_context_data()
+        if kwargs.get('room_id'):
+            room = Room.objects.get(id=kwargs['room_id'])
+            if room.gm == request.user:
+                task_before_list = Task.objects.filter(room_task__id=kwargs['room_id'])
+                context['task_before_list'] = task_before_list
+                context['is_gm'] = True
+        context['room_id'] = kwargs['room_id']
+        return self.render_to_response(context)
 
 
 class StartTask(generic.CreateView):
@@ -459,42 +344,58 @@ class StartTask(generic.CreateView):
         form.save()
 
 
-class CreateItem(generic.CreateView):
-    model = Item
-    fields = ['name', 'pic', 'file', 'private', 'unique']
-    template_name = 'game/item_create.html'
-
-    def form_valid(self, form):
-        with transaction.atomic():
-            form.instance.creator = self.request.user
-            form.instance.description = form.data.get('description')
-            form.save()
-            xml_file_check(form.instance.file.name)
-            return JsonResponse(state=0)
-
-    def form_invalid(self, form):
-        return JsonResponse(state=2, msg='数据异常，请检查输入数据。')
-
-
 class ListItem(generic.ListView):
     model = Item
-    template_name = 'game/item_list.html'
-
-
-class ItemDetail(generic.View):
+    template_name = 'room/item_list.html'
 
     def get(self, request, *args, **kwargs):
-        item_id = kwargs['item_id']
+        room = Room.objects.get(id=kwargs['room_id'])
+        if room.gm == request.user:
+            self.queryset = Item.objects.prefetch_related('room_item_record__player').filter(room_item_record__room_id=kwargs['room_id'])
+            self.object_list = self.get_queryset()
+            context = self.get_context_data()
+            item_before_list = Item.objects.filter(room_item__id=kwargs['room_id'])
+            context['item_before_list'] = item_before_list
+            item_after_list = Item.objects.filter(Q(creator=request.user) | Q(private=False))
+            context['item_after_list'] = item_after_list
+            context['is_gm'] = True
+        else:
+            self.queryset = Item.objects.get(Q(room_item_record__room_id=kwargs['room_id']) | Q(
+                room_item_record__player__group_character__user=request.user)).item.all()
+            self.object_list = self.get_queryset()
+            context = self.get_context_data()
+        context['room_id'] = kwargs['room_id']
+        return self.render_to_response(context)
+
+
+class ItemGet(generic.View):
+
+    def post(self, request, *args, **kwargs):
+        room_id = kwargs['room_id']
+        player_ids = json.loads(request.POST['player_ids'])
+        item_id = request.POST['item_id']
         item = Item.objects.get(id=item_id)
-        item_info = {}
-        character_xml = ET.parse(item.file)
-        r = character_xml.getroot()
-        print(r.tag)
-        if r.tag != 'item':
-            return JsonResponse(state=1, msg='文件不符合模板错误')
-        for i in r:
-            text = i.text.replace(i.tail, '')
-            text = text.replace('\t', '')
-            item_info[i.tag] = text
-        return render(request, 'game/item_detail.html',
-                      context={'item': item, 'item_info': item_info})
+        if item.unique:
+            if len(player_ids) > 1:
+                return JsonResponse(state=2, msg='唯一物品不能赋予两个以上角色')
+            try:
+                RoomItemRecord.objects.get(Q(room_id=room_id) & Q(item_id=item_id))
+                return JsonResponse(state=2, msg='已存在该唯一物品')
+            except RoomItemRecord.MultipleObjectsReturned:
+                return JsonResponse(state=1, msg='多于两个唯一物品')
+            except RoomItemRecord.DoesNotExist:
+                pass
+        item_record_list = [RoomItemRecord(player_id=player_id, room_id=room_id, item_id=item_id) for player_id in
+                            player_ids]
+        RoomItemRecord.objects.bulk_create(item_record_list)
+        return JsonResponse(state=0)
+
+
+class ItemLost(generic.View):
+
+    def post(self, request, *args, **kwargs):
+        room_id = kwargs['room_id']
+        player_ids = json.loads(request.POST['player_ids'])
+        item_id = request.POST['item_id']
+        RoomItemRecord.objects.filter(player_id__in=player_ids, room_id=room_id, item_id=item_id).delete()
+        return JsonResponse(state=0)

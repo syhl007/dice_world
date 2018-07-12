@@ -264,7 +264,7 @@ environ是存放HTTP请求信息的dict类，读取处理请求信息之后构�
 
 当然，在Django中对这基础框架进行了封装，Django中基础view类的结构为：
 ```python
-# views.py
+room_views.py
 def view(request, *args, **kwargs):
 ....
 # urls.py 
@@ -1604,5 +1604,15 @@ url规则：
 今天主要是在玩H-ui的弹窗，通过jquery来修改加载不同的弹窗内容实现单一弹窗的复用，感觉还是挺有趣的。
 
 目前遇到一些整合上的问题，最主要的就是页面之间的切换，由于房间页面使用了轮询请求、websocket等，重新加载页面替换房间页面会导致页面被替换但这些轮询会出问题（轮询不停止），得需要做些限制。
+
+---
+
+##2018.07.12
+
+今天主要是归类了一下`views`视图，比较好玩的是写了：
+```python
+Item.objects.get(Q(room_item_record__room_id=kwargs['room_id']) | Q(room_item_record__player__group_character__user=request.user)).item.all()
+```
+这样的连接查询，不知道django会翻译成多长的sql语句。。。
 
 ---

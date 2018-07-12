@@ -9,12 +9,12 @@
     </script>
 </head>
 <body>
-<div class="character_list_before_main_page">
-    <h6 class="character_list_before_title"></h6>
+<div class="before_main_page" style="display: none">
+    <h6 class="title"></h6>
     {% if character_before_list %}
         {% for character in character_before_list %}
             <div style="float: left">
-                <img id="{{ character.id }}" src=/{{ character.head.name }}
+                <img id="{{ character.id }}" src=/{{ character.head }}
                      class="img-responsive avatar size-XL thumbnail"
                      alt="{{ character.name }}" onclick="character_detail(this.id)">
                 <p>{{ character.name }}</p>
@@ -30,12 +30,12 @@
     {% endif %}
     <HR>
 </div>
-<div class="character_list_main_page">
-    <h6 class="character_list_main_title"></h6>
+<div class="main_page">
+    <h6 class="title"></h6>
     {% if character_list %}
         {% for character in character_list %}
             <div style="float: left">
-                <img id="{{ character.id }}" src=/{{ character.head.name }}
+                <img id="{{ character.id }}" src=/{{ character.head }}
                      class="img-responsive avatar size-XL thumbnail"
                      alt="{{ character.name }}" onclick="character_detail(this.id)">
                 <p>{{ character.name }}</p>
@@ -49,6 +49,28 @@
     {% else %}
         <p>No character are available.</p>
     {% endif %}
+    <HR>
+</div>
+<div class="after_main_page" style="display: none">
+    <h6 class="title"></h6>
+    {% if character_after_list %}
+        {% for character in character_after_list %}
+            <div style="float: left">
+                <img id="{{ character.id }}" src=/{{ character.head }}
+                     class="img-responsive avatar size-XL thumbnail"
+                     alt="{{ character.name }}" onclick="character_detail(this.id)">
+                <p>{{ character.name }}</p>
+                {% if group_id %}
+                    <button group_id={{ group_id }} character_id={{ character.id }} onclick="link_character(this)">关联
+                    </button>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <div style="clear: both"></div>
+    {% else %}
+        <p>No character are available.</p>
+    {% endif %}
+    <HR>
 </div>
 </body>
 </html>

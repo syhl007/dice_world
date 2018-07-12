@@ -16,7 +16,7 @@
 {% if character_list %}
     {% for character in character_list %}
         <div style="float: left">
-            <img id="{{ character.id }}" src=/{{ character.head.name }}
+            <img id="{{ character.id }}" src=/{{ character.head }}
                  class="img-responsive avatar size-XXXL thumbnail"
                  alt="{{ character.name }}" onclick="character_detail(this.id)">
             <p>{{ character.name }}</p>

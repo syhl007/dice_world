@@ -2,14 +2,29 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8ad0ee19-5b93-4b29-a3d0-002b40513ca5" name="Default" comment="">
+      <change beforePath="" afterPath="$PROJECT_DIR$/apps/game_manager/character_views.py" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/apps/game_manager/game_views.py" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/apps/game_manager/group_views.py" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/apps/game_manager/migrations/0014_auto_20180712_1441.py" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/apps/game_manager/migrations/0015_auto_20180712_1658.py" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/templates/room/item_list.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/templates/room/task_list.html" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
       <change beforePath="$PROJECT_DIR$/apps/game_manager/character_urls.py" afterPath="$PROJECT_DIR$/apps/game_manager/character_urls.py" />
+      <change beforePath="$PROJECT_DIR$/apps/game_manager/game_urls.py" afterPath="$PROJECT_DIR$/apps/game_manager/game_urls.py" />
+      <change beforePath="$PROJECT_DIR$/apps/game_manager/group_urls.py" afterPath="$PROJECT_DIR$/apps/game_manager/group_urls.py" />
       <change beforePath="$PROJECT_DIR$/apps/game_manager/models.py" afterPath="$PROJECT_DIR$/apps/game_manager/models.py" />
-      <change beforePath="$PROJECT_DIR$/apps/game_manager/views.py" afterPath="$PROJECT_DIR$/apps/game_manager/views.py" />
+      <change beforePath="$PROJECT_DIR$/apps/game_manager/room_urls.py" afterPath="$PROJECT_DIR$/apps/game_manager/room_urls.py" />
+      <change beforePath="$PROJECT_DIR$/apps/game_manager/views.py" afterPath="$PROJECT_DIR$/apps/game_manager/room_views.py" />
       <change beforePath="$PROJECT_DIR$/templates/character/character_list.html" afterPath="$PROJECT_DIR$/templates/character/character_list.html" />
-      <change beforePath="$PROJECT_DIR$/templates/room/player_character_list.html" afterPath="$PROJECT_DIR$/templates/room/player_character_list.html" />
+      <change beforePath="$PROJECT_DIR$/templates/game/item_list.html" afterPath="$PROJECT_DIR$/templates/game/item_list.html" />
+      <change beforePath="$PROJECT_DIR$/templates/game/task_list.html" afterPath="$PROJECT_DIR$/templates/game/task_list.html" />
+      <change beforePath="$PROJECT_DIR$/templates/main.html" afterPath="$PROJECT_DIR$/templates/main.html" />
+      <change beforePath="$PROJECT_DIR$/templates/personal/personal_character_list.html" afterPath="$PROJECT_DIR$/templates/personal/personal_character_list.html" />
+      <change beforePath="$PROJECT_DIR$/templates/personal/personal_item_list.html" afterPath="$PROJECT_DIR$/templates/personal/personal_item_list.html" />
       <change beforePath="$PROJECT_DIR$/templates/room/room_detail.html" afterPath="$PROJECT_DIR$/templates/room/room_detail.html" />
+      <change beforePath="$PROJECT_DIR$/文件上传测试.txt" afterPath="" />
     </list>
     <ignored path="$PROJECT_DIR$/venv/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -20,7 +35,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/dice_world$Unnamed.coverage" NAME="Unnamed Coverage Results" MODIFIED="1531278022873" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/dice_world$Unnamed.coverage" NAME="Unnamed Coverage Results" MODIFIED="1531384705464" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/dice_world$Test__game_manager.coverage" NAME="Test: game_manager Coverage Results" MODIFIED="1529977612939" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
   <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
@@ -28,66 +43,58 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/apps/game_manager/views.py">
+      <file leaf-file-name="room_views.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/apps/game_manager/room_views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="157">
-              <caret line="182" column="32" lean-forward="false" selection-start-line="182" selection-start-column="32" selection-end-line="182" selection-end-column="32" />
+            <state relative-caret-position="365">
+              <caret line="363" column="89" lean-forward="true" selection-start-line="362" selection-start-column="28" selection-end-line="363" selection-end-column="89" />
               <folding>
-                <element signature="e#756#1348#0" expanded="false" />
-                <element signature="e#1393#3150#0" expanded="false" />
-                <element signature="e#1633#1695#0" expanded="false" />
-                <element signature="e#2210#2442#0" expanded="false" />
-                <element signature="e#3188#4656#0" expanded="false" />
-                <element signature="e#4700#5337#0" expanded="false" />
-                <element signature="e#5374#5770#0" expanded="false" />
-                <element signature="e#5806#6216#0" expanded="false" />
-                <element signature="e#6261#6680#0" expanded="false" />
-                <element signature="e#7441#7787#0" expanded="false" />
-                <element signature="e#7825#8401#0" expanded="false" />
-                <element signature="e#8452#9047#0" expanded="false" />
-                <element signature="e#9088#9468#0" expanded="false" />
-                <element signature="e#9506#12683#0" expanded="false" />
-                <element signature="e#9555#10464#0" expanded="false" />
-                <element signature="e#12722#13166#0" expanded="false" />
-                <element signature="e#13208#14615#0" expanded="false" />
-                <element signature="e#14665#15577#0" expanded="false" />
-                <element signature="e#15622#16504#0" expanded="false" />
-                <element signature="e#16549#16964#0" expanded="false" />
-                <element signature="e#17005#17059#0" expanded="false" />
-                <element signature="e#17099#17312#0" expanded="false" />
-                <element signature="e#17356#17843#0" expanded="false" />
-                <element signature="e#17888#18403#0" expanded="false" />
-                <element signature="e#18444#18498#0" expanded="false" />
-                <element signature="e#18538#19138#0" expanded="false" />
+                <element signature="e#772#1364#0" expanded="false" />
+                <element signature="e#1409#3166#0" expanded="false" />
+                <element signature="e#1649#1711#0" expanded="false" />
+                <element signature="e#2226#2458#0" expanded="false" />
+                <element signature="e#3204#4672#0" expanded="false" />
+                <element signature="e#4716#5353#0" expanded="false" />
+                <element signature="e#5398#5817#0" expanded="false" />
+                <element signature="e#5949#6431#0" expanded="false" />
+                <element signature="e#6890#7270#0" expanded="false" />
+                <element signature="e#7308#10485#0" expanded="false" />
+                <element signature="e#7357#8266#0" expanded="false" />
+                <element signature="e#10524#10968#0" expanded="false" />
+                <element signature="e#11010#12632#0" expanded="false" />
+                <element signature="e#12673#13368#0" expanded="false" />
+                <element signature="e#13412#13899#0" expanded="false" />
+                <element signature="e#15125#16079#0" expanded="false" />
+                <element signature="e#15385#15826#0" expanded="false" />
+                <element signature="e#16117#16440#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="README.md" pinned="false" current-in-tab="false">
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
               <first_editor relative-caret-position="455">
-                <caret line="1608" column="0" lean-forward="true" selection-start-line="1608" selection-start-column="0" selection-end-line="1608" selection-end-column="0" />
+                <caret line="1617" column="3" lean-forward="false" selection-start-line="1617" selection-start-column="3" selection-end-line="1617" selection-end-column="3" />
                 <folding>
-                  <marker date="1531302198039" expanded="true" signature="17859:17969" ph="{...}" />
-                  <marker date="1531302198039" expanded="true" signature="18247:18332" ph="..." />
-                  <marker date="1531302198039" expanded="true" signature="18656:18982" ph="{...}" />
-                  <marker date="1531302198039" expanded="true" signature="18719:18970" ph="{...}" />
-                  <marker date="1531302198039" expanded="true" signature="18782:18955" ph="{...}" />
-                  <marker date="1531302198039" expanded="true" signature="22036:22574" ph="{...}" />
-                  <marker date="1531302198039" expanded="true" signature="22097:22571" ph="{&quot;dataType&quot;: &quot;html&quot;...}" />
-                  <marker date="1531302198039" expanded="true" signature="22259:22564" ph="{...}" />
-                  <marker date="1531302198039" expanded="true" signature="22333:22554" ph="{...}" />
-                  <marker date="1531302198039" expanded="true" signature="23672:23855" ph="{...}" />
-                  <marker date="1531302198039" expanded="true" signature="39798:40209" ph="{...}" />
-                  <marker date="1531302198039" expanded="true" signature="39811:40205" ph="{...}" />
-                  <marker date="1531302198039" expanded="true" signature="39974:40199" ph="{...}" />
-                  <marker date="1531302198039" expanded="true" signature="44727:45387" ph="..." />
-                  <marker date="1531302198039" expanded="true" signature="44848:45019" ph="..." />
-                  <marker date="1531302198039" expanded="true" signature="44911:45015" ph="..." />
+                  <marker date="1531388746666" expanded="true" signature="17862:17972" ph="{...}" />
+                  <marker date="1531388746666" expanded="true" signature="18250:18335" ph="..." />
+                  <marker date="1531388746666" expanded="true" signature="18659:18985" ph="{...}" />
+                  <marker date="1531388746666" expanded="true" signature="18722:18973" ph="{...}" />
+                  <marker date="1531388746666" expanded="true" signature="18785:18958" ph="{...}" />
+                  <marker date="1531388746666" expanded="true" signature="22039:22577" ph="{...}" />
+                  <marker date="1531388746666" expanded="true" signature="22100:22574" ph="{&quot;dataType&quot;: &quot;html&quot;...}" />
+                  <marker date="1531388746666" expanded="true" signature="22262:22567" ph="{...}" />
+                  <marker date="1531388746666" expanded="true" signature="22336:22557" ph="{...}" />
+                  <marker date="1531388746666" expanded="true" signature="23675:23858" ph="{...}" />
+                  <marker date="1531388746666" expanded="true" signature="39801:40212" ph="{...}" />
+                  <marker date="1531388746666" expanded="true" signature="39814:40208" ph="{...}" />
+                  <marker date="1531388746666" expanded="true" signature="39977:40202" ph="{...}" />
+                  <marker date="1531388746666" expanded="true" signature="44730:45390" ph="..." />
+                  <marker date="1531388746666" expanded="true" signature="44851:45022" ph="..." />
+                  <marker date="1531388746666" expanded="true" signature="44914:45018" ph="..." />
                 </folding>
               </first_editor>
               <second_editor />
@@ -95,76 +102,26 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="list.py" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/views/generic/list.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="158">
-              <caret line="117" column="20" lean-forward="false" selection-start-line="117" selection-start-column="11" selection-end-line="117" selection-end-column="20" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="room_detail.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="room_detail.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/room/room_detail.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="336">
-              <caret line="95" column="42" lean-forward="true" selection-start-line="95" selection-start-column="42" selection-end-line="95" selection-end-column="42" />
+            <state relative-caret-position="328">
+              <caret line="109" column="39" lean-forward="false" selection-start-line="109" selection-start-column="39" selection-end-line="109" selection-end-column="39" />
               <folding>
-                <element signature="e#423#1042#0#HTML" expanded="false" />
-                <element signature="e#1181#1670#0#HTML" expanded="false" />
-                <element signature="e#1977#2734#0#HTML" expanded="false" />
                 <element signature="e#2866#3367#0#HTML" expanded="false" />
-                <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="e#3412#3950#0#HTML" expanded="false" />
+                <element signature="e#3991#4496#0#HTML" expanded="false" />
+                <element signature="e#4537#5174#0#HTML" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/apps/game_manager/models.py">
+      <file leaf-file-name="room_urls.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/apps/game_manager/room_urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="108">
-              <caret line="30" column="42" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="30" selection-end-column="42" />
-              <folding>
-                <element signature="e#239#1411#0" expanded="false" />
-                <element signature="e#2679#3352#0" expanded="false" />
-                <element signature="e#3392#4541#0" expanded="false" />
-                <element signature="e#4574#5198#0" expanded="false" />
-                <element signature="e#5231#5854#0" expanded="false" />
-                <element signature="e#5893#6546#0" expanded="false" />
-                <element signature="e#6579#7462#0" expanded="false" />
-                <element signature="e#7505#8011#0" expanded="false" />
-                <element signature="e#8047#8580#0" expanded="false" />
-                <element signature="e#8619#8787#0" expanded="false" />
-                <element signature="e#8815#9035#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="player_character_list.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/room/player_character_list.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="183">
-              <caret line="43" column="9" lean-forward="false" selection-start-line="36" selection-start-column="8" selection-end-line="43" selection-end-column="9" />
-              <folding>
-                <element signature="e#466#1540#0#HTML" expanded="false" />
-                <element signature="e#570#792#0#HTML" expanded="false" />
-                <element signature="e#824#899#0#HTML" expanded="false" />
-                <element signature="e#921#1526#0#HTML" expanded="false" />
-                <element signature="e#1600#2018#0#HTML" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="character_urls.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/apps/game_manager/character_urls.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="10" column="120" lean-forward="false" selection-start-line="10" selection-start-column="96" selection-end-line="10" selection-end-column="120" />
+            <state relative-caret-position="158">
+              <caret line="16" column="106" lean-forward="false" selection-start-line="16" selection-start-column="95" selection-end-line="16" selection-end-column="106" />
               <folding />
             </state>
           </provider>
@@ -173,36 +130,47 @@
       <file leaf-file-name="character_list.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/character/character_list.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="432">
-              <caret line="33" column="7" lean-forward="false" selection-start-line="33" selection-start-column="7" selection-end-line="33" selection-end-column="7" />
+            <state relative-caret-position="180">
+              <caret line="32" column="22" lean-forward="false" selection-start-line="32" selection-start-column="22" selection-end-line="32" selection-end-column="22" />
               <folding>
-                <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#head#0;n#html#0;n#!!top" expanded="false" />
+                <element signature="n#script#0;n#head#0;n#html#0;n#!!top" expanded="false" />
+                <element signature="n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+                <element signature="n#div#1;n#body#0;n#html#0;n#!!top" expanded="false" />
+                <element signature="n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="standard.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/dice_world/standard.py">
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/apps/game_manager/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="72">
-              <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="167">
+              <caret line="110" column="93" lean-forward="false" selection-start-line="110" selection-start-column="93" selection-end-line="110" selection-end-column="93" />
+              <folding>
+                <element signature="e#239#1411#0" expanded="false" />
+                <element signature="e#1444#2068#0" expanded="false" />
+                <element signature="e#2101#2724#0" expanded="false" />
+                <element signature="e#2757#3640#0" expanded="false" />
+                <element signature="e#3673#5127#0" expanded="false" />
+                <element signature="e#7062#7715#0" expanded="false" />
+                <element signature="e#7758#8297#0" expanded="false" />
+                <element signature="e#8333#8866#0" expanded="false" />
+                <element signature="e#8905#9073#0" expanded="false" />
+                <element signature="e#9101#9321#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="personal_page.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/personal/personal_page.html">
+      <file leaf-file-name="item_list.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/room/item_list.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="184">
-              <caret line="166" column="92" lean-forward="false" selection-start-line="166" selection-start-column="31" selection-end-line="166" selection-end-column="92" />
+            <state relative-caret-position="436">
+              <caret line="75" column="27" lean-forward="false" selection-start-line="75" selection-start-column="27" selection-end-line="75" selection-end-column="27" />
               <folding>
-                <element signature="e#1620#2864#0#HTML" expanded="false" />
-                <element signature="e#2940#3153#0#HTML" expanded="false" />
-                <element signature="n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-                <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#div#1;n#body#0;n#!!top" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -213,19 +181,13 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="HTML File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>kwargs[</find>
-      <find>list_character/</find>
-      <find>tabs0</find>
-      <find>related_name=</find>
-      <find>related_name</find>
-      <find>ajax</find>
       <find>$.ajax(</find>
       <find>li</find>
       <find>nav_label_box</find>
@@ -233,7 +195,6 @@
       <find>crs</find>
       <find>dom_tr</find>
       <find>csrfmiddlewaretoken</find>
-      <find>$.ajax({</find>
       <find>room_id</find>
       <find>group</find>
       <find>console</find>
@@ -241,7 +202,6 @@
       <find>load</find>
       <find>e.</find>
       <find>head.name</find>
-      <find>character</find>
       <find>task_item</find>
       <find>game:</find>
       <find>task_list</find>
@@ -250,14 +210,22 @@
       <find>list_charater_from_group</find>
       <find>form</find>
       <find>{% url</find>
+      <find>character</find>
+      <find>task</find>
+      <find>item.pic</find>
+      <find>character.head</find>
+      <find>room_item_record</find>
+      <find>$.ajax({</find>
+      <find>group_character</find>
+      <find>id.hex</find>
     </findStrings>
     <replaceStrings>
       <replace>static/resource/</replace>
       <replace>groupmember</replace>
       <replace>groupmember_list</replace>
       <replace>list/character/</replace>
-      <replace>item</replace>
       <replace>task</replace>
+      <replace>item</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -266,14 +234,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/static/css/character/character_style.css" />
-        <option value="$PROJECT_DIR$/apps/game_manager/tests.py" />
-        <option value="$PROJECT_DIR$/templates/game/item_list.html" />
-        <option value="$PROJECT_DIR$/templates/game/task_list.html" />
-        <option value="$PROJECT_DIR$/apps/game_manager/websocket.py" />
-        <option value="$PROJECT_DIR$/dice_world/settings.py" />
-        <option value="$PROJECT_DIR$/apps/game_manager/websocket_urls.py" />
-        <option value="$PROJECT_DIR$/apps/user_manager/models.py" />
         <option value="$PROJECT_DIR$/templates/room/create_room.html" />
         <option value="$PROJECT_DIR$/dice_world/standard.py" />
         <option value="$PROJECT_DIR$/static/css/room/player_character_list.css" />
@@ -282,26 +242,20 @@
         <option value="$PROJECT_DIR$/apps/game_manager/websocket_views.py" />
         <option value="$PROJECT_DIR$/templates/room/room_list.html" />
         <option value="$PROJECT_DIR$/templates/room/group_label.html" />
-        <option value="$PROJECT_DIR$/apps/game_manager/room_urls.py" />
         <option value="$PROJECT_DIR$/templates/room/personal_manager.html" />
         <option value="$PROJECT_DIR$/templates/room/personal_page.html" />
         <option value="$PROJECT_DIR$/templates/room/personal_character_page.html" />
         <option value="$PROJECT_DIR$/templates/personal/personal_character_label.html" />
-        <option value="$PROJECT_DIR$/apps/game_manager/group_urls.py" />
         <option value="$PROJECT_DIR$/dice_world/urls.py" />
         <option value="$PROJECT_DIR$/templates/personal/personal_character_page.html" />
-        <option value="$PROJECT_DIR$/templates/main.html" />
         <option value="$PROJECT_DIR$/templates/character/character_detail.html" />
         <option value="$PROJECT_DIR$/templates/personal/personal_task_list.html" />
         <option value="$PROJECT_DIR$/apps/game_manager/personal_view.py" />
         <option value="$PROJECT_DIR$/apps/game_manager/personal_urls.py" />
-        <option value="$PROJECT_DIR$/apps/game_manager/game_urls.py" />
         <option value="$PROJECT_DIR$/templates/personal/personal_task_simple.html" />
         <option value="$PROJECT_DIR$/templates/game/task_create.html" />
         <option value="$PROJECT_DIR$/templates/character/character_create.html" />
-        <option value="$PROJECT_DIR$/templates/personal/personal_item_list.html" />
         <option value="$PROJECT_DIR$/templates/personal/personal_item_simple.html" />
-        <option value="$PROJECT_DIR$/templates/personal/personal_character_list.html" />
         <option value="$PROJECT_DIR$/templates/personal/personal_character_simple.html" />
         <option value="$PROJECT_DIR$/templates/game/item_detail.html" />
         <option value="$PROJECT_DIR$/templates/game/item_create.html" />
@@ -310,11 +264,26 @@
         <option value="$PROJECT_DIR$/templates/game/character_list.html" />
         <option value="$PROJECT_DIR$/templates/character/character_link_list.html" />
         <option value="$PROJECT_DIR$/templates/room/player_character_list.html" />
-        <option value="$PROJECT_DIR$/apps/game_manager/models.py" />
         <option value="$PROJECT_DIR$/apps/game_manager/views.py" />
+        <option value="$PROJECT_DIR$/templates/main.html" />
+        <option value="$PROJECT_DIR$/apps/game_manager/group_urls.py" />
+        <option value="$PROJECT_DIR$/apps/game_manager/group_views.py" />
+        <option value="$PROJECT_DIR$/apps/game_manager/character_view.py" />
         <option value="$PROJECT_DIR$/apps/game_manager/character_urls.py" />
-        <option value="$PROJECT_DIR$/templates/character/character_list.html" />
+        <option value="$PROJECT_DIR$/templates/game/item_list.html" />
+        <option value="$PROJECT_DIR$/apps/game_manager/game_urls.py" />
+        <option value="$PROJECT_DIR$/apps/game_manager/game_views.py" />
+        <option value="$PROJECT_DIR$/templates/personal/personal_item_list.html" />
+        <option value="$PROJECT_DIR$/templates/personal/personal_character_list.html" />
+        <option value="$PROJECT_DIR$/apps/game_manager/models.py" />
+        <option value="$PROJECT_DIR$/templates/game/task_list.html" />
         <option value="$PROJECT_DIR$/templates/room/room_detail.html" />
+        <option value="$PROJECT_DIR$/templates/room/task_list.html" />
+        <option value="$PROJECT_DIR$/templates/character/character_list.html" />
+        <option value="$PROJECT_DIR$/apps/game_manager/room_urls.py" />
+        <option value="$PROJECT_DIR$/templates/room/item_list.html" />
+        <option value="$PROJECT_DIR$/apps/game_manager/room_views.py" />
+        <option value="$PROJECT_DIR$/apps/game_manager/character_views.py" />
         <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
@@ -345,8 +314,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -409,6 +376,8 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -417,16 +386,16 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/manage.py" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="G:\兴趣使然\Django2\dice_world\templates\game" />
-      <recent name="G:\兴趣使然\Django2\dice_world\templates\personal" />
-      <recent name="G:\兴趣使然\Django2\dice_world\apps\game_manager" />
-      <recent name="G:\兴趣使然\Django2\dice_world\templates\room" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="G:\兴趣使然\Django2\dice_world\templates\character" />
       <recent name="G:\兴趣使然\Django2\dice_world\templates\personal" />
       <recent name="G:\兴趣使然\Django2\dice_world\static\css" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="G:\兴趣使然\Django2\dice_world\templates\room" />
+      <recent name="G:\兴趣使然\Django2\dice_world\templates\game" />
+      <recent name="G:\兴趣使然\Django2\dice_world\templates\personal" />
+      <recent name="G:\兴趣使然\Django2\dice_world\apps\game_manager" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -504,7 +473,7 @@
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32824427" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.7561375" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24130106" sideWeight="0.49046323" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24508321" sideWeight="0.49046323" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="manage.py@dice_world" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.7626841" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -563,16 +532,6 @@
           <line>28</line>
           <option name="timeStamp" value="34" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/apps/game_manager/views.py</url>
-          <line>141</line>
-          <option name="timeStamp" value="90" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/apps/game_manager/views.py</url>
-          <line>439</line>
-          <option name="timeStamp" value="96" />
-        </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
@@ -581,70 +540,11 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="115" />
+      <option name="time" value="119" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/static/H-ui.min.css" />
-    <entry file="file://$PROJECT_DIR$/static/css/room/group_label.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="3" column="1" lean-forward="true" selection-start-line="3" selection-start-column="1" selection-end-line="3" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/css/main/main_style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="302">
-          <caret line="24" column="20" lean-forward="false" selection-start-line="24" selection-start-column="20" selection-end-line="24" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/apps/registry.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-160">
-          <caret line="234" column="33" lean-forward="false" selection-start-line="234" selection-start-column="8" selection-end-line="234" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/css/room/player_character_list.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="21" column="14" lean-forward="false" selection-start-line="21" selection-start-column="14" selection-end-line="21" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/room/room_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="224">
-          <caret line="40" column="0" lean-forward="false" selection-start-line="40" selection-start-column="0" selection-end-line="42" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/db/models/query.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="409" column="8" lean-forward="false" selection-start-line="409" selection-start-column="8" selection-end-line="409" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/game_manager/group_urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="8" column="41" lean-forward="true" selection-start-line="8" selection-start-column="41" selection-end-line="8" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/user_manager/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/static/H-ui/iconfont.css" />
     <entry file="file://$PROJECT_DIR$/static/H-ui/iconfont.min.css" />
     <entry file="file://$PROJECT_DIR$/static/js/jquery-3.3.1.js">
@@ -655,19 +555,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/personal/personal_character_page.html" />
-    <entry file="file://$PROJECT_DIR$/templates/main.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="64" column="72" lean-forward="true" selection-start-line="64" selection-start-column="12" selection-end-line="64" selection-end-column="72" />
-          <folding>
-            <element signature="e#600#746#0#HTML" expanded="false" />
-            <element signature="e#781#1803#0#HTML" expanded="false" />
-            <element signature="e#1841#2306#0#HTML" expanded="false" />
-            <element signature="e#2342#2471#0#HTML" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/static/h-ui/css/H-ui.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="186">
@@ -679,7 +566,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="220">
           <caret line="15" column="131" lean-forward="true" selection-start-line="15" selection-start-column="4" selection-end-line="15" selection-end-column="131" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -725,7 +611,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="252">
           <caret line="7" column="104" lean-forward="false" selection-start-line="7" selection-start-column="104" selection-end-line="7" selection-end-column="104" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -733,7 +618,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="186">
           <caret line="3843" column="12" lean-forward="false" selection-start-line="3843" selection-start-column="12" selection-end-line="3843" selection-end-column="12" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -752,19 +636,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/views/generic/base.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="521">
-          <caret line="88" column="0" lean-forward="false" selection-start-line="88" selection-start-column="0" selection-end-line="88" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/game/item_create.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
           <caret line="9" column="53" lean-forward="false" selection-start-line="9" selection-start-column="42" selection-end-line="9" selection-end-column="53" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -773,13 +648,6 @@
         <state relative-caret-position="87">
           <caret line="141" column="0" lean-forward="false" selection-start-line="141" selection-start-column="0" selection-end-line="141" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/personal/personal_item_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="123">
-          <caret line="25" column="67" lean-forward="false" selection-start-line="25" selection-start-column="67" selection-end-line="25" selection-end-column="67" />
         </state>
       </provider>
     </entry>
@@ -801,33 +669,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apps/game_manager/personal_view.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-108">
-          <caret line="19" column="38" lean-forward="false" selection-start-line="19" selection-start-column="38" selection-end-line="19" selection-end-column="38" />
-          <folding>
-            <element signature="e#365#641#0" expanded="false" />
-            <element signature="e#687#956#0" expanded="false" />
-            <element signature="e#1003#1264#0" expanded="false" />
-            <element signature="e#1305#1559#0" expanded="false" />
-            <element signature="e#1606#1867#0" expanded="false" />
-            <element signature="e#1908#2162#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/personal/personal_character_simple.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="510">
           <caret line="30" column="0" lean-forward="false" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/game_manager/game_urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="10" column="55" lean-forward="false" selection-start-line="10" selection-start-column="55" selection-end-line="10" selection-end-column="55" />
           <folding />
         </state>
       </provider>
@@ -856,40 +701,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apps/game_manager/room_urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="15" column="66" lean-forward="false" selection-start-line="15" selection-start-column="66" selection-end-line="15" selection-end-column="66" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/personal/personal_character_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="292">
-          <caret line="32" column="7" lean-forward="true" selection-start-line="32" selection-start-column="7" selection-end-line="32" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/character/character_link_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="36" column="27" lean-forward="true" selection-start-line="36" selection-start-column="27" selection-end-line="36" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/character/character_link_list.html" />
     <entry file="file://$PROJECT_DIR$/templates/personal/personal_page.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="184">
+        <state relative-caret-position="5976">
           <caret line="166" column="92" lean-forward="false" selection-start-line="166" selection-start-column="31" selection-end-line="166" selection-end-column="92" />
-          <folding>
-            <element signature="e#1620#2864#0#HTML" expanded="false" />
-            <element signature="e#2940#3153#0#HTML" expanded="false" />
-            <element signature="n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -897,111 +714,272 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="258">
           <caret line="17" column="85" lean-forward="true" selection-start-line="17" selection-start-column="16" selection-end-line="17" selection-end-column="85" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/views/generic/list.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="117" column="20" lean-forward="false" selection-start-line="117" selection-start-column="11" selection-end-line="117" selection-end-column="20" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dice_world/standard.py">
+    <entry file="file://$PROJECT_DIR$/apps/game_manager/migrations/0014_auto_20180712_1441.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="292">
+          <caret line="23" column="30" lean-forward="true" selection-start-line="23" selection-start-column="30" selection-end-line="23" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/main.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="11" column="11" lean-forward="false" selection-start-line="11" selection-start-column="11" selection-end-line="11" selection-end-column="11" />
+          <folding>
+            <element signature="n#script#2;n#head#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="e#781#1803#0#HTML" expanded="false" />
+            <element signature="e#1841#2367#0#HTML" expanded="false" />
+            <element signature="n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#div#1;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/game_manager/group_views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="72">
-          <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-          <folding />
+          <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+          <folding>
+            <element signature="e#255#850#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/room/player_character_list.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
+        <state relative-caret-position="36">
           <caret line="43" column="9" lean-forward="false" selection-start-line="36" selection-start-column="8" selection-end-line="43" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/game_manager/group_urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="11" column="72" lean-forward="false" selection-start-line="11" selection-start-column="72" selection-end-line="11" selection-end-column="72" />
           <folding>
-            <element signature="e#466#1540#0#HTML" expanded="false" />
-            <element signature="e#570#792#0#HTML" expanded="false" />
-            <element signature="e#824#899#0#HTML" expanded="false" />
-            <element signature="e#921#1526#0#HTML" expanded="false" />
-            <element signature="e#1600#2018#0#HTML" expanded="false" />
+            <element signature="e#0#57#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apps/game_manager/models.py">
+    <entry file="file://$PROJECT_DIR$/apps/game_manager/personal_view.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="30" column="42" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="30" selection-end-column="42" />
+        <state relative-caret-position="36">
+          <caret line="19" column="38" lean-forward="false" selection-start-line="19" selection-start-column="38" selection-end-line="19" selection-end-column="38" />
           <folding>
-            <element signature="e#239#1411#0" expanded="false" />
-            <element signature="e#2679#3352#0" expanded="false" />
-            <element signature="e#3392#4541#0" expanded="false" />
-            <element signature="e#4574#5198#0" expanded="false" />
-            <element signature="e#5231#5854#0" expanded="false" />
-            <element signature="e#5893#6546#0" expanded="false" />
-            <element signature="e#6579#7462#0" expanded="false" />
-            <element signature="e#7505#8011#0" expanded="false" />
-            <element signature="e#8047#8580#0" expanded="false" />
-            <element signature="e#8619#8787#0" expanded="false" />
-            <element signature="e#8815#9035#0" expanded="false" />
+            <element signature="e#365#641#0" expanded="false" />
+            <element signature="e#687#956#0" expanded="false" />
+            <element signature="e#1003#1264#0" expanded="false" />
+            <element signature="e#1305#1559#0" expanded="false" />
+            <element signature="e#1606#1867#0" expanded="false" />
+            <element signature="e#1908#2162#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/game/item_list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1152">
+          <caret line="32" column="60" lean-forward="false" selection-start-line="32" selection-start-column="60" selection-end-line="32" selection-end-column="60" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/game_manager/game_urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="13" column="1" lean-forward="true" selection-start-line="13" selection-start-column="1" selection-end-line="13" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/game_manager/game_views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="328">
+          <caret line="94" column="0" lean-forward="false" selection-start-line="94" selection-start-column="0" selection-end-line="94" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#33#0" expanded="true" />
+            <element signature="e#379#794#0" expanded="false" />
+            <element signature="e#839#1354#0" expanded="false" />
+            <element signature="e#1394#1994#0" expanded="false" />
+            <element signature="e#2034#2247#0" expanded="false" />
+            <element signature="e#2692#3033#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/personal/personal_item_list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="194">
+          <caret line="18" column="52" lean-forward="false" selection-start-line="18" selection-start-column="52" selection-end-line="18" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/personal/personal_character_list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="194">
+          <caret line="18" column="63" lean-forward="false" selection-start-line="18" selection-start-column="63" selection-end-line="18" selection-end-column="63" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/views/generic/base.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="81">
+          <caret line="88" column="0" lean-forward="false" selection-start-line="88" selection-start-column="0" selection-end-line="88" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/game_manager/character_urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="10" column="120" lean-forward="false" selection-start-line="10" selection-start-column="96" selection-end-line="10" selection-end-column="120" />
+        <state relative-caret-position="194">
+          <caret line="9" column="80" lean-forward="false" selection-start-line="9" selection-start-column="80" selection-end-line="9" selection-end-column="80" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apps/game_manager/views.py">
+    <entry file="file://$PROJECT_DIR$/templates/game/task_list.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="157">
-          <caret line="182" column="32" lean-forward="false" selection-start-line="182" selection-start-column="32" selection-end-line="182" selection-end-column="32" />
+        <state relative-caret-position="251">
+          <caret line="32" column="60" lean-forward="false" selection-start-line="32" selection-start-column="60" selection-end-line="32" selection-end-column="60" />
           <folding>
-            <element signature="e#756#1348#0" expanded="false" />
-            <element signature="e#1393#3150#0" expanded="false" />
-            <element signature="e#1633#1695#0" expanded="false" />
-            <element signature="e#2210#2442#0" expanded="false" />
-            <element signature="e#3188#4656#0" expanded="false" />
-            <element signature="e#4700#5337#0" expanded="false" />
-            <element signature="e#5374#5770#0" expanded="false" />
-            <element signature="e#5806#6216#0" expanded="false" />
-            <element signature="e#6261#6680#0" expanded="false" />
-            <element signature="e#7441#7787#0" expanded="false" />
-            <element signature="e#7825#8401#0" expanded="false" />
-            <element signature="e#8452#9047#0" expanded="false" />
-            <element signature="e#9088#9468#0" expanded="false" />
-            <element signature="e#9506#12683#0" expanded="false" />
-            <element signature="e#9555#10464#0" expanded="false" />
-            <element signature="e#12722#13166#0" expanded="false" />
-            <element signature="e#13208#14615#0" expanded="false" />
-            <element signature="e#14665#15577#0" expanded="false" />
-            <element signature="e#15622#16504#0" expanded="false" />
-            <element signature="e#16549#16964#0" expanded="false" />
-            <element signature="e#17005#17059#0" expanded="false" />
-            <element signature="e#17099#17312#0" expanded="false" />
-            <element signature="e#17356#17843#0" expanded="false" />
-            <element signature="e#17888#18403#0" expanded="false" />
-            <element signature="e#18444#18498#0" expanded="false" />
-            <element signature="e#18538#19138#0" expanded="false" />
+            <element signature="n#div#0;n#body#0;n#!!top" expanded="false" />
+            <element signature="n#div#1;n#body#0;n#!!top" expanded="false" />
+            <element signature="n#div#2;n#body#0;n#!!top" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/character/character_list.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="33" column="7" lean-forward="false" selection-start-line="33" selection-start-column="7" selection-end-line="33" selection-end-column="7" />
+        <state relative-caret-position="180">
+          <caret line="32" column="22" lean-forward="false" selection-start-line="32" selection-start-column="22" selection-end-line="32" selection-end-column="22" />
           <folding>
-            <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#head#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#script#0;n#head#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#div#1;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#div#2;n#body#0;n#html#0;n#!!top" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Envs/django2/Lib/site-packages/django/views/generic/list.py">
+    <entry file="file://$PROJECT_DIR$/templates/room/task_list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="36" column="38" lean-forward="false" selection-start-line="36" selection-start-column="38" selection-end-line="36" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/room/room_detail.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="328">
+          <caret line="109" column="39" lean-forward="false" selection-start-line="109" selection-start-column="39" selection-end-line="109" selection-end-column="39" />
+          <folding>
+            <element signature="e#2866#3367#0#HTML" expanded="false" />
+            <element signature="e#3412#3950#0#HTML" expanded="false" />
+            <element signature="e#3991#4496#0#HTML" expanded="false" />
+            <element signature="e#4537#5174#0#HTML" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/game_manager/room_urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="158">
-          <caret line="117" column="20" lean-forward="false" selection-start-line="117" selection-start-column="11" selection-end-line="117" selection-end-column="20" />
+          <caret line="16" column="106" lean-forward="false" selection-start-line="16" selection-start-column="95" selection-end-line="16" selection-end-column="106" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/game_manager/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="167">
+          <caret line="110" column="93" lean-forward="false" selection-start-line="110" selection-start-column="93" selection-end-line="110" selection-end-column="93" />
+          <folding>
+            <element signature="e#239#1411#0" expanded="false" />
+            <element signature="e#1444#2068#0" expanded="false" />
+            <element signature="e#2101#2724#0" expanded="false" />
+            <element signature="e#2757#3640#0" expanded="false" />
+            <element signature="e#3673#5127#0" expanded="false" />
+            <element signature="e#7062#7715#0" expanded="false" />
+            <element signature="e#7758#8297#0" expanded="false" />
+            <element signature="e#8333#8866#0" expanded="false" />
+            <element signature="e#8905#9073#0" expanded="false" />
+            <element signature="e#9101#9321#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dice_world/standard.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="16" column="4" lean-forward="false" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/room/item_list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="436">
+          <caret line="75" column="27" lean-forward="false" selection-start-line="75" selection-start-column="27" selection-end-line="75" selection-end-column="27" />
+          <folding>
+            <element signature="n#div#1;n#body#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/game_manager/character_views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="194">
+          <caret line="49" column="48" lean-forward="false" selection-start-line="49" selection-start-column="45" selection-end-line="49" selection-end-column="48" />
+          <folding>
+            <element signature="e#0#33#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/game_manager/room_views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="365">
+          <caret line="363" column="89" lean-forward="true" selection-start-line="362" selection-start-column="28" selection-end-line="363" selection-end-column="89" />
+          <folding>
+            <element signature="e#772#1364#0" expanded="false" />
+            <element signature="e#1409#3166#0" expanded="false" />
+            <element signature="e#1649#1711#0" expanded="false" />
+            <element signature="e#2226#2458#0" expanded="false" />
+            <element signature="e#3204#4672#0" expanded="false" />
+            <element signature="e#4716#5353#0" expanded="false" />
+            <element signature="e#5398#5817#0" expanded="false" />
+            <element signature="e#5949#6431#0" expanded="false" />
+            <element signature="e#6890#7270#0" expanded="false" />
+            <element signature="e#7308#10485#0" expanded="false" />
+            <element signature="e#7357#8266#0" expanded="false" />
+            <element signature="e#10524#10968#0" expanded="false" />
+            <element signature="e#11010#12632#0" expanded="false" />
+            <element signature="e#12673#13368#0" expanded="false" />
+            <element signature="e#13412#13899#0" expanded="false" />
+            <element signature="e#15125#16079#0" expanded="false" />
+            <element signature="e#15385#15826#0" expanded="false" />
+            <element signature="e#16117#16440#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1009,42 +987,27 @@
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
           <first_editor relative-caret-position="455">
-            <caret line="1608" column="0" lean-forward="true" selection-start-line="1608" selection-start-column="0" selection-end-line="1608" selection-end-column="0" />
+            <caret line="1617" column="3" lean-forward="false" selection-start-line="1617" selection-start-column="3" selection-end-line="1617" selection-end-column="3" />
             <folding>
-              <marker date="1531302198039" expanded="true" signature="17859:17969" ph="{...}" />
-              <marker date="1531302198039" expanded="true" signature="18247:18332" ph="..." />
-              <marker date="1531302198039" expanded="true" signature="18656:18982" ph="{...}" />
-              <marker date="1531302198039" expanded="true" signature="18719:18970" ph="{...}" />
-              <marker date="1531302198039" expanded="true" signature="18782:18955" ph="{...}" />
-              <marker date="1531302198039" expanded="true" signature="22036:22574" ph="{...}" />
-              <marker date="1531302198039" expanded="true" signature="22097:22571" ph="{&quot;dataType&quot;: &quot;html&quot;...}" />
-              <marker date="1531302198039" expanded="true" signature="22259:22564" ph="{...}" />
-              <marker date="1531302198039" expanded="true" signature="22333:22554" ph="{...}" />
-              <marker date="1531302198039" expanded="true" signature="23672:23855" ph="{...}" />
-              <marker date="1531302198039" expanded="true" signature="39798:40209" ph="{...}" />
-              <marker date="1531302198039" expanded="true" signature="39811:40205" ph="{...}" />
-              <marker date="1531302198039" expanded="true" signature="39974:40199" ph="{...}" />
-              <marker date="1531302198039" expanded="true" signature="44727:45387" ph="..." />
-              <marker date="1531302198039" expanded="true" signature="44848:45019" ph="..." />
-              <marker date="1531302198039" expanded="true" signature="44911:45015" ph="..." />
+              <marker date="1531388746666" expanded="true" signature="17862:17972" ph="{...}" />
+              <marker date="1531388746666" expanded="true" signature="18250:18335" ph="..." />
+              <marker date="1531388746666" expanded="true" signature="18659:18985" ph="{...}" />
+              <marker date="1531388746666" expanded="true" signature="18722:18973" ph="{...}" />
+              <marker date="1531388746666" expanded="true" signature="18785:18958" ph="{...}" />
+              <marker date="1531388746666" expanded="true" signature="22039:22577" ph="{...}" />
+              <marker date="1531388746666" expanded="true" signature="22100:22574" ph="{&quot;dataType&quot;: &quot;html&quot;...}" />
+              <marker date="1531388746666" expanded="true" signature="22262:22567" ph="{...}" />
+              <marker date="1531388746666" expanded="true" signature="22336:22557" ph="{...}" />
+              <marker date="1531388746666" expanded="true" signature="23675:23858" ph="{...}" />
+              <marker date="1531388746666" expanded="true" signature="39801:40212" ph="{...}" />
+              <marker date="1531388746666" expanded="true" signature="39814:40208" ph="{...}" />
+              <marker date="1531388746666" expanded="true" signature="39977:40202" ph="{...}" />
+              <marker date="1531388746666" expanded="true" signature="44730:45390" ph="..." />
+              <marker date="1531388746666" expanded="true" signature="44851:45022" ph="..." />
+              <marker date="1531388746666" expanded="true" signature="44914:45018" ph="..." />
             </folding>
           </first_editor>
           <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/room/room_detail.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
-          <caret line="95" column="42" lean-forward="true" selection-start-line="95" selection-start-column="42" selection-end-line="95" selection-end-column="42" />
-          <folding>
-            <element signature="e#423#1042#0#HTML" expanded="false" />
-            <element signature="e#1181#1670#0#HTML" expanded="false" />
-            <element signature="e#1977#2734#0#HTML" expanded="false" />
-            <element signature="e#2866#3367#0#HTML" expanded="false" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>

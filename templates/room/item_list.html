@@ -1,0 +1,87 @@
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        function get_player_list() {
+            $.ajax({
+                url: "{% url 'room:list_player' room_id %}",
+                method: 'get',
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data);
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+<div class="before_main_page" style="display: none">
+    <h6 class="title"></h6>
+    {% if item_before_list %}
+        {% for item in item_before_list %}
+            <div style="float: left">
+                <img id="{{ item.id }}" src=/{{ item.pic }}
+                     class="img-responsive avatar size-XL thumbnail"
+                     alt="{{ item.name }}" onclick="item_detail(this.id)">
+                <p>{{ item.name }}</p>
+            </div>
+            {% if is_gm %}
+                <div>
+                    <button item_id="{{ item.id }}" onclick="get_player_list()">分配</button>
+                    <div item_id="{{ item.id }}" class="player_list"></div>
+                </div>
+            {% endif %}
+        {% endfor %}
+        <div style="clear: both"></div>
+    {% else %}
+        <p>No item are available.</p>
+    {% endif %}
+    <HR>
+</div>
+<div class="main_page">
+    <h6 class="title"></h6>
+    {% if item_list %}
+        {% for item in item_list %}
+            <div style="float: left">
+                <img id="{{ item.id }}" src=/{{ item.pic }}
+                     class="img-responsive avatar size-XL thumbnail"
+                     alt="{{ item.name }}" onclick="item_detail(this.id)">
+                <p>{{ item.name }}</p>{% if is_gm %}({{ item.room_item_record__player.name }}){% endif %}
+                <div>
+                    <button>丢弃</button>
+                    <button>转交</button>
+                </div>
+            </div>
+        {% endfor %}
+        <div style="clear: both"></div>
+    {% else %}
+        <p>No item are available.</p>
+    {% endif %}
+    <HR>
+</div>
+<div class="after_main_page" style="display: none">
+    <h6 class="title"></h6>
+    {% if item_after_list %}
+        {% for item in item_after_list %}
+            <div style="float: left">
+                <img id="{{ item.id }}" src=/{{ item.pic }}
+                     class="img-responsive avatar size-XL thumbnail"
+                     alt="{{ item.name }}" onclick="item_detail(this.id)">
+                <p>{{ item.name }}</p>
+                {% if is_gm %}
+                    <div>
+                        <button item_id="{{ item.id }}" onclick="get_player_list()">分配</button>
+                        <div item_id="{{ item.id }}" class="player_list"></div>
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <div style="clear: both"></div>
+    {% else %}
+        <p>No item are available.</p>
+    {% endif %}
+    <HR>
+</div>
+</body>
+
+
