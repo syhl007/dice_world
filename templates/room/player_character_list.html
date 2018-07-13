@@ -117,7 +117,6 @@
                             <button onclick="shut_up(this)">禁言</button>
                             <button onclick="kick_out(this)">踢出房间</button>
                         {% endif %}
-                        <HR>
                     </div>
                 </li>
             {% else %}
@@ -129,6 +128,8 @@
                     {% endif %}
                 </li>
             {% endif %}
+            <div style="clear: both"></div>
+            <HR>
         {% endfor %}
     </ul>
 {% else %}

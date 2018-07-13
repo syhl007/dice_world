@@ -3,12 +3,88 @@
     <title>Title</title>
     <script>
         function get_player_list() {
+            var form = $('<form></form>');
             $.ajax({
                 url: "{% url 'room:list_player' room_id %}",
                 method: 'get',
                 dataType: 'json',
                 success: function (data) {
-                    console.log(data);
+                    var players = JSON.parse(data.data);
+                    form.attr('method', 'post');
+                    for (var i in players) {
+                        var player_id = $('<input type="checkbox" name="player_ids" />');
+                        player_id.attr('value', players[i].id);
+                        form.append(player_id);
+                        form.append(players[i].name + '<br>');
+                    }
+                    form.append($('<input id="item_id_dom" type="hidden" name="item_id"">'));
+                    form.append($('<input id="owner_id_dom" type="hidden" name="owner_id"">'));
+                    form.append($('<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">'));
+                    var ok = $('<input type="button" value="提交"></input>');
+                    ok.click(function () {
+                        form.submit();
+                    });
+                    form.append(ok);
+                }
+            });
+            return form;
+        }
+
+        var player_list_form = get_player_list();
+
+        function handlerwithitem(dom, item_id, player_id, type) {
+            if (!$(dom).next('div').is(":empty")) {
+                $(dom).next('div').toggle();
+            }
+            else {
+                var form = player_list_form;
+                if (type == 'change' && typeof(player_id) != undefined) {
+                    form.attr('action', '{% url "room:change_item" room_id %}');
+                    {% if is_gm %}
+                        var owner_id_dom = form.find('input#owner_id_dom');
+                        owner_id_dom.attr('value', player_id);
+                    {% endif %}
+                }
+                else {
+                    form.attr('action', '{% url "room:get_item" room_id %}');
+                }
+                var item_id_dom = form.find('input#item_id_dom');
+                item_id_dom.attr('value', item_id);
+                form.append(item_id_dom);
+                form.submit(function (e) {
+                    e.preventDefault();
+                    $.ajax({
+                        url: form.attr("action"),
+                        type: form.attr("method"),
+                        data: form.serialize(),
+                        dataType: "html",
+                        success: function (data) {
+                            {% if is_gm %}
+                                list_item_from_room();
+                            {% else %}
+                                list_personal_item_from_room();
+                            {% endif %}
+                        }
+                    });
+                });
+                $(dom).next('div').html(form);
+            }
+        }
+
+        function item_lost(item_id, player_id) {
+            $.ajax({
+                url: "{% url 'room:lost_item' room_id %}",
+                method: 'post',
+                data: {'item_id': item_id, 'player_id': player_id, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                dataType: 'json',
+                success: function (data) {
+                    if (data.state == 0) {
+                        {% if is_gm %}
+                            list_item_from_room();
+                        {% else %}
+                            list_personal_item_from_room();
+                        {% endif %}
+                    }
                 }
             });
         }
@@ -40,16 +116,19 @@
 </div>
 <div class="main_page">
     <h6 class="title"></h6>
-    {% if item_list %}
-        {% for item in item_list %}
+    {% if roomitemrecord_list %}
+        {% for item in roomitemrecord_list %}
             <div style="float: left">
-                <img id="{{ item.id }}" src=/{{ item.pic }}
+                <img id="{{ item.item_id }}" src=/{{ item.item.pic }}
                      class="img-responsive avatar size-XL thumbnail"
                      alt="{{ item.name }}" onclick="item_detail(this.id)">
-                <p>{{ item.name }}</p>{% if is_gm %}({{ item.room_item_record__player.name }}){% endif %}
+                <p>{{ item.item.name }}</p>{% if is_gm %}({{ item.player.name }}){% endif %}
                 <div>
-                    <button>丢弃</button>
-                    <button>转交</button>
+                    <button onclick="item_lost('{{ item.item_id }}', '{{ item.player.id }}')">丢弃</button>
+                    <button onclick="handlerwithitem(this, '{{ item.item_id }}', '{{ item.player.id }}', type='change')">
+                        分配
+                    </button>
+                    <div item_id="{{ item.id }}" class="player_list"></div>
                 </div>
             </div>
         {% endfor %}
@@ -70,7 +149,7 @@
                 <p>{{ item.name }}</p>
                 {% if is_gm %}
                     <div>
-                        <button item_id="{{ item.id }}" onclick="get_player_list()">分配</button>
+                        <button onclick="handlerwithitem(this,'{{ item.id }}',type='get')">分配</button>
                         <div item_id="{{ item.id }}" class="player_list"></div>
                     </div>
                 {% endif %}

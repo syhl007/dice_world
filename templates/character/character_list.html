@@ -5,7 +5,20 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script>
-
+        function link_character(id) {
+            $.ajax({
+                url:'{% url 'character:character_link' %}',
+                method:'post',
+                data:{'group_id':'{{ group_id }}', 'character_id': id, 'csrfmiddlewaretoken':'{{ csrf_token }}'},
+                dataType:'json',
+                success: function(data){
+                    if(data.state == 0) {
+                        $('div#dialog').modal('hide');
+                        $("div#nav_main").load("{% url 'group:list_character' group_id %}");
+                    }
+                }
+            });
+        }
     </script>
 </head>
 <body>
@@ -40,7 +53,7 @@
                      alt="{{ character.name }}" onclick="character_detail(this.id)">
                 <p>{{ character.name }}</p>
                 {% if group_id %}
-                    <button group_id={{ group_id }} character_id={{ character.id }} onclick="link_character(this)">关联
+                    <button group_id={{ group_id }} character_id={{ character.id }} onclick="link_character('{{ character.id }}')">关联
                     </button>
                 {% endif %}
             </div>

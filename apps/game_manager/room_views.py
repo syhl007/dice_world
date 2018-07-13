@@ -172,7 +172,7 @@ class ListPlayer(generic.View):
         characters_list = []
         for character in characters:
             characters_list.append({'id': character.id.hex, 'name': character.name})
-        return JsonResponse(state=0, data=json.dumps(characters_list))
+        return JsonResponse(state=0, data=characters_list)
 
 
 class ManageGroup(generic.View):
@@ -345,13 +345,12 @@ class StartTask(generic.CreateView):
 
 
 class ListItem(generic.ListView):
-    model = Item
     template_name = 'room/item_list.html'
 
     def get(self, request, *args, **kwargs):
         room = Room.objects.get(id=kwargs['room_id'])
         if room.gm == request.user:
-            self.queryset = Item.objects.prefetch_related('room_item_record__player').filter(room_item_record__room_id=kwargs['room_id'])
+            self.queryset = RoomItemRecord.objects.select_related('player').select_related('item').filter(room_id=kwargs['room_id'])
             self.object_list = self.get_queryset()
             context = self.get_context_data()
             item_before_list = Item.objects.filter(room_item__id=kwargs['room_id'])
@@ -360,8 +359,8 @@ class ListItem(generic.ListView):
             context['item_after_list'] = item_after_list
             context['is_gm'] = True
         else:
-            self.queryset = Item.objects.get(Q(room_item_record__room_id=kwargs['room_id']) | Q(
-                room_item_record__player__group_character__user=request.user)).item.all()
+            self.queryset = RoomItemRecord.objects.filter(Q(room_id=kwargs['room_id']) | Q(
+                player__group_character__user=request.user))
             self.object_list = self.get_queryset()
             context = self.get_context_data()
         context['room_id'] = kwargs['room_id']
@@ -372,7 +371,7 @@ class ItemGet(generic.View):
 
     def post(self, request, *args, **kwargs):
         room_id = kwargs['room_id']
-        player_ids = json.loads(request.POST['player_ids'])
+        player_ids = request.POST.getlist('player_ids')
         item_id = request.POST['item_id']
         item = Item.objects.get(id=item_id)
         if item.unique:
@@ -395,7 +394,30 @@ class ItemLost(generic.View):
 
     def post(self, request, *args, **kwargs):
         room_id = kwargs['room_id']
-        player_ids = json.loads(request.POST['player_ids'])
+        room = Room.objects.get(id=room_id)
+        if room.gm == request.user:
+            player_id = request.POST['player_id']
+            item_id = request.POST['item_id']
+            RoomItemRecord.objects.filter(player_id=player_id, room_id=room_id, item_id=item_id).delete()
+        else:
+            item_id = request.POST['item_id']
+            RoomItemRecord.objects.filter(player__group_character__user=request.user, room_id=room_id, item_id=item_id).delete()
+        return JsonResponse(state=0)
+
+
+class ItemChange(generic.View):
+
+    def post(self, request, *args, **kwargs):
+        room_id = kwargs['room_id']
+        room = Room.objects.get(id=room_id)
+        player_ids = request.POST.getlist('player_ids')
+        if len(player_ids) > 1:
+            return JsonResponse(state=2, msg="不能转交给多个玩家")
+        player_id = player_ids[0]
         item_id = request.POST['item_id']
-        RoomItemRecord.objects.filter(player_id__in=player_ids, room_id=room_id, item_id=item_id).delete()
+        if room.gm == request.user:
+            owner_id = request.POST['owner_id']
+            RoomItemRecord.objects.filter(player_id=owner_id, room_id=room_id, item_id=item_id).update(player_id=player_id)
+        else:
+            RoomItemRecord.objects.filter(player__group_character__user=request.user, room_id=room_id, item_id=item_id).update(player_id=player_id)
         return JsonResponse(state=0)

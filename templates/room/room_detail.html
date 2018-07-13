@@ -113,8 +113,19 @@
                 $('div.before_main_page').css("display", "block");
                 $('div.after_main_page').css("display", "block");
                 $('div.before_main_page h6.title').text('预选物品');
-                $('div.main_page h6.title').text('队伍已有物品');
+                $('div.main_page h6.title').text('持有物品');
                 $('div.after_main_page h6.title').text('全部物品');
+            });
+            $('div#dialog').find('button.sure').css("display", "none");
+            $("div#dialog").modal("show");
+        }
+
+        function list_personal_item_from_room() {
+            $('div#dialog').find('h3.modal-title').text('背包');
+            $('div#dialog').find('div.modal-body').load('{% url 'room:list_item' room.id %}', function () {
+                $('div.before_main_page').css("display", "none");
+                $('div.after_main_page').css("display", "none");
+                $('div.main_page h6.title').text('持有物品');
             });
             $('div#dialog').find('button.sure').css("display", "none");
             $("div#dialog").modal("show");

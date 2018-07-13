@@ -1616,3 +1616,43 @@ Item.objects.get(Q(room_item_record__room_id=kwargs['room_id']) | Q(room_item_re
 这样的连接查询，不知道django会翻译成多长的sql语句。。。
 
 ---
+
+##2018.07.13
+
+* JS全局变量定义的三种方式（js的全局变量很绕，不建议使用，不过我这是场景需要所以就用了，[绕啊绕啊绕](https://www.cnblogs.com/yxz-turing/p/4735934.html)（主要问题就在于js会对function内部进行完整性分析，即，不管在function内何处通过var声明变量，在解析的时候都会提前到最前，__注意，只是提前var声明操作，var跟着的赋值操作并不会提前__））：
+    * 通过var字段在js代码段定义（function外）：
+    
+    ```JavaScript
+    <script>
+    var name='测试';
+    function XX(){
+       alert(name);
+    }
+    </script>
+    ```
+    * 直接在js代码段隐式定义（function外）：__（需要说明的是，如果在function中不通过var来定义变量，变量也会通过这种隐式定义的方式定义为全局变量，但是如果不执行那个function，那个变量就不会被定义。）__
+    
+    ```JavaScript
+    <script>
+    name='测试';
+    function XX(){
+        alert(name);
+    }
+    </script>
+    ```
+    * 通过`window.xxx`来定义，调用时最好加上window来调用（也可以不加）
+    
+    ```JavaScript
+    <script>
+    window.name='测试';
+    function XX(){
+        alert(window.name);
+    }
+    </script>
+    ```
+* 查找节点下一个节点：`$("#XXXX").next('span')`
+* 判断节点是否为空：`$("#ele").is(":empty");`
+* 查找是否具有标签：`$("#father").find("span").length==0`
+* js判断为undefined和null的[方法](https://www.cnblogs.com/thiaoqueen/p/6904398.html)：`typeof(exp) == undefined`（null结果一样）
+
+---
