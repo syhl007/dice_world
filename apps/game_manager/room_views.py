@@ -421,3 +421,35 @@ class ItemChange(generic.View):
         else:
             RoomItemRecord.objects.filter(player__group_character__user=request.user, room_id=room_id, item_id=item_id).update(player_id=player_id)
         return JsonResponse(state=0)
+
+
+class ItemAdd(generic.View):
+
+    def post(self, request, *args, **kwargs):
+        room = Room.objects.get(id=kwargs['room_id'])
+        if room.gm != request.user:
+            return JsonResponse(state=2, msg='没有房主权限')
+        room.items.add(Item.objects.get(id=request.POST.get('item_id')))
+
+
+class SkillList(generic.ListView):
+    template_name = 'room/item_list.html'
+
+    def get(self, request, *args, **kwargs):
+        room = Room.objects.get(id=kwargs['room_id'])
+        if room.gm == request.user:
+            self.queryset = RoomItemRecord.objects.select_related('player').select_related('item').filter(room_id=kwargs['room_id'])
+            self.object_list = self.get_queryset()
+            context = self.get_context_data()
+            item_before_list = Item.objects.filter(room_item__id=kwargs['room_id'])
+            context['item_before_list'] = item_before_list
+            item_after_list = Item.objects.filter(Q(creator=request.user) | Q(private=False))
+            context['item_after_list'] = item_after_list
+            context['is_gm'] = True
+        else:
+            self.queryset = RoomItemRecord.objects.filter(Q(room_id=kwargs['room_id']) | Q(
+                player__group_character__user=request.user))
+            self.object_list = self.get_queryset()
+            context = self.get_context_data()
+        context['room_id'] = kwargs['room_id']
+        return self.render_to_response(context)

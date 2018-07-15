@@ -32,7 +32,7 @@
 
         var player_list_form = get_player_list();
 
-        function handlerwithitem(dom, item_id, player_id, type) {
+        function handle_with_item(dom, item_id, player_id, type) {
             if (!$(dom).next('div').is(":empty")) {
                 $(dom).next('div').toggle();
             }
@@ -88,6 +88,29 @@
                 }
             });
         }
+
+        function item_add_room(item_id) {
+            $.ajax({
+                url: '{% url 'room:add_item' room_id %}',
+                method: 'post',
+                data: {'item_id': item_id, 'csrfmiddlentoken': '{{ csrf_token }}'},
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data);
+                    if (data.state == 0) {
+
+                    }
+                }
+
+            });
+        }
+
+        function item_dialog_detail(item_id) {
+            $('div#dialog').find('div.modal-body').load('{% url 'game:item_detail' '00000000-0000-0000-0000-000000000000' %}'.replace('00000000-0000-0000-0000-000000000000', item_id));
+            $('div#dialog').find('button.sure').css("display", "block");
+            $('div#dialog').find('button.sure').text("返回");
+            $('div#dialog').find('button.sure').click(list_item_from_room());
+        }
     </script>
 </head>
 <body>
@@ -98,12 +121,12 @@
             <div style="float: left">
                 <img id="{{ item.id }}" src=/{{ item.pic }}
                      class="img-responsive avatar size-XL thumbnail"
-                     alt="{{ item.name }}" onclick="item_detail(this.id)">
+                     alt="{{ item.name }}" onclick="item_dialog_detail(this.id)">
                 <p>{{ item.name }}</p>
             </div>
             {% if is_gm %}
                 <div>
-                    <button item_id="{{ item.id }}" onclick="get_player_list()">分配</button>
+                    <button onclick="handle_with_item(this,'{{ item.id }}',type='get')">分配</button>
                     <div item_id="{{ item.id }}" class="player_list"></div>
                 </div>
             {% endif %}
@@ -121,11 +144,11 @@
             <div style="float: left">
                 <img id="{{ item.item_id }}" src=/{{ item.item.pic }}
                      class="img-responsive avatar size-XL thumbnail"
-                     alt="{{ item.name }}" onclick="item_detail(this.id)">
+                     alt="{{ item.name }}" onclick="item_dialog_detail(this.id)">
                 <p>{{ item.item.name }}</p>{% if is_gm %}({{ item.player.name }}){% endif %}
                 <div>
                     <button onclick="item_lost('{{ item.item_id }}', '{{ item.player.id }}')">丢弃</button>
-                    <button onclick="handlerwithitem(this, '{{ item.item_id }}', '{{ item.player.id }}', type='change')">
+                    <button onclick="handle_with_item(this, '{{ item.item_id }}', '{{ item.player.id }}', type='change')">
                         分配
                     </button>
                     <div item_id="{{ item.id }}" class="player_list"></div>
@@ -145,12 +168,11 @@
             <div style="float: left">
                 <img id="{{ item.id }}" src=/{{ item.pic }}
                      class="img-responsive avatar size-XL thumbnail"
-                     alt="{{ item.name }}" onclick="item_detail(this.id)">
+                     alt="{{ item.name }}" onclick="item_dialog_detail(this.id)">
                 <p>{{ item.name }}</p>
                 {% if is_gm %}
                     <div>
-                        <button onclick="handlerwithitem(this,'{{ item.id }}',type='get')">分配</button>
-                        <div item_id="{{ item.id }}" class="player_list"></div>
+                        <button onclick="item_add_room('{{ item.id }}')">添加到房间</button>
                     </div>
                 {% endif %}
             </div>

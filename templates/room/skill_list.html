@@ -1,0 +1,108 @@
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        function get_player_list() {
+            var form = $('<form></form>');
+            $.ajax({
+                url: "{% url 'room:list_player' room_id %}",
+                method: 'get',
+                dataType: 'json',
+                success: function (data) {
+                    var players = JSON.parse(data.data);
+                    form.attr('method', 'post');
+                    for (var i in players) {
+                        var player_id = $('<input type="checkbox" name="player_ids" />');
+                        player_id.attr('value', players[i].id);
+                        form.append(player_id);
+                        form.append(players[i].name + '<br>');
+                    }
+                    form.append($('<input id="item_id_dom" type="hidden" name="item_id"">'));
+                    form.append($('<input id="owner_id_dom" type="hidden" name="owner_id"">'));
+                    form.append($('<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">'));
+                    var ok = $('<input type="button" value="提交"></input>');
+                    ok.click(function () {
+                        form.submit();
+                    });
+                    form.append(ok);
+                }
+            });
+            return form;
+        }
+
+        var player_list_form = get_player_list();
+    </script>
+</head>
+<body>
+<div class="before_main_page" style="display: none">
+    <h6 class="title"></h6>
+    {% if skill_before_list %}
+        {% for skill in skill_before_list %}
+            <div style="float: left">
+                <img id="{{ skill.id }}" src=/{{ skill.pic }}
+                     class="img-responsive avatar size-XL thumbnail"
+                     alt="{{ skill.name }}" onclick="skill_detail(this.id)">
+                <p>{{ skill.name }}</p>
+            </div>
+            {% if is_gm %}
+                <div>
+                    <button onclick="handle_with_skill(this,'{{ skill.id }}',type='get')">分配</button>
+                    <div skill_id="{{ skill.id }}" class="player_list"></div>
+                </div>
+            {% endif %}
+        {% endfor %}
+        <div style="clear: both"></div>
+    {% else %}
+        <p>No skill are available.</p>
+    {% endif %}
+    <HR>
+</div>
+<div class="main_page">
+    <h6 class="title"></h6>
+    {% if roomskillrecord_list %}
+        {% for skill in roomskillrecord_list %}
+            <div style="float: left">
+                <img id="{{ skill.skill_id }}" src=/{{ skill.skill.pic }}
+                     class="img-responsive avatar size-XL thumbnail"
+                     alt="{{ skill.name }}" onclick="skill_detail(this.id)">
+                <p>{{ skill.skill.name }}</p>{% if is_gm %}({{ skill.player.name }}){% endif %}
+                <div>
+                    <button onclick="skill_lost('{{ skill.skill_id }}', '{{ skill.player.id }}')">丢弃</button>
+                    <button onclick="handle_with_skill(this, '{{ skill.skill_id }}', '{{ skill.player.id }}', type='change')">
+                        分配
+                    </button>
+                    <div skill_id="{{ skill.id }}" class="player_list"></div>
+                </div>
+            </div>
+        {% endfor %}
+        <div style="clear: both"></div>
+    {% else %}
+        <p>No skill are available.</p>
+    {% endif %}
+    <HR>
+</div>
+<div class="after_main_page" style="display: none">
+    <h6 class="title"></h6>
+    {% if skill_after_list %}
+        {% for skill in skill_after_list %}
+            <div style="float: left">
+                <img id="{{ skill.id }}" src=/{{ skill.pic }}
+                     class="img-responsive avatar size-XL thumbnail"
+                     alt="{{ skill.name }}" onclick="skill_detail(this.id)">
+                <p>{{ skill.name }}</p>
+                {% if is_gm %}
+                    <div>
+                        <button onclick="skill_add_room('{{ skill.id }}')">添加到房间</button>
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <div style="clear: both"></div>
+    {% else %}
+        <p>No skill are available.</p>
+    {% endif %}
+    <HR>
+</div>
+</body>
+
+

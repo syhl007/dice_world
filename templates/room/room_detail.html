@@ -120,6 +120,19 @@
             $("div#dialog").modal("show");
         }
 
+        function list_skill_from_room() {
+            $('div#dialog').find('h3.modal-title').text('技能管理');
+            $('div#dialog').find('div.modal-body').load('{% url 'room:list_skill' room.id %}', function () {
+                $('div.before_main_page').css("display", "block");
+                $('div.after_main_page').css("display", "block");
+                $('div.before_main_page h6.title').text('预选技能');
+                $('div.main_page h6.title').text('玩家技能');
+                $('div.after_main_page h6.title').text('全部技能');
+            });
+            $('div#dialog').find('button.sure').css("display", "none");
+            $("div#dialog").modal("show");
+        }
+
         function list_personal_item_from_room() {
             $('div#dialog').find('h3.modal-title').text('背包');
             $('div#dialog').find('div.modal-body').load('{% url 'room:list_item' room.id %}', function () {
@@ -161,14 +174,15 @@
             <div class="gm_box" style="float: right">
                 <button>开始游戏</button>
                 <button>保存记录</button>
-                <button onclick="list_charater_from_room()">导入角色</button>
-                <button onclick="list_task_from_room()">导入任务</button>
-                <button onclick="list_item_from_room()">导入物品</button>
-                <button onclick="list_area_from_room()">导入区域</button>
+                <button onclick="list_charater_from_room()">NPC管理</button>
+                <button onclick="list_task_from_room()">任务管理</button>
+                <button onclick="list_item_from_room()">物品管理</button>
+                <button onclick="list_skill_from_room()">技能管理</button>
             </div>
         {% else %}
             <div class="player_box" style="float: right">
                 <button onclick="list_personal_item_from_room()">查看物品</button>
+                <button onclick="list_personal_item_from_room()">查看技能</button>
             </div>
         {% endif %}
     </div>
