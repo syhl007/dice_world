@@ -78,7 +78,7 @@
             });
         }
 
-        function list_charater_from_room() {
+        function list_character_from_room() {
             $('div#dialog').find('h3.modal-title').text('导入NPC（替换GM所扮演角色）');
             $('div#dialog').find('div.modal-body').load('{% url 'character:character_list_from_room' room.id %}', function () {
                 $('div.before_main_page').css("display", "block");
@@ -137,6 +137,17 @@
             $("div#dialog").modal("show");
         }
 
+        function list_personal_skill_from_room() {
+            $('div#dialog').find('h3.modal-title').text('技能书');
+            $('div#dialog').find('div.modal-body').load('{% url 'room:list_skill' room.id %}', function () {
+                $('div.before_main_page').css("display", "none");
+                $('div.after_main_page').css("display", "none");
+                $('div.main_page h6.title').text('已学会技能');
+            });
+            $('div#dialog').find('button.sure').css("display", "none");
+            $("div#dialog").modal("show");
+        }
+
         function start_game() {
             $('button#start_game').attr("disabled", true);
             $('button#start_game').addClass("disabled");
@@ -157,6 +168,32 @@
                     $('button#start_game').attr("disabled", false);
                     $('button#start_game').removeClass("disabled");
                     $('button#start_game').addClass("btn-primary");
+                }
+            });
+        }
+
+        function save_game() {
+            $('button#save_game').attr("disabled", true);
+            $('button#save_game').addClass("disabled");
+            $('button#save_game').removeClass("btn-primary");
+            $.ajax({
+                url: '{% url 'room:game_save' room_id %}',
+                method: 'post',
+                data: {'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                dataType: 'json',
+                success: function (data) {
+                    if (data.state == 0) {
+                        $("button#save_game").css('display', 'none');
+                        $("button#start_game").css('display', 'inline');
+                        $("div.room_text_board").append("------------save------------");
+                        $("div.room_text_board").scrollTop(99999);
+                    }
+                    else if (data.state == 2) {
+                        $.Huimodalalert(data.msg, 1500);
+                    }
+                    $('button#save_game').attr("disabled", false);
+                    $('button#save_game').removeClass("disabled");
+                    $('button#save_game').addClass("btn-primary");
                 }
             });
         }
@@ -190,8 +227,8 @@
         {% if is_gm %}
             <div class="gm_box" style="float: right">
                 <button id="start_game" class="btn btn-primary" onclick="start_game()">开始游戏</button>
-                <button id="save_game" style="display: none" class="btn btn-primary">保存记录</button>
-                <button class="btn btn-primary" onclick="list_charater_from_room()">NPC管理</button>
+                <button id="save_game" style="display: none" class="btn btn-primary" onclick="save_game()">保存记录</button>
+                <button class="btn btn-primary" onclick="list_character_from_room()">NPC管理</button>
                 <button class="btn btn-primary" onclick="list_task_from_room()">任务管理</button>
                 <button class="btn btn-primary" onclick="list_item_from_room()">物品管理</button>
                 <button class="btn btn-primary" onclick="list_skill_from_room()">技能管理</button>
@@ -199,7 +236,7 @@
         {% else %}
             <div class="player_box" style="float: right">
                 <button class="btn btn-primary" onclick="list_personal_item_from_room()">查看物品</button>
-                <button class="btn btn-primary" onclick="list_personal_item_from_room()">查看技能</button>
+                <button class="btn btn-primary" onclick="list_personal_skill_from_room()">查看技能</button>
             </div>
         {% endif %}
     </div>

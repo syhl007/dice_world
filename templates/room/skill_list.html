@@ -9,7 +9,7 @@
                 method: 'get',
                 dataType: 'json',
                 success: function (data) {
-                    var players = JSON.parse(data.data);
+                    var players = data.data;
                     form.attr('method', 'post');
                     for (var i in players) {
                         var player_id = $('<input type="checkbox" name="player_ids" />');
@@ -17,8 +17,7 @@
                         form.append(player_id);
                         form.append(players[i].name + '<br>');
                     }
-                    form.append($('<input id="item_id_dom" type="hidden" name="item_id"">'));
-                    form.append($('<input id="owner_id_dom" type="hidden" name="owner_id"">'));
+                    form.append($('<input id="skill_id_dom" type="hidden" name="skill_id"">'));
                     form.append($('<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">'));
                     var ok = $('<input type="button" value="提交"></input>');
                     ok.click(function () {
@@ -31,6 +30,83 @@
         }
 
         var player_list_form = get_player_list();
+
+        function skill_get(dom, skill_id) {
+            if (!$(dom).next('div').is(":empty")) {
+                $(dom).next('div').toggle();
+            }
+            else {
+                var form = player_list_form;
+                form.attr('action', '{% url "room:get_skill" room_id %}');
+                var skill_id_dom = form.find('input#skill_id_dom');
+                skill_id_dom.attr('value', skill_id);
+                form.append(skill_id_dom);
+                form.submit(function (e) {
+                    e.preventDefault();
+                    $.ajax({
+                        url: form.attr("action"),
+                        type: form.attr("method"),
+                        data: form.serialize(),
+                        dataType: "html",
+                        success: function (data) {
+                            {% if is_gm %}
+                                list_skill_from_room();
+                            {% else %}
+                                list_personal_skill_from_room();
+                            {% endif %}
+                        }
+                    });
+                });
+                $(dom).next('div').html(form);
+            }
+        }
+
+        function skill_lost(skill_id, player_id) {
+            $.ajax({
+                url: "{% url 'room:lost_skill' room_id %}",
+                method: 'post',
+                data: {'skill_id': skill_id, 'player_id': player_id, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                dataType: 'json',
+                success: function (data) {
+                    if (data.state == 0) {
+                        {% if is_gm %}
+                            list_skill_from_room();
+                        {% else %}
+                            list_personal_skill_from_room();
+                        {% endif %}
+                    }
+                    else if(data.state == 2) {
+                       $.Huimodalalert(data.msg, 1500);
+                    }
+                }
+            });
+        }
+
+        function skill_add_room(skill_id) {
+            $.ajax({
+                url: '{% url 'room:add_item' room_id %}',
+                method: 'post',
+                data: {'skill_id': skill_id, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data);
+                    if (data.state == 0) {
+                        list_skill_from_room();
+                    }
+                    else if(data.state == 2) {
+                        $.Huimodalalert(data.msg, 1500);
+                    }
+                }
+
+            });
+        }
+
+        function skill_dialog_detail(skill_id) {
+            $('div#dialog').find('div.modal-body').load('{% url 'game:skill_detail' '00000000-0000-0000-0000-000000000000' %}'.replace('00000000-0000-0000-0000-000000000000', skill_id));
+            $('div#dialog').find('button.sure').css("display", "inline");
+            $('div#dialog').find('button.sure').text("返回");
+            $('div#dialog').find('button.sure').click(list_skill_from_room);
+        }
     </script>
 </head>
 <body>
@@ -41,12 +117,12 @@
             <div style="float: left">
                 <img id="{{ skill.id }}" src=/{{ skill.pic }}
                      class="img-responsive avatar size-XL thumbnail"
-                     alt="{{ skill.name }}" onclick="skill_detail(this.id)">
+                     alt="{{ skill.name }}" onclick="skill_dialog_detail(this.id)">
                 <p>{{ skill.name }}</p>
             </div>
             {% if is_gm %}
                 <div>
-                    <button onclick="handle_with_skill(this,'{{ skill.id }}',type='get')">分配</button>
+                    <button onclick="skill_get(this,'{{ skill.id }}')">习得</button>
                     <div skill_id="{{ skill.id }}" class="player_list"></div>
                 </div>
             {% endif %}
@@ -64,14 +140,10 @@
             <div style="float: left">
                 <img id="{{ skill.skill_id }}" src=/{{ skill.skill.pic }}
                      class="img-responsive avatar size-XL thumbnail"
-                     alt="{{ skill.name }}" onclick="skill_detail(this.id)">
+                     alt="{{ skill.name }}" onclick="skill_dialog_detail(this.id)">
                 <p>{{ skill.skill.name }}</p>{% if is_gm %}({{ skill.player.name }}){% endif %}
                 <div>
-                    <button onclick="skill_lost('{{ skill.skill_id }}', '{{ skill.player.id }}')">丢弃</button>
-                    <button onclick="handle_with_skill(this, '{{ skill.skill_id }}', '{{ skill.player.id }}', type='change')">
-                        分配
-                    </button>
-                    <div skill_id="{{ skill.id }}" class="player_list"></div>
+                    <button onclick="skill_lost('{{ skill.skill_id }}', '{{ skill.player.id }}')">遗忘</button>
                 </div>
             </div>
         {% endfor %}
@@ -88,7 +160,7 @@
             <div style="float: left">
                 <img id="{{ skill.id }}" src=/{{ skill.pic }}
                      class="img-responsive avatar size-XL thumbnail"
-                     alt="{{ skill.name }}" onclick="skill_detail(this.id)">
+                     alt="{{ skill.name }}" onclick="skill_dialog_detail(this.id)">
                 <p>{{ skill.name }}</p>
                 {% if is_gm %}
                     <div>

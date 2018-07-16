@@ -71,7 +71,7 @@ class TaskDetail(generic.View):
 
 class CreateSkill(generic.CreateView):
     model = Skill
-    fields = ['name', 'pic', 'private', 'file', 'detail']
+    fields = ['name', 'pic', 'private', 'unique', 'file', 'detail']
     template_name = 'game/skill_create.html'
 
     def form_valid(self, form):
@@ -92,8 +92,8 @@ class SkillDetail(generic.View):
             character_xml = ET.parse(skill.file)
             r = character_xml.getroot()
             print(r.tag)
-            if r.tag != 'item':
-                return JsonResponse(state=1, msg='文件不符合模板错误')
+            if r.tag != 'skill':
+                return JsonResponse(state=2, msg='文件不符合模板错误')
             for i in r:
                 text = i.text.replace(i.tail, '')
                 text = text.replace('\t', '')

@@ -6,29 +6,27 @@
 </head>
 <body>
 <div>
-    {% if item %}
+    {% if task %}
         <div>
             <ul>
-                <h4>{{ item.name }}</h4>
-                <p>{% if item.unique %} 唯一的 {% else %} 普通 {% endif %}<br></p>
+                <h4>{{ task.name }}</h4>
                 <HR>
-                <p>{{ item.detail }}<br></p>
+                <p>创作者：{{ task.creator.username }}<br></p>
                 <HR>
-                <p>物品描述：{{ item.description }}<br></p>
+                <p>创作时间：{{ task.add_time }}<br></p>
+                <HR>
+                <p>任务描述：{{ task.description }}<br></p>
                 <HR>
             </ul>
-            {% for k,v in item_info.items %}
+            {% for k,v in task_info.items %}
                 <ul>
                     {{ k }}: {{ v }}
                     <HR>
                 </ul>
             {% endfor %}
         </div>
-        <div>
-            <img src=/{{ item.pic }}>
-        </div>
     {% else %}
-        No items are available
+        No task are available
     {% endif %}
 </div>
 </body>

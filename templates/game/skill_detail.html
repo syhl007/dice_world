@@ -13,6 +13,13 @@
         <div>
             <ul>
                 <h4>{{ skill.name }}</h4>
+                <p>{% if skill.unique %} 独特 {% else %} 普通 {% endif %}<br></p>
+                <HR>
+                <p>{{ skill.detail }}<br></p>
+                <HR>
+                <p>创作者：{{ skill.creator.username }}<br></p>
+                <HR>
+                <p>创作时间：{{ skill.add_time }}<br></p>
                 <HR>
                 <p>技能描述：{{ skill.description }}<br></p>
                 <HR>

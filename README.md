@@ -1678,4 +1678,16 @@ var socket = new WebSocket("ws://xxxx", 'group_id');
 
 
 
+异常记录：
+```cmd
+Exception ignored in: <generator object SQLCompiler.setup_query.<locals>.<genexpr> at 0x000001D159E5A8E0>
+Traceback (most recent call last):
+  File "C:\Users\xxxx\Envs\django2\lib\site-packages\django\db\models\sql\compiler.py", line 39, in <genexpr>
+    if all(self.query.alias_refcount[a] == 0 for a in self.query.alias_map):
+SystemError: error return without exception set
+[16/Jul/2018 22:57:00] "GET /room/64d2cc92-6b62-59de-9861-b2ccdec7d765/chat/?state=game&time_line=2018-07-16%2022%3A50%3A59.990959 HTTP/1.1" 200 59
+```
+
+
+
 ---

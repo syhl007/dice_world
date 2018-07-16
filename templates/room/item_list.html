@@ -9,7 +9,7 @@
                 method: 'get',
                 dataType: 'json',
                 success: function (data) {
-                    var players = JSON.parse(data.data);
+                    var players = data.data;
                     form.attr('method', 'post');
                     for (var i in players) {
                         var player_id = $('<input type="checkbox" name="player_ids" />');

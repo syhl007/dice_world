@@ -17,7 +17,7 @@ from dice_world.standard import JsonResponse, txt_board_storeroom
 from dice_world.utils import WordFilter, DiceFilter
 from game_manager.controlor import xml_file_check
 from game_manager.models import Character, Room, Group, GroupMember, GameTxt, GameTxtPhantom, CharacterTxt, Task, \
-    TaskRecord, Item, RoomItemRecord
+    TaskRecord, Item, RoomItemRecord, Skill, RoomSkillRecord
 from user_manager.models import User
 
 
@@ -179,10 +179,6 @@ class RoomChat(generic.View):
         time_line = request.GET.get('time_line')
         if time_line:
             time_line = datetime.strptime(time_line, '%Y-%m-%d %H:%M:%S.%f')
-        try:
-            room = Room.objects.get(id=room_id)
-        except (Room.DoesNotExist, Room.MultipleObjectsReturned):
-            return JsonResponse(state=1, msg="房间id异常")
         game_txt_phantom = txt_board_storeroom.get(room_id)
         if game_txt_phantom:
             txt_list = [str(txt) for txt in game_txt_phantom.get_by_state(state) if
@@ -256,7 +252,10 @@ class StartGame(generic.View):
         if not game_txt_phantom:
             game_txt_phantom = GameTxtPhantom()
             txt_board_storeroom[room_id] = game_txt_phantom
-        game_txt_phantom.get_by_state('game').append(CharacterTxt(name='GM', content='游戏开始', time=t))
+        game_txt_phantom.get_by_state('game').append(CharacterTxt(name='GM',
+                                                                  content='\n-------------------------\n游戏开始：' + str(
+                                                                      datetime.now()) + '\n-------------------------\n',
+                                                                  time=datetime.now()))
         Group.objects.filter(Q(room=room) & Q(users=request.user)).update(send_msg=True)
         return JsonResponse(state=0)
 
@@ -283,7 +282,7 @@ class SaveRoomChat(generic.View):
                     for t in txt_list:
                         f.write(t)
                         f.write('\n')
-                txt_board_storeroom.pop(room_id)
+                game_txt_phantom.clear_by_state('game')
                 Group.objects.filter(Q(room=room) & Q(users=user)).update(send_msg=False)
                 return JsonResponse(state=0)
             else:
@@ -321,11 +320,25 @@ class StartTask(generic.CreateView):
         task_id = form.data.get('task_id')
         form.instance.task = Task.objects.get(id=task_id)
         start = form.data.get('start')
-        path = None
-        with open(path, 'w') as f:
+        dir_path = os.path.join(BASE_DIR, "task/" + room_id)
+        os.makedirs(dir_path, exist_ok=True)
+        txt_path = os.path.join(dir_path, "[" + str(int(time.time())) + "]" + form.instance.id + ".txt")
+        with open(txt_path, 'w') as f:
             f.write(start)
-        form.instance.file = path
+        form.instance.file = txt_path
         form.save()
+
+
+class RecordTask(generic.View):
+
+    def post(self, request, *args, **kwargs):
+        task_record_id = request.POST['task_record_id']
+        task_record = TaskRecord.objects.get(id=task_record_id)
+        record = request.POST.get('record')
+        with open(task_record.file.path, 'a') as f:
+            f.write(record)
+            f.write('\n')
+        return JsonResponse(state=0)
 
 
 class ListItem(generic.ListView):
@@ -334,7 +347,8 @@ class ListItem(generic.ListView):
     def get(self, request, *args, **kwargs):
         room = Room.objects.get(id=kwargs['room_id'])
         if room.gm == request.user:
-            self.queryset = RoomItemRecord.objects.select_related('player').select_related('item').filter(room_id=kwargs['room_id'])
+            self.queryset = RoomItemRecord.objects.select_related('player').select_related('item').filter(
+                room_id=kwargs['room_id'])
             self.object_list = self.get_queryset()
             context = self.get_context_data()
             item_before_list = Item.objects.filter(room_item__id=kwargs['room_id'])
@@ -379,13 +393,13 @@ class ItemLost(generic.View):
     def post(self, request, *args, **kwargs):
         room_id = kwargs['room_id']
         room = Room.objects.get(id=room_id)
+        item_id = request.POST['item_id']
         if room.gm == request.user:
             player_id = request.POST['player_id']
-            item_id = request.POST['item_id']
             RoomItemRecord.objects.filter(player_id=player_id, room_id=room_id, item_id=item_id).delete()
         else:
-            item_id = request.POST['item_id']
-            RoomItemRecord.objects.filter(player__group_character__user=request.user, room_id=room_id, item_id=item_id).delete()
+            RoomItemRecord.objects.filter(player__group_character__user=request.user, room_id=room_id,
+                                          item_id=item_id).delete()
         return JsonResponse(state=0)
 
 
@@ -401,9 +415,11 @@ class ItemChange(generic.View):
         item_id = request.POST['item_id']
         if room.gm == request.user:
             owner_id = request.POST['owner_id']
-            RoomItemRecord.objects.filter(player_id=owner_id, room_id=room_id, item_id=item_id).update(player_id=player_id)
+            RoomItemRecord.objects.filter(player_id=owner_id, room_id=room_id, item_id=item_id).update(
+                player_id=player_id)
         else:
-            RoomItemRecord.objects.filter(player__group_character__user=request.user, room_id=room_id, item_id=item_id).update(player_id=player_id)
+            RoomItemRecord.objects.filter(player__group_character__user=request.user, room_id=room_id,
+                                          item_id=item_id).update(player_id=player_id)
         return JsonResponse(state=0)
 
 
@@ -417,24 +433,73 @@ class ItemAdd(generic.View):
         return JsonResponse(state=0)
 
 
-class SkillList(generic.ListView):
-    template_name = 'room/item_list.html'
+class ListSkill(generic.ListView):
+    template_name = 'room/skill_list.html'
 
     def get(self, request, *args, **kwargs):
         room = Room.objects.get(id=kwargs['room_id'])
         if room.gm == request.user:
-            self.queryset = RoomItemRecord.objects.select_related('player').select_related('item').filter(room_id=kwargs['room_id'])
+            self.queryset = RoomSkillRecord.objects.select_related('player').select_related('skill').filter(
+                room_id=kwargs['room_id'])
             self.object_list = self.get_queryset()
             context = self.get_context_data()
-            item_before_list = Item.objects.filter(room_item__id=kwargs['room_id'])
-            context['item_before_list'] = item_before_list
-            item_after_list = Item.objects.filter(Q(creator=request.user) | Q(private=False))
-            context['item_after_list'] = item_after_list
+            skill_before_list = Skill.objects.filter(room_skill__id=kwargs['room_id'])
+            context['skill_before_list'] = skill_before_list
+            skill_after_list = Skill.objects.filter(Q(creator=request.user) | Q(private=False))
+            context['skill_after_list'] = skill_after_list
             context['is_gm'] = True
         else:
-            self.queryset = RoomItemRecord.objects.filter(Q(room_id=kwargs['room_id']) | Q(
+            self.queryset = RoomSkillRecord.objects.filter(Q(room_id=kwargs['room_id']) | Q(
                 player__group_character__user=request.user))
             self.object_list = self.get_queryset()
             context = self.get_context_data()
         context['room_id'] = kwargs['room_id']
         return self.render_to_response(context)
+
+
+class SkillGet(generic.View):
+
+    def post(self, request, *args, **kwargs):
+        room_id = kwargs['room_id']
+        player_ids = request.POST.getlist('player_ids')
+        skill_id = request.POST['skill_id']
+        skill = Skill.objects.get(id=skill_id)
+        if skill.unique:
+            if len(player_ids) > 1:
+                return JsonResponse(state=2, msg='独有技能不能赋予两个以上角色')
+            try:
+                RoomSkillRecord.objects.get(Q(room_id=room_id) & Q(item_id=item_id))
+                return JsonResponse(state=2, msg='已存在该独有技能')
+            except RoomItemRecord.MultipleObjectsReturned:
+                return JsonResponse(state=2, msg='多于两个独有技能')
+            except RoomItemRecord.DoesNotExist:
+                pass
+        skill_record_list = [RoomItemRecord(player_id=player_id, room_id=room_id, skill_id=skill_id) for player_id in
+                             player_ids]
+        RoomSkillRecord.objects.bulk_create(skill_record_list)
+        return JsonResponse(state=0)
+
+
+class SkillLost(generic.View):
+
+    def post(self, request, *args, **kwargs):
+        room_id = kwargs['room_id']
+        room = Room.objects.get(id=room_id)
+        skill_id = request.POST['skill_id']
+        if room.gm == request.user:
+            player_id = request.POST['player_id']
+            RoomSkillRecord.objects.filter(player_id=player_id, room_id=room_id, skill_id=skill_id).delete()
+        else:
+            RoomSkillRecord.objects.filter(player__group_character__user=request.user, room_id=room_id,
+                                           skill_id=skill_id).delete()
+        return JsonResponse(state=0)
+
+
+class SkillAdd(generic.View):
+
+    def post(self, request, *args, **kwargs):
+        room = Room.objects.get(id=kwargs['room_id'])
+        if room.gm != request.user:
+            return JsonResponse(state=2, msg='没有房主权限')
+        room.items.add(Skill.objects.get(id=request.POST.get('skill_id')))
+        return JsonResponse(state=0)

@@ -38,6 +38,7 @@ class Skill(models.Model):
     pic = models.ImageField(verbose_name=u"技能图片", upload_to="static/resource/game/skills/",
                             default="static/resource/skills/default/no_img.jpg")
     file = models.FileField(verbose_name=u"技能资料文件(可选)", upload_to="static/resource/game/skills/", null=True, blank=True)
+    unique = models.BooleanField(verbose_name=u"是否独特", default=False)
     detail = models.CharField(verbose_name=u"灰字", max_length=127, null=True, blank=True)
     description = models.TextField(verbose_name=u"描述", max_length=512, null=True, blank=True)
     private = models.BooleanField(verbose_name=u"是否公开", default=False)
@@ -179,6 +180,9 @@ class GameTxtPhantom:
         if not self.txt_dict.get(state):
             self.txt_dict[state] = []
         return self.txt_dict.get(state)
+
+    def clear_by_state(self, state):
+        self.txt_dict[state] = []
 
 
 class CharacterTxt:
