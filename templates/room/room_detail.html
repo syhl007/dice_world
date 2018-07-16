@@ -8,22 +8,6 @@
     <script src="{% static 'js/jquery-3.3.1.js' %}" type="text/javascript"></script>
     <script src="{% static 'h-ui/js/H-ui.js' %}" type="text/javascript"></script>
     <script>
-        $(document).ready(function () {
-            if (window.s) {
-                window.s.close()
-            }
-            /*创建socket连接*/
-            var socket = new WebSocket("ws://" + window.location.host + "/ws/private_chat/");
-            socket.onopen = function () {
-                console.log('WebSocket open');  //成功连接上Websocket
-            };
-            socket.onmessage = function (e) {
-                console.log('message: ' + e.data);//打印出服务端返回过来的数据
-            };
-            // Call onopen directly if socket is already open
-            if (socket.readyState == WebSocket.OPEN) socket.onopen();
-            window.s = socket;
-        });
         var room_chat_form = $("form.room_post_msg");
 
         var room_chat_state = 'game';
@@ -66,6 +50,9 @@
                         $("div.room_text_board").html(room_txt);
                         $("div.room_text_board").scrollTop(99999);
                     }
+                    else if (data.state == 2) {
+                        $.Huimodalalert(data.msg, 1500);
+                    }
                 }
             });
         }
@@ -75,12 +62,18 @@
         function post_message() {
             $.ajax({
                 url: room_chat_form.attr('action'),
-                type: room_chat_form.attr('method'),
+                method: room_chat_form.attr('method'),
                 data: room_chat_form.serialize(),
-                complete: function () {
-                    clearInterval(refresh_txt);
-                    setTimeout("refresh_txt_board(room_chat_form.attr('action'))", 1);
-                    refresh_txt = setInterval("refresh_txt_board(room_chat_form.attr('action'))", 1500);
+                dataType: 'json',
+                success: function (data) {
+                    if (data.state == 0) {
+                        clearInterval(refresh_txt);
+                        setTimeout("refresh_txt_board(room_chat_form.attr('action'))", 1);
+                        refresh_txt = setInterval("refresh_txt_board(room_chat_form.attr('action'))", 1500);
+                    }
+                    else if (data.state == 2) {
+                        $.Huimodalalert(data.msg, 1500);
+                    }
                 }
             });
         }
@@ -143,6 +136,30 @@
             $('div#dialog').find('button.sure').css("display", "none");
             $("div#dialog").modal("show");
         }
+
+        function start_game() {
+            $('button#start_game').attr("disabled", true);
+            $('button#start_game').addClass("disabled");
+            $('button#start_game').removeClass("btn-primary");
+            $.ajax({
+                url: '{% url 'room:game_start' room_id %}',
+                method: 'post',
+                data: {'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                dataType: 'json',
+                success: function (data) {
+                    if (data.state == 0) {
+                        $("button#start_game").css('display', 'none');
+                        $("button#save_game").css('display', 'inline');
+                    }
+                    else if (data.state == 2) {
+                        $.Huimodalalert(data.msg, 1500);
+                    }
+                    $('button#start_game').attr("disabled", false);
+                    $('button#start_game').removeClass("disabled");
+                    $('button#start_game').addClass("btn-primary");
+                }
+            });
+        }
     </script>
 </head>
 <body>
@@ -154,7 +171,7 @@
                 <h3 class="modal-title">标题</h3>
                 <a class="close" data-dismiss="modal" aria-hidden="true" href="javascript:void(0);">×</a>
             </div>
-            <div class="modal-body" style="width: 96%;height: 320px;OVERFLOW-Y: auto; OVERFLOW-X:hidden;">弹窗内容</div>
+            <div class="modal-body" style="width: 95%;height: 320px;OVERFLOW-Y: auto; OVERFLOW-X:hidden;">弹窗内容</div>
             <div class="modal-footer">
                 <button class="btn btn-primary sure">确定</button>
                 <button class="btn cancel" data-dismiss="modal" aria-hidden="true">关闭</button>
@@ -166,23 +183,23 @@
     <div class="room_info">
         {{ room.id }} ||【{{ room.num }}】{{ room.name }}
     </div>
-    <div class="room_text_board">
+    <div style="background-image: url('{% static '/resource/room/background001.jpg' %}')" class="room_text_board">
     </div>
     <div class="room_funcation_list">
         ---------------------------------------
         {% if is_gm %}
             <div class="gm_box" style="float: right">
-                <button>开始游戏</button>
-                <button>保存记录</button>
-                <button onclick="list_charater_from_room()">NPC管理</button>
-                <button onclick="list_task_from_room()">任务管理</button>
-                <button onclick="list_item_from_room()">物品管理</button>
-                <button onclick="list_skill_from_room()">技能管理</button>
+                <button id="start_game" class="btn btn-primary" onclick="start_game()">开始游戏</button>
+                <button id="save_game" style="display: none" class="btn btn-primary">保存记录</button>
+                <button class="btn btn-primary" onclick="list_charater_from_room()">NPC管理</button>
+                <button class="btn btn-primary" onclick="list_task_from_room()">任务管理</button>
+                <button class="btn btn-primary" onclick="list_item_from_room()">物品管理</button>
+                <button class="btn btn-primary" onclick="list_skill_from_room()">技能管理</button>
             </div>
         {% else %}
             <div class="player_box" style="float: right">
-                <button onclick="list_personal_item_from_room()">查看物品</button>
-                <button onclick="list_personal_item_from_room()">查看技能</button>
+                <button class="btn btn-primary" onclick="list_personal_item_from_room()">查看物品</button>
+                <button class="btn btn-primary" onclick="list_personal_item_from_room()">查看技能</button>
             </div>
         {% endif %}
     </div>
@@ -190,9 +207,9 @@
         <form method="post" action="" class="room_post_msg">
             <input type="radio" name="state" value="game" onclick="room_change_state('game')" checked>游戏发言
             <input type="radio" name="state" value="other" onclick="room_change_state('other')">闲聊发言<br>
-            <input type="text" name="text" class="room_chat_content chat_box">
+            <input type="text" name="text" class="room_chat_content chat_box" style="width:95%;">
             {% csrf_token %}
-            <input type="button" onclick="post_message()" value="发送">
+            <input class="btn btn-primary size-MINI radius" type="button" onclick="post_message()" value="发送">
         </form>
     </div>
 {% else %}

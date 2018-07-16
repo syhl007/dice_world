@@ -85,6 +85,9 @@
                             list_personal_item_from_room();
                         {% endif %}
                     }
+                    else if(data.state == 2) {
+                       $.Huimodalalert(data.msg, 1500);
+                    }
                 }
             });
         }
@@ -93,12 +96,15 @@
             $.ajax({
                 url: '{% url 'room:add_item' room_id %}',
                 method: 'post',
-                data: {'item_id': item_id, 'csrfmiddlentoken': '{{ csrf_token }}'},
+                data: {'item_id': item_id, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
                 dataType: 'json',
                 success: function (data) {
                     console.log(data);
                     if (data.state == 0) {
-
+                        list_item_from_room();
+                    }
+                    else if(data.state == 2) {
+                        $.Huimodalalert(data.msg, 1500);
                     }
                 }
 
@@ -107,9 +113,9 @@
 
         function item_dialog_detail(item_id) {
             $('div#dialog').find('div.modal-body').load('{% url 'game:item_detail' '00000000-0000-0000-0000-000000000000' %}'.replace('00000000-0000-0000-0000-000000000000', item_id));
-            $('div#dialog').find('button.sure').css("display", "block");
+            $('div#dialog').find('button.sure').css("display", "inline");
             $('div#dialog').find('button.sure').text("返回");
-            $('div#dialog').find('button.sure').click(list_item_from_room());
+            $('div#dialog').find('button.sure').click(list_item_from_room);
         }
     </script>
 </head>
@@ -123,13 +129,13 @@
                      class="img-responsive avatar size-XL thumbnail"
                      alt="{{ item.name }}" onclick="item_dialog_detail(this.id)">
                 <p>{{ item.name }}</p>
-            </div>
             {% if is_gm %}
                 <div>
                     <button onclick="handle_with_item(this,'{{ item.id }}',type='get')">分配</button>
                     <div item_id="{{ item.id }}" class="player_list"></div>
                 </div>
             {% endif %}
+            </div>
         {% endfor %}
         <div style="clear: both"></div>
     {% else %}
@@ -149,7 +155,7 @@
                 <div>
                     <button onclick="item_lost('{{ item.item_id }}', '{{ item.player.id }}')">丢弃</button>
                     <button onclick="handle_with_item(this, '{{ item.item_id }}', '{{ item.player.id }}', type='change')">
-                        分配
+                        转交
                     </button>
                     <div item_id="{{ item.id }}" class="player_list"></div>
                 </div>

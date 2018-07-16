@@ -6,27 +6,26 @@
 </head>
 <body>
 <div>
-    {% if item %}
+    {% if skill %}
+        <div style="float: left">
+            <img class="avatar size-L thumbnail" src=/{{ skill.pic }}>
+        </div>
         <div>
             <ul>
-                <h4>{{ item.name }}</h4>
-                <p>{% if item.unique %} 唯一的 {% else %} 普通 {% endif %}<br></p>
+                <h4>{{ skill.name }}</h4>
                 <HR>
-                <p>物品描述：{{ item.description }}<br></p>
+                <p>技能描述：{{ skill.description }}<br></p>
                 <HR>
             </ul>
-            {% for k,v in item_info.items %}
+            {% for k,v in skill_info.items %}
                 <ul>
                     {{ k }}: {{ v }}
                     <HR>
                 </ul>
             {% endfor %}
         </div>
-        <div>
-            <img src=/{{ item.pic }}>
-        </div>
     {% else %}
-        No items are available
+        No skills are available
     {% endif %}
 </div>
 </body>

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form id="create_skill" action="{% url 'game:skill_create' %}" method="post" enctype="multipart/form-data">
+    {{ form.as_p }}
+    <p><textarea rows="4" cols="50" name="description" form="create_item" maxlength="512" placeholder="技能描述(256字以内)"></textarea></p>
+    {% csrf_token %}
+</form>
+</body>
+</html>

@@ -7,6 +7,38 @@
     <script src="{% static 'h-ui/js/H-ui.js' %}" type="text/javascript"></script>
     <script>
         $(document).ready(function () {
+            if (window.s) {
+
+            }
+            else {
+                /*创建socket连接*/
+                var socket = new WebSocket("ws://" + window.location.host + "/ws/private_chat/");
+                socket.onopen = function () {
+                    var init_data = {
+                        'system_order': 'refresh_character',
+                        'group_id':'{{ group_id }}'
+                    };
+                    socket.send(JSON.stringify(init_data));
+                    console.log('WebSocket open');  //成功连接上Websocket
+                };
+                socket.onmessage = function (e) {
+                    console.log('message: ' + e.data);//打印出服务端返回过来的数据
+                    var data = JSON.parse(e.data);
+                    if (data.system_order == 'refresh_character') {
+                        $('div.hor_label_main div').removeClass("hover");
+                        $('div.hor_label_main').find('div[group_id="'+data.group_id+'"]').addClass("hover");
+                        $("div#nav_main").load("/group/" + data.group_id + "/list/character/");
+                    }
+                    else {
+                        var message = '[' + data.sender + ']悄悄的对你说: "' + data.msg + ' "';
+                        $.Huimodalalert(message, 2000);
+                    }
+                };
+                // Call onopen directly if socket is already open
+                if (socket.readyState == WebSocket.OPEN) socket.onopen();
+                window.s = socket;
+            }
+
             $("form.prviate_chat_form").submit(function (even) {
                 even.preventDefault();
                 var form = $(this);
@@ -19,20 +51,9 @@
                 if (window.s) {
                     window.s.send(JSON.stringify(data))
                 }
-                else {
-                    var socket = new WebSocket("ws://" + window.location.host + "/ws/private_chat/");
-                    socket.onopen = function () {
-                        console.log('WebSocket open');  //成功连接上Websocket
-                    };
-                    socket.onmessage = function (e) {
-                        console.log('message: ' + e.data);//打印出服务端返回过来的数据
-                    };
-                    // Call onopen directly if socket is already open
-                    if (socket.readyState == WebSocket.OPEN) socket.onopen();
-                    window.s = socket;
-                }
             });
         });
+
 
         function list_charater_from_group() {
             $('div#dialog').find('h3.modal-title').text('关联角色');
@@ -48,9 +69,22 @@
             $("form#" + user_id).toggle();
         }
 
-        function invitate_to_game(button) {
+        function invitate_to_game(button, type) {
             var user_id = $(button).parent().attr('user_id');
-
+            $.ajax({
+                url: "{% url 'group:invitate_user' group_id %}",
+                type: 'post',
+                data: {"user_id": user_id, "type": type, "csrfmiddlewaretoken": '{{ csrf_token }}'},
+                dataType: 'json',
+                success: function (data) {
+                    if (data.state == 0) {
+                        $("div#nav_main").load("{% url 'group:list_character' group_id %}");
+                    }
+                    else if (data.state == 2) {
+                        $.Huimodalalert(data.msg, 1500);
+                    }
+                }
+            });
         }
 
         function kick_out(button) {
@@ -62,10 +96,10 @@
                 dataType: 'json',
                 success: function (data) {
                     if (data.state == 0) {
-                        $("div#nav_main").load("/group/" + '{{ csrf_token }}' + "/list/character/");
+                        $("div#nav_main").load("{% url 'group:list_character' group_id %}");
                     }
-                    else {
-                        alert(data.msg);
+                    else if (data.state == 2) {
+                        $.Huimodalalert(data.msg, 1500);
                     }
                 }
             });
@@ -80,10 +114,28 @@
                 dataType: 'json',
                 success: function (data) {
                     if (data.state == 0) {
-                        $("div#nav_main").load("/group/" + '{{ csrf_token }}' + "/list/character/");
+                        $("div#nav_main").load("{% url 'group:list_character' group_id %}");
                     }
-                    else {
-                        alert(data.msg);
+                    else if (data.state == 2) {
+                        $.Huimodalalert(data.msg, 1500);
+                    }
+                }
+            });
+        }
+
+        function open_mouth(button) {
+            var user_id = $(button).parent().attr('user_id');
+            $.ajax({
+                url: '/group/' + '{{ group_id }}' + '/open_mouth/' + user_id + "/",
+                type: 'post',
+                data: {"csrfmiddlewaretoken": '{{ csrf_token }}'},
+                dataType: 'json',
+                success: function (data) {
+                    if (data.state == 0) {
+                        $("div#nav_main").load("{% url 'group:list_character' group_id %}");
+                    }
+                    else if (data.state == 2) {
+                        $.Huimodalalert(data.msg, 1500);
                     }
                 }
             });
@@ -99,35 +151,50 @@
                     <div class="player_character_item" user_id="{{ groupmember.user.id }}">
                         <img class="character_list_head{% if not groupmember.is_online %} character_off_line{% endif %}"
                              src=/{{ groupmember.character.head }}>
-                        <p>{{ groupmember.user.username }}{% if not groupmember.is_online %} (离线){% endif %}</p>
+                        <p>{{ groupmember.user.username }}{% if not groupmember.is_online %} (不在房间){% endif %}</p>
                         <a href="{% url 'character:character_detail' groupmember.character.id %}"
                            target="_blank">{{ groupmember.character.name }}</a>
-                        {% if is_gm and groupmember.group.type != 0 and user_id != groupmember.user.id %}
-                            <button onclick="invitate_to_game(this)">拉入游戏</button>
-                        {% endif %}
                         {% if user_id != groupmember.user.id and groupmember.is_online %}
-                            <button onclick="prviate_chat_form(this)">私信</button>
+                            <button class="btn btn-primary size-MINI radius" onclick="prviate_chat_form(this)">私信
+                            </button>
                             <form id="{{ groupmember.user.id }}" class="prviate_chat_form" method="post"
                                   style="display:none">
                                 <input class="chat_box" type="text" name="msg">
-                                <input type="submit" value="发送">
+                                <input class="btn btn-primary size-MINI radius" type="submit" value="发送">
                             </form>
-                        {% endif %}
-                        {% if user_id != groupmember.user.id and is_gm %}
-                            <button onclick="shut_up(this)">禁言</button>
-                            <button onclick="kick_out(this)">踢出房间</button>
                         {% endif %}
                     </div>
                 </li>
             {% else %}
                 <li>
-                    <p>{{ groupmember.user.username }}{% if not groupmember.is_online %} (离线){% endif %}</p>
-                    {% if user_id == groupmember.user.id %}
-                        <button onclick="list_charater_from_group()">关联角色
-                        </button>
-                    {% endif %}
+                    <div class="player_character_item" user_id="{{ groupmember.user.id }}">
+                        <p>{{ groupmember.user.username }}{% if not groupmember.is_online %} (不在房间){% endif %}</p>
+                        {% if user_id == groupmember.user.id %}
+                            <button onclick="list_charater_from_group()">关联角色
+                            </button>
+                        {% endif %}
+                    </div>
                 </li>
             {% endif %}
+            <div class="player_character_item" user_id="{{ groupmember.user.id }}">
+                {% if user_id != groupmember.user.id and is_gm %}
+                    {% if groupmember.send_msg %}
+                        <button class="btn btn-primary size-MINI radius" onclick="shut_up(this)">禁言</button>
+                    {% else %}
+                        <button class="btn btn-primary size-MINI radius" onclick="open_mouth(this)">解除禁言
+                        </button>
+                    {% endif %}
+                    {% if groupmember.group.type != 0 %}
+                        <button class="btn btn-primary size-MINI radius" onclick="invitate_to_game(this,0)">拉入游戏
+                        </button>
+                    {% endif %}
+                    {% if groupmember.group.type != 1 %}
+                        <button class="btn btn-primary size-MINI radius" onclick="invitate_to_game(this,1)">拉入旁观
+                        </button>
+                    {% endif %}
+                    <button class="btn btn-primary size-MINI radius" onclick="kick_out(this)">踢出房间</button>
+                {% endif %}
+            </div>
             <div style="clear: both"></div>
             <HR>
         {% endfor %}

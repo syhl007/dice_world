@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        function back_to_personal() {
+            $('div#section').load('/html/personal/personal_page.html/');
+        }
+    </script>
+</head>
+<body>
+<button class="back" style="float: right" onclick="back_to_personal()">返回上一级</button>
+<h3>已创建的技能</h3>
+{% if skill_list %}
+    {% for skill in skill_list %}
+        <div style="float: left">
+            <img id="{{ skill.id }}" src=/{{ skill.pic }}
+                 class="img-responsive avatar size-XXXL thumbnail"
+                 alt="{{ skill.name }}" onclick="skill_detail(this.id)">
+            <p>{{ skill.name }}</p>
+        </div>
+    {% endfor %}
+    <div style="float: left">
+        <img src="{% static 'resource/create.jpg' %}" onclick="create_skill()">
+    </div>
+{% else %}
+    <div style="float: left">
+        <img src="{% static 'resource/create.jpg' %}" onclick="create_skill()">
+    </div>
+{% endif %}
+</body>
+</html>

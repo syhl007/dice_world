@@ -92,7 +92,7 @@ class JoinRoom(generic.View):
             if group.type == 2:
                 return JsonResponse(state=2, msg="申请尚未通过")
             else:
-                return JsonResponse(state=0)
+                return JsonResponse(state=0, data={'group_id': str(group.id)})
         except Exception as e:
             pass
         if room.password:
@@ -102,38 +102,20 @@ class JoinRoom(generic.View):
             if room.state == 1 and room.sidelines:
                 group = Group.objects.get(Q(room=room) & Q(type=1))
                 GroupMember.objects.create(user=request.user, group=group)
-                return JsonResponse(state=0)
+                return JsonResponse(state=0, data={'group_id': str(group.id)})
             elif room.state == 0:
                 group = Group.objects.get(Q(room=room) & Q(type=0))
                 GroupMember.objects.create(user=request.user, group=group)
-                return JsonResponse(state=0)
+                return JsonResponse(state=0, data={'group_id': str(group.id)})
             else:
-                return JsonResponse(state=1, msg="加入房间失败")
+                return JsonResponse(state=2, msg="加入房间失败")
         else:
             if room.state != -1:
                 group = Group.objects.get(Q(room=room) & Q(type=2))
                 GroupMember.objects.create(user=request.user, group=group)
                 return JsonResponse(state=2, msg="已提交申请")
             else:
-                return JsonResponse(state=1, msg="加入房间失败")
-
-
-class InvitateToGame(generic.View):
-
-    def post(self, request, *args, **kwargs):
-        room_id = kwargs['room_id']
-        user_id = kwargs['user_id']
-        room = Room.objects.get(id=room_id)
-        player = User.objects.get(id=user_id)
-        if room.gm != request.user:
-            return JsonResponse(state=2, msg='权限不足')
-        GroupMember.objects.filter(Q(group__type__ne=0) & Q(user=player)).delete()
-        group = Group.objects.get(Q(room=room) & Q(type=0))
-        try:
-            GroupMember.objects.create(group=group, user=player)
-            return JsonResponse(state=0)
-        except Exception:
-            return JsonResponse(state=2, msg='玩家已在游戏组中')
+                return JsonResponse(state=2, msg="加入房间失败")
 
 
 class RoomDetail(generic.DetailView):
@@ -144,6 +126,7 @@ class RoomDetail(generic.DetailView):
         self.object = self.get_object()
         context = self.get_context_data(object=self.object)
         context['is_gm'] = (request.user == self.object.gm)
+        context['room_id'] = kwargs['pk']
         GroupMember.objects.filter(Q(user=request.user) & Q(group__room=self.object)).update(is_online=True)
         return self.render_to_response(context)
 
@@ -180,7 +163,7 @@ class ManageGroup(generic.View):
     def post(self, request, *args, **kwargs):
         room = Room.objects.get(id=kwargs['room_id'])
         if room.gm != request.user:
-            return JsonResponse(state=1, msg="权限不足")
+            return JsonResponse(state=2, msg="权限不足")
         operation = request.POST.get('operation')
         if operation == 1:
             Group.objects.filter(Q(user__id=request.POST.get('user_id')) & Q(room=room))
@@ -207,9 +190,9 @@ class RoomChat(generic.View):
             if txt_list:
                 return JsonResponse(state=0, data={'time_line': str(datetime.now()), 'list': txt_list})
             else:
-                return JsonResponse(state=2, msg="没有新的消息")
+                return JsonResponse(state=3, msg="没有新的消息")
         else:
-            return JsonResponse(state=2, msg="没有消息记录")
+            return JsonResponse(state=3, msg="没有消息记录")
 
     def post(self, request, *args, **kwargs):
         user = request.user
@@ -218,16 +201,16 @@ class RoomChat(generic.View):
             room = Room.objects.get(id=room_id)
             group = Group.objects.filter(room=room).get(users=user)
         except (Group.DoesNotExist, Group.MultipleObjectsReturned, Room.DoesNotExist, Room.MultipleObjectsReturned):
-            return JsonResponse(state=1, msg="群组或房间异常")
+            return JsonResponse(state=2, msg="群组或房间异常")
         if not group.send_msg:
-            return JsonResponse(state=1, msg="群组禁言中")
+            return JsonResponse(state=2, msg="群组禁言中")
         text = request.POST.get('text')
         state = request.POST.get('state')
         if state == 'game':
             try:
                 group_member = GroupMember.objects.filter(group=group).get(user=user)
                 if not group_member.send_msg:
-                    return JsonResponse(state=1, msg="角色被禁言")
+                    return JsonResponse(state=2, msg="角色被禁言")
                 character = group_member.character
                 name = character.name
             except Exception as e:
@@ -265,26 +248,27 @@ class StartGame(generic.View):
 
     def post(self, request, *args, **kwargs):
         room_id = kwargs['room_id']
+        room = Room.objects.get(id=room_id)
+        if room.gm != request.user:
+            return JsonResponse(state=2, msg='不是房主权限')
         t = datetime.now()
         game_txt_phantom = txt_board_storeroom.get(room_id)
         if not game_txt_phantom:
             game_txt_phantom = GameTxtPhantom()
             txt_board_storeroom[room_id] = game_txt_phantom
         game_txt_phantom.get_by_state('game').append(CharacterTxt(name='GM', content='游戏开始', time=t))
+        Group.objects.filter(Q(room=room) & Q(users=request.user)).update(send_msg=True)
         return JsonResponse(state=0)
 
 
 class SaveRoomChat(generic.View):
-
-    def get(self, request, *args, **kwargs):
-        return JsonResponse(state=2, msg="不接收get请求")
 
     def post(self, request, *args, **kwargs):
         user = request.user
         room_id = kwargs['room_id']
         room = Room.objects.get(id=room_id)
         if room.gm != user:
-            return JsonResponse(state=1, msg='不具有权限')
+            return JsonResponse(state=2, msg='不具有权限')
         game_txt_phantom = txt_board_storeroom.get(room_id)
         if game_txt_phantom:
             game_txt_phantom.get_by_state('game').append(CharacterTxt(name='GM',
@@ -381,7 +365,7 @@ class ItemGet(generic.View):
                 RoomItemRecord.objects.get(Q(room_id=room_id) & Q(item_id=item_id))
                 return JsonResponse(state=2, msg='已存在该唯一物品')
             except RoomItemRecord.MultipleObjectsReturned:
-                return JsonResponse(state=1, msg='多于两个唯一物品')
+                return JsonResponse(state=2, msg='多于两个唯一物品')
             except RoomItemRecord.DoesNotExist:
                 pass
         item_record_list = [RoomItemRecord(player_id=player_id, room_id=room_id, item_id=item_id) for player_id in
@@ -430,6 +414,7 @@ class ItemAdd(generic.View):
         if room.gm != request.user:
             return JsonResponse(state=2, msg='没有房主权限')
         room.items.add(Item.objects.get(id=request.POST.get('item_id')))
+        return JsonResponse(state=0)
 
 
 class SkillList(generic.ListView):

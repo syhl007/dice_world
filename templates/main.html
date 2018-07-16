@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'h-ui/css/H-ui.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'css/main/main_style.css' %}"/>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>跑团玩玩</title>
     <script src="{% static 'js/jquery-3.3.1.js' %}" type="text/javascript"></script>
     <script src="{% static 'h-ui/js/H-ui.js' %}" type="text/javascript"></script>
     <script>
@@ -29,12 +29,14 @@
                         url: form.attr("action"),
                         method: form.attr("method"),
                         data: form.serialize(),
-                        dataType: "html",
+                        dataType: "json",
                         success: function (data) {
-                            var obj = JSON.parse(data);
-                            if (obj.state == 0) {
-                                var room_id = JSON.parse(obj.data).room_id
+                            if (data.state == 0) {
+                                var room_id = JSON.parse(data.data).room_id
                                 join_room(room_id);
+                            }
+                            else if (data.state == 2) {
+                                $.Huimodalalert(data.msg, 1500);
                             }
                         }
                     })
@@ -42,8 +44,8 @@
             });
         }
 
-        function join_room(room_id) {
-            $('div#personal_manager').css('display','none');
+        function join_room(room_id, group_id) {
+            $('div#personal_manager').css('display', 'none');
             var url = '/room/' + room_id + '/';
             $("#main_window").load(url, function () {
                 $("form.room_post_msg").attr("action", "/room/" + room_id + "/chat/");
@@ -52,7 +54,21 @@
             $("input.create_room").hide();
             $("input.exit_room").show();
             $("div#nav_label_box").toggle();
-            $("div#nav_label_box").load("/room/" + room_id + "/list/group/");
+            if (group_id) {
+                $("div#nav_label_box").load("/room/" + room_id + "/list/group/", function () {
+                        $('div.hor_label_main div').removeClass("hover");
+                        $('div.hor_label_main').find('div[group_id="' + group_id + '"]').addClass("hover");
+                        $("div#nav_main").load("/group/" + group_id + "/list/character/");
+                    }
+                );
+            }
+            else {
+                $("div#nav_label_box").load("/room/" + room_id + "/list/group/", function () {
+                    $('div.hor_label_main div:first-child').addClass("hover");
+                    var group_id = $('div.hor_label_main div:first-child').attr('group_id');
+                    $("div#nav_main").load("/group/" + group_id + "/list/character/");
+                });
+            }
         }
 
         function back_room_list() {
@@ -64,6 +80,8 @@
 
         function personal_page() {
             $('div#section').load('/html/personal/personal_page.html/');
+            $('button#personal_manager_button').text('返回大厅');
+            $('button#personal_manager_button').click(back_room_list);
         }
     </script>
 </head>
@@ -71,18 +89,25 @@
 
 <div id="header">
     <div id="personal_manager" style="float: right">
-        <button onclick="personal_page()">个人主页</button>
+        <button id="personal_manager_button" class="btn btn-primary size-MINI radius" onclick="personal_page()">个人主页
+        </button>
     </div>
-    <h1>City Gallery</h1>
+    <h1>Dice World</h1>
 </div>
 
 <div id="nav">
     <div id="nav_label_box" style="display: none">
     </div>
     <div id="nav_main">
-        London<br>
-        Paris<br>
-        Tokyo<br>
+        <h2>八荣八耻</h2>
+        以热爱祖国为荣，以危害祖国为耻；<br>
+        以服务人民为荣，以背离人民为耻；<br>
+        以崇尚科学为荣，以愚昧无知为耻；<br>
+        以辛勤劳动为荣，以好逸恶劳为耻；<br>
+        以团结互助为荣，以损人利己为耻；<br>
+        以诚实守信为荣，以见利忘义为耻；<br>
+        以遵纪守法为荣，以违法乱纪为耻；<br>
+        以艰苦奋斗为荣，以骄奢淫逸为耻。<br>
     </div>
 </div>
 
@@ -100,8 +125,7 @@
 </div>
 
 <div id="footer">
-    Copyright W3School.com.cn
+    玩玩即可
 </div>
-
 </body>
 </html>

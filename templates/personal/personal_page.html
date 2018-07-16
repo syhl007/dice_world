@@ -11,6 +11,7 @@
         $(document).ready(function () {
             $('div.personal_character_simple').load('{% url 'personal:list_character_sample' %}');
             $('div.personal_item_simple').load('{% url 'personal:list_item_sample' %}');
+            $('div.personal_skill_simple').load('{% url 'personal:list_skill_sample' %}');
             $('div.personal_task_simple').load('{% url 'personal:list_task_sample' %}');
         });
 
@@ -28,6 +29,10 @@
 
         function personal_item_list() {
             $('div#personal_main').load('{% url 'personal:list_item'%}');
+        }
+
+        function personal_skill_list() {
+            $('div#personal_main').load('{% url 'personal:list_skill'%}');
         }
 
         function create_character() {
@@ -49,8 +54,8 @@
                                 $('div#create_dialog').modal("hide");
                                 $('div#section').load('{% url 'personal:list_character'%}');
                             }
-                            else {
-                                alert(data.msg);
+                            else if(data.state == 2) {
+                                $.Huimodalalert(data.msg, 1500);
                             }
                             $('button.sure').attr("disabled", false);
                             $('button.sure').removeClass("disabled");
@@ -75,7 +80,6 @@
                     e.preventDefault();
                     var form = $(this);
                     var form_data = new FormData(document.getElementById('create_item'));
-                    console.log("test create_item");
                     $.ajax({
                         url: form.attr("action"),
                         method: form.attr("method"),
@@ -88,8 +92,46 @@
                                 $("div#create_dialog").modal("hide");
                                 $('div#section').load('{% url 'personal:list_item'%}');
                             }
-                            else {
-                                alert(data.msg);
+                            else if(data.state == 2) {
+                                $.Huimodalalert(data.msg, 1500);
+                            }
+                            $('button.sure').attr("disabled", false);
+                            $('button.sure').removeClass("disabled");
+                            $('button.sure').addClass("btn-primary");
+                        }
+                    })
+                });
+            });
+            $('div#create_dialog').find('button.sure').click(function () {
+                $(this).attr("disabled", true);
+                $(this).removeClass("btn-primary");
+                $(this).addClass("disabled");
+                $('form#create_item').submit()
+            });
+            $("div#create_dialog").modal("show")
+        }
+
+        function create_skill() {
+            $('div#create_dialog').find('h3.modal-title').text('创建新技能');
+            $('div#create_dialog').find('div.modal-body').load('{% url 'game:skill_create' %}', function () {
+                $('form#create_skill').submit(function (e) {
+                    e.preventDefault();
+                    var form = $(this);
+                    var form_data = new FormData(document.getElementById('create_skill'));
+                    $.ajax({
+                        url: form.attr("action"),
+                        method: form.attr("method"),
+                        data: form_data,
+                        processData:false,
+                        contentType:false,
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.state == 0) {
+                                $("div#create_dialog").modal("hide");
+                                $('div#section').load('{% url 'personal:list_skill'%}');
+                            }
+                            else if(data.state == 2) {
+                                $.Huimodalalert(data.msg, 1500);
                             }
                             $('button.sure').attr("disabled", false);
                             $('button.sure').removeClass("disabled");
@@ -126,8 +168,8 @@
                                 $("div#create_dialog").modal("hide");
                                 $('div#section').load('{% url 'personal:list_task'%}');
                             }
-                            else {
-                                alert(data.msg);
+                            else if(data.state == 2) {
+                                $.Huimodalalert(data.msg, 1500);
                             }
                             $('button.sure').attr("disabled", false);
                             $('button.sure').removeClass("disabled");
@@ -167,7 +209,7 @@
 <div id="personal_main" style="width: 100%;height: 100%;OVERFLOW-Y: auto; OVERFLOW-X:hidden;">
     <div class="personal_character_simple" style="clear:both">personal_character_simple</div>
     <div class="personal_item_simple" style="clear:both">personal_item_simple</div>
-    <div class="personal_area_simple" style="clear:both">personal_area_simple</div>
+    <div class="personal_skill_simple" style="clear:both">personal_area_simple</div>
     <div class="personal_task_simple" style="clear:both">personal_task_simple</div>
 </div>
 </body>

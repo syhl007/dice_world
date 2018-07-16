@@ -7,8 +7,7 @@ app_name = 'game'
 urlpatterns = [
     path('create/task/', login_required(game_views.CreateTask.as_view()), name='task_create'),
     path('create/item/', login_required(game_views.CreateItem.as_view()), name='item_create'),
+    path('create/skill/', login_required(game_views.CreateSkill.as_view()), name='skill_create'),
     path('item/<uuid:item_id>/', login_required(game_views.ItemDetail.as_view()), name='item_detail'),
     path('task/<uuid:task_id>/', login_required(game_views.TaskDetail.as_view()), name='task_detail'),
-    path('task/list/', login_required(game_views.TaskList.as_view()), name='task_list'),
-    path('item/list/', login_required(game_views.ItemList.as_view()), name='item_list'),
 ]

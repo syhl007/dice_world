@@ -46,3 +46,35 @@ class ShutUp(generic.View):
         GroupMember.objects.filter(Q(group__id=group_id) & Q(user=player)).update(send_msg=False)
         return JsonResponse(state=0)
 
+
+class OpenMouth(generic.View):
+
+    def post(self, request, *args, **kwargs):
+        group_id = kwargs['group_id']
+        room = Room.objects.get(room__id=group_id)
+        if room.gm != request.user:
+            return JsonResponse(state=2, msg="权限不足")
+        player = User.objects.get(id=kwargs['user_id'])
+        GroupMember.objects.filter(Q(group__id=group_id) & Q(user=player)).update(send_msg=True)
+        return JsonResponse(state=0)
+
+
+class InvitateToGame(generic.View):
+
+    def post(self, request, *args, **kwargs):
+        group_id = kwargs['group_id']
+        room = Group.objects.get(id=group_id).room
+        if room.gm != request.user:
+            return JsonResponse(state=2, msg='权限不足')
+        player = User.objects.get(id=request.POST['user_id'])
+        GroupMember.objects.exclude(group__type=int(request.POST['type'])).filter(user=player).delete()
+        try:
+            group = Group.objects.get(Q(room=room) & Q(type=int(request.POST['type'])))
+        except Group.DoesNotExist:
+            return JsonResponse(state=2, msg="不具有对应组")
+        try:
+            GroupMember.objects.create(group=group, user=player)
+            return JsonResponse(state=0)
+        except Exception:
+            return JsonResponse(state=2, msg='玩家已在游戏组中')
+

@@ -15,12 +15,28 @@ def private_chat(request, *args, **kwargs):
         try:
             if not message:
                 global_websocket_dict.pop(request.user)
+                try:
+                    group = GroupMember.objects.get(user=request.user, is_online=True).group
+                    users = group.users.all()
+                    for user in users:
+                        w = global_websocket_dict.get(user)
+                        if w and request.user != user:
+                            w.send(json.dumps({'system_order': 'refresh_character', 'group_id': str(group.id)}).encode(
+                                encoding='utf-8'))
+                except Exception as e:
+                    pass
                 GroupMember.objects.filter(user=request.user).update(is_online=False)
                 break
             print("message::", message)
             data = json.loads(str(message, encoding='utf-8'))
-            if data.get('system'):
-                pass
+            if data.get('system_order'):
+                if data.get('system_order') == 'refresh_character':
+                    group_id = data.get('group_id')
+                    members = GroupMember.objects.filter(group__id=group_id, is_online=True).all()
+                    for member in members:
+                        w = global_websocket_dict.get(member.user)
+                        if w and request.user != member.user:
+                            w.send(json.dumps({'system_order': 'refresh_character','group_id':group_id}).encode(encoding='utf-8'))
             else:
                 sender = request.user
                 receiver = auth.get_user_model().objects.get(id=data.get('receiver'))

@@ -18,4 +18,9 @@ urlpatterns = [
          name='list_task_sample'),
     path('self/list/task/', login_required(personal_view.ListTask.as_view()),
          name='list_task'),
+    path('self/list/skill/sample/', login_required(personal_view.ListSkillSample.as_view()),
+         name='list_skill_sample'),
+    path('self/list/skill/', login_required(personal_view.ListSkill.as_view()),
+         name='list_skill'),
+
 ]

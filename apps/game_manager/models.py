@@ -15,7 +15,7 @@ class Character(models.Model):
     sex = models.SmallIntegerField(verbose_name=u"角色性别", default=0)  # 0-男|1-女|2-其他
     head = models.ImageField(verbose_name=u"角色头像", upload_to="static/resource/character/head/",
                              default="static/resource/character/head/default/no_img.jpg")
-    detail = models.FileField(verbose_name=u"角色资料文件", upload_to="static/resource/character/detail/")
+    detail = models.FileField(verbose_name=u"角色资料文件(必须)", upload_to="static/resource/character/detail/")
     creator = models.ForeignKey(verbose_name=u"创作者", to=User, related_name='character_creator',
                                 on_delete=models.CASCADE)
     add_time = models.DateTimeField(verbose_name=u"创建时间", default=datetime.now)
@@ -37,7 +37,9 @@ class Skill(models.Model):
     creator = models.ForeignKey(verbose_name=u"创作者", to=User, related_name='skill_creator', on_delete=models.CASCADE)
     pic = models.ImageField(verbose_name=u"技能图片", upload_to="static/resource/game/skills/",
                             default="static/resource/skills/default/no_img.jpg")
-    description = models.TextField(verbose_name=u"描述", max_length=256, null=True, blank=True)
+    file = models.FileField(verbose_name=u"技能资料文件(可选)", upload_to="static/resource/game/skills/", null=True, blank=True)
+    detail = models.CharField(verbose_name=u"灰字", max_length=127, null=True, blank=True)
+    description = models.TextField(verbose_name=u"描述", max_length=512, null=True, blank=True)
     private = models.BooleanField(verbose_name=u"是否公开", default=False)
     add_time = models.DateTimeField(verbose_name=u"创建时间", default=datetime.now)
 
@@ -47,7 +49,7 @@ class Task(models.Model):
     name = models.CharField(verbose_name=u"任务模组名", max_length=127)
     creator = models.ForeignKey(verbose_name=u"创作者", to=User, related_name='task_creator', on_delete=models.CASCADE)
     description = models.TextField(verbose_name=u"描述", max_length=256, null=True, blank=True)
-    init_file = models.FileField(verbose_name=u"任务模组文件", upload_to="static/resource/game/tasks/")
+    init_file = models.FileField(verbose_name=u"任务模组文件(必须)", upload_to="static/resource/game/tasks/")
     private = models.BooleanField(verbose_name=u"是否公开", default=False)
     add_time = models.DateTimeField(verbose_name=u"创建时间", default=datetime.now)
 
@@ -57,9 +59,10 @@ class Item(models.Model):
     pic = models.ImageField(verbose_name=u"物品图片", upload_to="static/resource/game/items/",
                             default="static/resource/items/default/no_img.jpg")
     name = models.CharField(verbose_name=u"物品名称", max_length=127)
+    detail = models.CharField(verbose_name=u"灰字", max_length=127, null=True, blank=True)
     description = models.CharField(verbose_name=u"物品描述", max_length=256, null=True, blank=True)
     creator = models.ForeignKey(verbose_name=u"创作者", to=User, related_name='item_creator', on_delete=models.CASCADE)
-    file = models.FileField(verbose_name=u"物品资料文件", upload_to="static/resource/game/items/", null=True, blank=True)
+    file = models.FileField(verbose_name=u"物品资料文件(可选)", upload_to="static/resource/game/items/", null=True, blank=True)
     private = models.BooleanField(verbose_name=u"是否公开", default=False)
     unique = models.BooleanField(verbose_name=u"是否唯一", default=False)
     add_time = models.DateTimeField(verbose_name=u"创建时间", default=datetime.now)

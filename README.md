@@ -1656,3 +1656,26 @@ Item.objects.get(Q(room_item_record__room_id=kwargs['room_id']) | Q(room_item_re
 * js判断为undefined和null的[方法](https://www.cnblogs.com/thiaoqueen/p/6904398.html)：`typeof(exp) == undefined`（null结果一样）
 
 ---
+
+##2018.07.16
+
+似乎看到一点收尾的迹象了。。。
+今天遇到一个问题：
+本来我想的是通过websocket机制，在玩家进入房间的时候通知其他玩家刷新列表来更新玩家状态以便及时知道玩家上线的情况。那么这个就涉及到基础数据结构的修改了。
+我最早的简单设计是，一个全局的dict对象，以用户为key，来记录websocket，这样有这么几个问题：
+玩家只能持有一个websocket，也就是异地登录（或者不同浏览器登录的）后者会抵消前者的websocket。
+对一些粒度为房间的刷新无法区分（或者说区分比较麻烦，不过好像也不是不能。。。。）
+总而言之，本来是准备改为两级dict的，第一级以group_id划分，第二级以user划分，恩，现在想想这么分本来就很傻。
+咳咳，然后我就想在建立websocket的时候来附加变量，
+```JavaScript
+var socket = new WebSocket("ws://xxxx", 'group_id');
+```
+然后果然的，失败了，连不上。提示：
+>Error during WebSocket handshake: Sent non-empty 'Sec-WebSocket-Protocol' header but no response was received
+
+搜了一下，发现问题原因是，websocket在连接请求时，把第二个参数作为附加协议附加在header的`Sec-WebSocket-Protocol`字段中，让服务器确认，然而在握手中，服务器返回的header并没有这个字段，所以握手失败。
+要想握手成功，就需要在服务器握手阶段的返回response中加上header，然而dwebsocket都封装了，唔。。。。。反正最后也说明这个设计不太合理，就简单做个笔记好了。
+
+
+
+---

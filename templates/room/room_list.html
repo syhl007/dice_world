@@ -13,10 +13,12 @@
                 dataType: "json",
                 success: function (data) {
                     if (data.state == 0) {
-                        join_room(room_id);
+                        var group_id = JSON.parse(data.data).group_id;
+                        console.log(group_id);
+                        join_room(room_id, group_id);
                     }
-                    else {
-                        alert("未知原因进入房间失败");
+                    else if(data.state == 2) {
+                        $.Huimodalalert(data.msg, 1500);
                     }
                 }
             });
@@ -36,10 +38,11 @@
                 dataType: "json",
                 success: function (data) {
                     if (data.state == 0) {
-                        join_room(room_id);
+                        var group_id = JSON.parse(data.data).get('group_id');
+                        join_room(room_id, group_id);
                     }
-                    else {
-                        alert(data.msg);
+                    else if(data.state == 2) {
+                        $.Huimodalalert(data.msg, 1500);
                     }
                 }
             });

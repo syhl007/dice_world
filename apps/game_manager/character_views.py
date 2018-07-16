@@ -1,6 +1,6 @@
+from django import forms
 from django.db import transaction
 from django.db.models import Q
-from django.forms import forms
 from django.shortcuts import render
 from django.views import generic
 from xml.etree import ElementTree as ET
@@ -52,7 +52,7 @@ class CharacterDetail(generic.View):
         r = character_xml.getroot()
         print(r.tag)
         if r.tag != 'character':
-            return JsonResponse(state=1, msg='文件不符合模板错误')
+            return JsonResponse(state=2, msg='文件不符合模板错误')
         for i in r:
             text = i.text.replace(i.tail, '')
             text = text.replace('\t', '')
@@ -62,8 +62,6 @@ class CharacterDetail(generic.View):
 
 
 class ListCharacter(generic.ListView):
-    model = Character
-    context_object_name = 'character_list'
     template_name = 'character/character_list.html'
 
     def get(self, request, *args, **kwargs):

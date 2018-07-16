@@ -7,12 +7,6 @@
     <title>Title</title>
     <script src="/static/js/jquery-3.3.1.js" type="text/javascript"></script>
     <script>
-        $(document).ready(function () {
-            $('div.hor_label_main div:first-child').addClass("hover");
-            var group_id = $('div.hor_label_main div:first-child').attr('group_id');
-            $("div#nav_main").load("/group/" + group_id+ "/list/character/");
-        });
-
         function change_label(dom) {
             var div = $(dom);
             if (div.hasClass("hover")) {

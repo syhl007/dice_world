@@ -11,4 +11,7 @@ urlpatterns = [
          name='kick_out'),
     path('<uuid:group_id>/shut_up/<uuid:user_id>/', login_required(group_views.ShutUp.as_view()),
          name='shut_up'),
+    path('<uuid:group_id>/open_mouth/<uuid:user_id>/', login_required(group_views.OpenMouth.as_view()),
+         name='open_mouth'),
+    path('<uuid:group_id>/invitate/', login_required(group_views.InvitateToGame.as_view()), name='invitate_user'),
 ]

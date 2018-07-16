@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+<h3>已创建的技能</h3>
+    {% if skill_list %}
+        {% for skill in skill_list %}
+            <div style="float: left">
+                <div  onclick="skill_detail(this.id)">{{ skill.name }}</div>
+            </div>
+        {% endfor %}
+        <div style="float: left">
+            <img src="{% static 'resource/create.jpg' %}" onclick="create_skill()">
+        </div>
+        <div style="float: left">
+            <img src="{% static 'resource/more.jpg' %}" onclick="personal_skill_list()">
+        </div>
+    {% else %}
+        <div style="float: left">
+            <img src="{% static 'resource/create.jpg' %}" onclick="create_skill()">
+        </div>
+    {% endif %}
+</div>
+<div style="clear:both">
+    <HR>
+</div>
+</body>
+</html>
