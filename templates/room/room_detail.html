@@ -54,10 +54,7 @@
                         $.Huimodalalert(data.msg, 1500);
                     }
                 },
-                error: function (xhr) {
-                    alert('登录状态已失效，返回登录页面');
-                    window.location.reload();
-                }
+
             });
         }
 
@@ -224,7 +221,7 @@
     <div class="room_info">
         {{ room.id }} ||【{{ room.num }}】{{ room.name }}
     </div>
-    <div style="background-image: url('{% static '/resource/room/background001.jpg' %}')" class="room_text_board">
+    <div class="room_text_board">
     </div>
     <div class="room_funcation_list">
         ---------------------------------------

@@ -15,24 +15,89 @@
             $('div.personal_task_simple').load('{% url 'personal:list_task_sample' %}');
         });
 
+        function back_to_personal(e) {
+            if (e) {
+                window.event.returnValue = false;
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            $('div#personal_main').load('/html/personal/personal_page.html/', function () {
+                console.log('back_to_personal');
+                $('button.back').css('display', 'none');
+                $('button.back_to_personal').css('display', 'none');
+                $('button.back_to_personal').delay(500);
+                $('button.back').attr('disabled', true);
+            });
+            return;
+        }
+
         function character_detail(id) {
-            $('div#section').load('{% url 'character:character_detail' '00000000-0000-0000-0000-000000000000' %}'.replace('00000000-0000-0000-0000-000000000000', id));
+            $('div#personal_main').load('{% url 'character:character_detail' '00000000-0000-0000-0000-000000000000' %}'.replace('00000000-0000-0000-0000-000000000000', id), function () {
+                $('button.back').css('display', 'inline');
+                $('button.back_to_personal').css('display', 'none');
+                $('button.back').attr('disabled', true);
+                $('button.back').unbind("click");
+                $('button.back').click(personal_character_list);
+                $('button.back').attr('disabled', false);
+            });
+
         }
 
         function item_detail(id) {
-            $('div#section').load('{% url 'game:item_detail' '00000000-0000-0000-0000-000000000000' %}'.replace('00000000-0000-0000-0000-000000000000', id));
+            $('div#personal_main').load('{% url 'game:item_detail' '00000000-0000-0000-0000-000000000000' %}'.replace('00000000-0000-0000-0000-000000000000', id), function () {
+                $('button.back').css('display', 'inline');
+                $('button.back_to_personal').css('display', 'none');
+                $('button.back').attr('disabled', true);
+                $('button.back').unbind("click");
+                $('button.back').click(personal_item_list);
+                $('button.back').attr('disabled', false);
+            });
+            return;
         }
 
-        function personal_character_list() {
-            $('div#personal_main').load('{% url 'personal:list_character'%}');
+        function personal_character_list(e) {
+            if (e) {
+                window.event.returnValue = false;
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            $('div#personal_main').load('{% url 'personal:list_character'%}', function () {
+                $('button.back').css('display', 'none');
+                $('button.back_to_personal').css('display', 'inline');
+                $('button.back_to_personal').delay(500);
+                $('button.back').unbind("click");
+            });
+            return;
         }
 
-        function personal_item_list() {
-            $('div#personal_main').load('{% url 'personal:list_item'%}');
+        function personal_item_list(e) {
+            if (e) {
+                window.event.returnValue = false;
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            $('div#personal_main').load('{% url 'personal:list_item'%}', function () {
+                $('button.back').css('display', 'none');
+                $('button.back_to_personal').css('display', 'inline');
+                $('button.back_to_personal').delay(500);
+                $('button.back').unbind("click");
+            });
+            return;
         }
 
-        function personal_skill_list() {
-            $('div#personal_main').load('{% url 'personal:list_skill'%}');
+        function personal_skill_list(e) {
+            if (e) {
+                console.log('personal_skill_list');
+                window.event.returnValue = false;
+                e.preventDefault();
+            }
+            $('div#personal_main').load('{% url 'personal:list_skill'%}', function () {
+                $('button.back').css('display', 'none');
+                $('button.back_to_personal').css('display', 'inline');
+                $('button.back_to_personal').delay(500);
+                $('button.back').unbind("click");
+            });
+            return;
         }
 
         function create_character() {
@@ -46,15 +111,15 @@
                         url: form.attr("action"),
                         method: form.attr("method"),
                         data: form_data,
-                        processData:false,
-                        contentType:false,
+                        processData: false,
+                        contentType: false,
                         dataType: "json",
                         success: function (data) {
                             if (data.state == 0) {
                                 $('div#create_dialog').modal("hide");
                                 $('div#section').load('{% url 'personal:list_character'%}');
                             }
-                            else if(data.state == 2) {
+                            else if (data.state == 2) {
                                 $.Huimodalalert(data.msg, 1500);
                             }
                             $('button.sure').attr("disabled", false);
@@ -84,15 +149,15 @@
                         url: form.attr("action"),
                         method: form.attr("method"),
                         data: form_data,
-                        processData:false,
-                        contentType:false,
+                        processData: false,
+                        contentType: false,
                         dataType: "json",
                         success: function (data) {
                             if (data.state == 0) {
                                 $("div#create_dialog").modal("hide");
                                 $('div#section').load('{% url 'personal:list_item'%}');
                             }
-                            else if(data.state == 2) {
+                            else if (data.state == 2) {
                                 $.Huimodalalert(data.msg, 1500);
                             }
                             $('button.sure').attr("disabled", false);
@@ -122,15 +187,15 @@
                         url: form.attr("action"),
                         method: form.attr("method"),
                         data: form_data,
-                        processData:false,
-                        contentType:false,
+                        processData: false,
+                        contentType: false,
                         dataType: "json",
                         success: function (data) {
                             if (data.state == 0) {
                                 $("div#create_dialog").modal("hide");
                                 $('div#section').load('{% url 'personal:list_skill'%}');
                             }
-                            else if(data.state == 2) {
+                            else if (data.state == 2) {
                                 $.Huimodalalert(data.msg, 1500);
                             }
                             $('button.sure').attr("disabled", false);
@@ -160,15 +225,15 @@
                         url: form.attr("action"),
                         method: form.attr("method"),
                         data: form_data,
-                        processData:false,
-                        contentType:false,
+                        processData: false,
+                        contentType: false,
                         dataType: "json",
                         success: function (data) {
                             if (data.state == 0) {
                                 $("div#create_dialog").modal("hide");
                                 $('div#section').load('{% url 'personal:list_task'%}');
                             }
-                            else if(data.state == 2) {
+                            else if (data.state == 2) {
                                 $.Huimodalalert(data.msg, 1500);
                             }
                             $('button.sure').attr("disabled", false);
@@ -206,7 +271,10 @@
         </div>
     </div>
 </div>
-<div id="personal_main" style="width: 100%;height: 100%;OVERFLOW-Y: auto; OVERFLOW-X:hidden;">
+<button class="btn btn-primary back_to_personal" style="display: none;float: right" onclick="back_to_personal()">返回个人页面
+</button>
+<button class="btn btn-primary back" style="display: none;float: right">返回上一级</button>
+<div id="personal_main" style="width: 100%;height: 95%;OVERFLOW-Y: auto; OVERFLOW-X:hidden;">
     <div class="personal_character_simple" style="clear:both">personal_character_simple</div>
     <div class="personal_item_simple" style="clear:both">personal_item_simple</div>
     <div class="personal_skill_simple" style="clear:both">personal_area_simple</div>

@@ -25,6 +25,9 @@ def html_render(request, app_name=None, html=None):
     if not html.__contains__('login.html'):
         if not request.user.is_authenticated:
             return HttpResponseRedirect("/html/login.html/")
+    elif html.__contains__('login.html'):
+        if request.user.is_authenticated:
+            return HttpResponseRedirect("/html/main.html/")
     if app_name is None:
         return render(request, html)
     else:

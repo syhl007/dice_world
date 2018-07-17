@@ -4,14 +4,8 @@
     {% load static %}
     <meta charset="UTF-8">
     <title>Title</title>
-    <script>
-        function back_to_personal() {
-            $('div#section').load('/html/personal/personal_page.html/');
-        }
-    </script>
 </head>
 <body>
-<button class="back" style="float: right" onclick="back_to_personal()">返回上一级</button>
 <h3>已创建的任务</h3>
 {% if task_list %}
     {% for task in task_list %}

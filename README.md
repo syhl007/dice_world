@@ -1188,7 +1188,7 @@ Django的CreateView真好用~~（真香）~~，可以自动接收前端页面的
 * 另外，由于想要复用这个页面，我增加了一个hidden的id字段在前端表单中，由Django在解析页面时填写值，添加上下文的方式。
 
     ```python
-    return render(request, 'index.html', {'data': data})
+    return render(request, login.html, {'data': data})
     ```
     然后就可以在前端像下面这样获取
     ```HTML
@@ -1688,6 +1688,14 @@ SystemError: error return without exception set
 [16/Jul/2018 22:57:00] "GET /room/64d2cc92-6b62-59de-9861-b2ccdec7d765/chat/?state=game&time_line=2018-07-16%2022%3A50%3A59.990959 HTTP/1.1" 200 59
 ```
 
+---
 
+##2018.7.17
+
+神™html的事件冒泡。。。。。。烦死了
+事件冒泡：
+组件的事件会封装成一个event对象传递到他的上级事件中（同组件），导致二次提交之类的蛋疼事件发生。。。。虽然说`e.preventDefault();`可以阻止浏览器的默认事件流程，或者`return`也能阻断，但是在ajax异步的情况下，依然会出现界面乱跳的情况。。。。。
+
+最后是通过设计两个按钮来阻止了冒泡。。蛋疼。记得之前在做项目的时候前端同事也为冒泡烦恼了一段时间。。。自己遇到也是蛋疼。
 
 ---

@@ -1,5 +1,5 @@
 .room_text_board {
-    background-color: #f2ebd9;
+    background: url(../../images/background001.jpg);
     height:380px;
     width: 100%;
     overflow:auto;

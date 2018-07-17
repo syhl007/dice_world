@@ -81,12 +81,12 @@
                     {% elif room.state == 1 and not room.sidelines %}
                         跑团中，禁止旁观
                     {% elif room.password %}
-                        <button class="room_password_box" onclick="room_password_box(this)">输入密码
+                        <button class="btn btn-primary room_password_box" onclick="room_password_box(this)">输入密码
                         </button>
                         <form id="{{ room.id }}" method="post"
                               style="display:none; float: right">
                             <input type="text" name="password">
-                            <input type="button" onclick="password_to_game(this)" value="加入">
+                            <input class="btn btn-primary size-MINI radius" type="button" onclick="password_to_game(this)" value="加入">
                         </form>
                     {% else %}
                         <button class="btn btn-primary join_room" onclick="apply_to_game(this)">加入房间

@@ -80,9 +80,10 @@
             }
 
             function personal_page() {
-                $('div#section').load('/html/personal/personal_page.html/');
-                $('button#personal_manager_button').text('返回大厅');
-                $('button#personal_manager_button').click(back_room_list);
+                $('div#section').load('/html/personal/personal_page.html/', function() {
+                    $('button#personal_manager_button').css('display', 'none');
+                    $('button#back_to_main').css('display', 'inline');
+                });
             }
     </script>
 </head>
@@ -91,6 +92,8 @@
 <div id="header">
     <div id="personal_manager" style="float: right">
         <button id="personal_manager_button" class="btn btn-primary size-MINI radius" onclick="personal_page()">个人主页
+        </button>
+        <button id="back_to_main" class="btn btn-primary size-MINI radius" style="display: none" onclick="back_room_list()">返回大厅
         </button>
     </div>
     <h1>Dice World</h1>

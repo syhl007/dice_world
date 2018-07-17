@@ -27,7 +27,7 @@ def private_chat(request, *args, **kwargs):
                     pass
                 GroupMember.objects.filter(user=request.user).update(is_online=False)
                 break
-            print("message::", message)
+            # print("message::", message)
             data = json.loads(str(message, encoding='utf-8'))
             if data.get('system_order'):
                 if data.get('system_order') == 'refresh_character':
