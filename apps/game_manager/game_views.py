@@ -1,12 +1,12 @@
+from xml.etree import ElementTree as ET
+
 from django.db import transaction
-from django.db.models import Q
 from django.shortcuts import render
 from django.views import generic
-from xml.etree import ElementTree as ET
 
 from dice_world.standard import JsonResponse
 from game_manager.controlor import xml_file_check
-from game_manager.models import Task, Item, Room, RoomItemRecord, Skill
+from game_manager.models import Task, Item, Room, Skill, TaskRecord
 
 
 class CreateItem(generic.CreateView):
@@ -64,9 +64,25 @@ class TaskDetail(generic.View):
 
     def get(self, request, *args, **kwargs):
         task_id = kwargs['task_id']
-        task = Task.objects.prefetch_related('task').select_related('task__room__name').get(id=task_id)
-        print(task)
-        pass
+        task = Task.objects.get(id=task_id)
+        task_record_list = []
+        if task.creator == request.user and not request.POST.get('room_id'):
+            task_record_list = TaskRecord.objects.select_related('room', 'room__gm').only('id', 'room__name', 'room__gm__username').filter(task_id=task_id)
+        return render(request, 'game/task_detail.html', context={'task': task, 'task_record': task_record_list})
+
+
+class TaskRecordDetail(generic.View):
+
+    def get(self, request, *args, **kwargs):
+        task_id = kwargs['task_id']
+        room_id = request.POST['room_id']
+        room = Room.objects.get(id=room_id)
+        if room.gm != request.user:
+            return JsonResponse(state=2, msg='不具有房主权限')
+        task_record = TaskRecord.objects.select_related('room', 'task').get(task_id=task_id, room_id=room_id)
+        with open(task_record.file.path, 'r') as f:
+            task_record_txt = f.readlines()
+        return render(request, 'room/executing_task_detail.html', context={'task_record': task_record, 'task_record_txt': task_record_txt})
 
 
 class CreateSkill(generic.CreateView):

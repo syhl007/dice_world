@@ -59,7 +59,7 @@ class CreateRoom(generic.CreateView):
             room = Room.objects.get(id=form.instance.id)
             game_players = Group.objects.create(room=room, type=0)
             GroupMember.objects.create(group=game_players, user=room.gm)
-            if form.data.get('sidelines_allowed'):
+            if form.data.get('sidelines'):
                 bystanders = Group()
                 bystanders.room = room
                 bystanders.type = 1
@@ -468,7 +468,7 @@ class SkillGet(generic.View):
             if len(player_ids) > 1:
                 return JsonResponse(state=2, msg='独有技能不能赋予两个以上角色')
             try:
-                RoomSkillRecord.objects.get(Q(room_id=room_id) & Q(item_id=item_id))
+                RoomSkillRecord.objects.get(Q(room_id=room_id) & Q(skill_id=skill_id))
                 return JsonResponse(state=2, msg='已存在该独有技能')
             except RoomItemRecord.MultipleObjectsReturned:
                 return JsonResponse(state=2, msg='多于两个独有技能')

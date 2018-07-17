@@ -18,11 +18,12 @@
                 <p>任务描述：{{ task.description }}<br></p>
                 <HR>
             </ul>
-            {% for k,v in task_info.items %}
-                <ul>
-                    {{ k }}: {{ v }}
-                    <HR>
-                </ul>
+            {% for record in task_record %}
+                <div style="float: left">
+                    <button id="{{ record.id }}"
+                            class="btn btn-primary">{{ record.room__name }}({{ record.room__gm__username }})
+                    </button>
+                </div>
             {% endfor %}
         </div>
     {% else %}

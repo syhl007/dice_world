@@ -39,8 +39,8 @@
                 url: url,
                 type: 'get',
                 data: {'state': room_chat_state, 'time_line': time_line[0]},
+                dataType: 'json',
                 success: function (data) {
-                    var data = JSON.parse(data);
                     if (data.state == 0) {
                         var txt = JSON.parse(data.data);
                         time_line[0] = txt.time_line;
@@ -53,11 +53,15 @@
                     else if (data.state == 2) {
                         $.Huimodalalert(data.msg, 1500);
                     }
+                },
+                error: function (xhr) {
+                    alert('登录状态已失效，返回登录页面');
+                    window.location.reload();
                 }
             });
         }
 
-        var refresh_txt = setInterval("refresh_txt_board(room_chat_form.attr('action'))", 1500);
+        var refresh_txt = setInterval("refresh_txt_board(room_chat_form.attr('action'))", 2000);
 
         function post_message() {
             $.ajax({
@@ -69,7 +73,7 @@
                     if (data.state == 0) {
                         clearInterval(refresh_txt);
                         setTimeout("refresh_txt_board(room_chat_form.attr('action'))", 1);
-                        refresh_txt = setInterval("refresh_txt_board(room_chat_form.attr('action'))", 1500);
+                        refresh_txt = setInterval("refresh_txt_board(room_chat_form.attr('action'))", 2000);
                     }
                     else if (data.state == 2) {
                         $.Huimodalalert(data.msg, 1500);

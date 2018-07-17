@@ -1,3 +1,5 @@
+import http
+
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
@@ -16,7 +18,7 @@ class Login(generic.View):
             login(request, user)
             return HttpResponseRedirect("/html/main.html")
         else:
-            return HttpResponse()
+            return HttpResponse(status=http.HTTPStatus.UNAUTHORIZED)
 
 
 class ListUser(generic.ListView):

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    {% if task_record %}
+        <div>
+            <ul>
+                <h4>{{ task_record.task.name }}</h4>
+                <HR>
+                <p>记录团：{{ task_record.room.name }}<br></p>
+                <HR>
+                <p>记录时间：{{ task_record.add_time }}<br></p>
+                <HR>
+                <p>任务描述：{{ task_record.task.description }}<br></p>
+                <HR>
+                <HR>
+            </ul>
+            {% for line in task_record_txt %}
+                    {{ line }}<br>
+            {% endfor %}
+        </div>
+    {% else %}
+        No task are available
+    {% endif %}
+</div>
+</body>
+</html>
