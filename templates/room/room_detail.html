@@ -94,7 +94,7 @@
             $('div#dialog').find('h3.modal-title').text('任务管理');
             $('div#dialog').find('div.modal-body').load('{% url 'room:list_task' room.id %}', function () {
                 $('div.before_main_page').css("display", "block");
-                $('div.before_after_page').css("display", "block");
+                $('div.after_main_page').css("display", "block");
                 $('div.before_main_page h6.title').text('执行中');
                 $('div.after_main_page h6.title').text('全部任务');
                 $('div.main_page h6.title').text('游戏内任务');
