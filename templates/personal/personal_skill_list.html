@@ -13,15 +13,17 @@
             <img id="{{ skill.id }}" src=/{{ skill.pic }}
                  class="img-responsive avatar size-XXXL thumbnail"
                  alt="{{ skill.name }}" onclick="skill_detail(this.id)">
-            <p>{{ skill.name }}</p>
+            {% if skill.unique %}<p><i>{{ skill.name }}</i></p>
+            {% else %}<p>{{ skill.name }}</p>
+            {% endif %}
         </div>
     {% endfor %}
     <div style="float: left">
-        <img src="{% static 'resource/create.jpg' %}" onclick="create_skill()">
+        <img src="{% static 'images/create.jpg' %}" onclick="create_skill()">
     </div>
 {% else %}
     <div style="float: left">
-        <img src="{% static 'resource/create.jpg' %}" onclick="create_skill()">
+        <img src="{% static 'images/create.jpg' %}" onclick="create_skill()">
     </div>
 {% endif %}
 </body>

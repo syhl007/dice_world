@@ -68,6 +68,6 @@ class ListSkillSample(generic.ListView):
     template_name = 'personal/personal_skill_simple.html'
 
     def get(self, request, *args, **kwargs):
-        self.queryset = Task.objects.filter(creator=request.user).order_by('-add_time')[0:5]
+        self.queryset = Skill.objects.filter(creator=request.user).order_by('-add_time')[0:5]
         return super().get(request, *args, **kwargs)
 

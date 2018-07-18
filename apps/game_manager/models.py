@@ -50,6 +50,7 @@ class Task(models.Model):
     name = models.CharField(verbose_name=u"任务模组名", max_length=127)
     creator = models.ForeignKey(verbose_name=u"创作者", to=User, related_name='task_creator', on_delete=models.CASCADE)
     description = models.TextField(verbose_name=u"描述", max_length=256, null=True, blank=True)
+    npc = models.ManyToManyField(verbose_name=u"剧情人物",related_name='task_npc', to=Character)
     init_file = models.FileField(verbose_name=u"任务模组文件(必须)", upload_to="static/resource/game/tasks/")
     private = models.BooleanField(verbose_name=u"是否公开", default=False)
     add_time = models.DateTimeField(verbose_name=u"创建时间", default=datetime.now)

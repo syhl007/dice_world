@@ -1,0 +1,12 @@
+p.detail {
+    color: #ee5174;
+}
+
+div.task_item {
+    text-align:center;
+    vertical-align: middle;
+    width: 128px;
+    height: 128px;
+    float: left;
+    background-image: url('../../images/task_background.jpg')
+}

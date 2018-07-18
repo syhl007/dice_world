@@ -292,19 +292,21 @@ class SaveRoomChat(generic.View):
 
 
 class ListTask(generic.ListView):
-    model = Task
     template_name = 'room/task_list.html'
 
     def get(self, request, *args, **kwargs):
-        self.queryset = Task.objects.filter(Q(creator=request.user) | Q(private=False))
+        room_id = kwargs['room_id']
+        room = Room.objects.get(id=room_id)
+        if room.gm != request.user:
+            return JsonResponse(state=2, msg="不具有房主权限")
+        self.queryset = Task.objects.filter(Q(room_task__id=room_id))
         self.object_list = self.get_queryset()
         context = self.get_context_data()
-        if kwargs.get('room_id'):
-            room = Room.objects.get(id=kwargs['room_id'])
-            if room.gm == request.user:
-                task_before_list = Task.objects.filter(room_task__id=kwargs['room_id'])
-                context['task_before_list'] = task_before_list
-                context['is_gm'] = True
+        task_before_list = TaskRecord.objects.filter(room_id=room_id)
+        context['task_before_list'] = task_before_list
+        task_after_list = Task.objects.filter(Q(creator=request.user) | Q(private=False))
+        context['task_after_list'] = task_after_list
+        context['is_gm'] = True
         context['room_id'] = kwargs['room_id']
         return self.render_to_response(context)
 
@@ -334,6 +336,8 @@ class RecordTask(generic.View):
     def post(self, request, *args, **kwargs):
         task_record_id = request.POST['task_record_id']
         task_record = TaskRecord.objects.get(id=task_record_id)
+        task_record.update_time = datetime.now()
+        task_record.save()
         record = request.POST.get('record')
         with open(task_record.file.path, 'a') as f:
             f.write(record)
@@ -502,4 +506,20 @@ class SkillAdd(generic.View):
         if room.gm != request.user:
             return JsonResponse(state=2, msg='没有房主权限')
         room.items.add(Skill.objects.get(id=request.POST.get('skill_id')))
+        return JsonResponse(state=0)
+
+
+class TaskAdd(generic.View):
+
+    def post(self, request, *args, **kwargs):
+        room = Room.objects.get(id=kwargs['room_id'])
+        if room.gm != request.user:
+            return JsonResponse(state=2, msg='没有房主权限')
+        task_id = request.POST.get('task_id')
+        dir_path = os.path.join(BASE_DIR, "static/resource/game/records/" + room.gm.username)
+        os.makedirs(dir_path, exist_ok=True)
+        txt_path = os.path.join(dir_path, "[" + str(int(time.time())) + "]" + task_id + ".txt")
+        with open(txt_path, 'w') as txt:
+            pass
+        TaskRecord.objects.create(room_id=room.id, task_id=task_id, file=txt_path)
         return JsonResponse(state=0)

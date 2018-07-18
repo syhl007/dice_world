@@ -7,22 +7,27 @@
 </head>
 <body>
 <div>
-<h3>已创建的技能</h3>
+    <h3>已创建的技能</h3>
     {% if skill_list %}
         {% for skill in skill_list %}
             <div style="float: left">
-                <div  onclick="skill_detail(this.id)">{{ skill.name }}</div>
+                <img id="{{ skill.id }}" src=/{{ skill.pic }}
+                     class="img-responsive avatar size-XXXL thumbnail"
+                     alt="{{ skill.name }}" onclick="skill_detail(this.id)">
+                {% if skill.unique %}<p><i>{{ skill.name }}</i></p>
+                {% else %}<p>{{ skill.name }}</p>
+                {% endif %}
             </div>
         {% endfor %}
         <div style="float: left">
-            <img src="{% static 'resource/create.jpg' %}" onclick="create_skill()">
+            <img src="{% static 'images/create.jpg' %}" onclick="create_skill()">
         </div>
         <div style="float: left">
-            <img src="{% static 'resource/more.jpg' %}" onclick="personal_skill_list()">
+            <img src="{% static 'images/more.jpg' %}" onclick="personal_skill_list()">
         </div>
     {% else %}
         <div style="float: left">
-            <img src="{% static 'resource/create.jpg' %}" onclick="create_skill()">
+            <img src="{% static 'images/create.jpg' %}" onclick="create_skill()">
         </div>
     {% endif %}
 </div>

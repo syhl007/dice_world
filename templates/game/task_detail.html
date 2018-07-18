@@ -1,8 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <title>Title</title>
+    <script>
+        function add_task_npc(task_id) {
+            $('div#create_dialog').find('h3.modal-title').text('添加NPC');
+            $('div#create_dialog').find('div.modal-body').load('{% url 'character:list_npc' '00000000-0000-0000-0000-000000000000' %}'.replace('00000000-0000-0000-0000-000000000000', task_id), function () {
+                $('div.before_main_page').css("display", "none");
+                $('div.before_after_page').css("display", "none");
+                $('div.main_page h6.title').text('可选角色');
+            });
+            $('div#create_dialog').find('button.sure').css("display", "none");
+            $("div#create_dialog").modal("show");
+        }
+    </script>
 </head>
 <body>
 <div>
@@ -18,13 +31,30 @@
                 <p>任务描述：{{ task.description }}<br></p>
                 <HR>
             </ul>
-            {% for record in task_record %}
+            <p><b>涉及人物:</b></p><br>
+            {% for character in task_npc_list %}
+                <div style="float: left">
+                    <img id="{{ character.id }}" src=/{{ character.head }}
+                         class="img-responsive avatar size-XXXL thumbnail"
+                         alt="{{ character.name }}" onclick="character_detail(this.id)">
+                    <p>{{ character.name }}</p>
+                </div>
+            {% endfor %}
+            {% if is_creator %}
+                <div style="float: left">
+                    <img src="{% static 'images/create.jpg' %}" onclick="add_task_npc('{{ task.id }}')">
+                </div>
+            {% endif %}
+            <div style="clear: both"></div>
+            <HR>
+            {% for record in task_record_list %}
                 <div style="float: left">
                     <button id="{{ record.id }}"
                             class="btn btn-primary">{{ record.room__name }}({{ record.room__gm__username }})
                     </button>
                 </div>
             {% endfor %}
+            <div style="clear: both"></div>
         </div>
     {% else %}
         No task are available

@@ -55,6 +55,30 @@
             return;
         }
 
+        function skill_detail(id) {
+            $('div#personal_main').load('{% url 'game:skill_detail' '00000000-0000-0000-0000-000000000000' %}'.replace('00000000-0000-0000-0000-000000000000', id), function () {
+                $('button.back').css('display', 'inline');
+                $('button.back_to_personal').css('display', 'none');
+                $('button.back').attr('disabled', true);
+                $('button.back').unbind("click");
+                $('button.back').click(personal_skill_list);
+                $('button.back').attr('disabled', false);
+            });
+            return;
+        }
+
+        function task_detail(id) {
+            $('div#personal_main').load('{% url 'game:task_detail' '00000000-0000-0000-0000-000000000000' %}'.replace('00000000-0000-0000-0000-000000000000', id), function () {
+                $('button.back').css('display', 'inline');
+                $('button.back_to_personal').css('display', 'none');
+                $('button.back').attr('disabled', true);
+                $('button.back').unbind("click");
+                $('button.back').click(personal_task_list);
+                $('button.back').attr('disabled', false);
+            });
+            return;
+        }
+
         function personal_character_list(e) {
             if (e) {
                 window.event.returnValue = false;
@@ -100,6 +124,21 @@
             return;
         }
 
+        function personal_task_list(e) {
+            if (e) {
+                console.log('personal_task_list');
+                window.event.returnValue = false;
+                e.preventDefault();
+            }
+            $('div#personal_main').load('{% url 'personal:list_task'%}', function () {
+                $('button.back').css('display', 'none');
+                $('button.back_to_personal').css('display', 'inline');
+                $('button.back_to_personal').delay(500);
+                $('button.back').unbind("click");
+            });
+            return;
+        }
+
         function create_character() {
             $('div#create_dialog').find('h3.modal-title').text('创建新人物');
             $('div#create_dialog').find('div.modal-body').load('{% url 'character:character_create' %}', function () {
@@ -117,7 +156,7 @@
                         success: function (data) {
                             if (data.state == 0) {
                                 $('div#create_dialog').modal("hide");
-                                $('div#section').load('{% url 'personal:list_character'%}');
+                                personal_character_list();
                             }
                             else if (data.state == 2) {
                                 $.Huimodalalert(data.msg, 1500);
@@ -155,7 +194,7 @@
                         success: function (data) {
                             if (data.state == 0) {
                                 $("div#create_dialog").modal("hide");
-                                $('div#section').load('{% url 'personal:list_item'%}');
+                                personal_item_list();
                             }
                             else if (data.state == 2) {
                                 $.Huimodalalert(data.msg, 1500);
@@ -193,7 +232,7 @@
                         success: function (data) {
                             if (data.state == 0) {
                                 $("div#create_dialog").modal("hide");
-                                $('div#section').load('{% url 'personal:list_skill'%}');
+                                personal_skill_list();
                             }
                             else if (data.state == 2) {
                                 $.Huimodalalert(data.msg, 1500);
@@ -209,7 +248,7 @@
                 $(this).attr("disabled", true);
                 $(this).removeClass("btn-primary");
                 $(this).addClass("disabled");
-                $('form#create_item').submit()
+                $('form#create_skill').submit()
             });
             $("div#create_dialog").modal("show")
         }
@@ -231,7 +270,7 @@
                         success: function (data) {
                             if (data.state == 0) {
                                 $("div#create_dialog").modal("hide");
-                                $('div#section').load('{% url 'personal:list_task'%}');
+                                personal_task_list();
                             }
                             else if (data.state == 2) {
                                 $.Huimodalalert(data.msg, 1500);

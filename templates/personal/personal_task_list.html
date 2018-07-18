@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/game/detail.css' %}"/>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
@@ -9,13 +10,13 @@
 <h3>已创建的任务</h3>
 {% if task_list %}
     {% for task in task_list %}
-        <div>
-            <div onclick="task_detail(this.id)">{{ task.name }}</div>
+        <div class="task_item" onclick="task_detail('{{ task.id }}')">
+            <p  style="padding-top:110px;">{{ task.name }}</p>
         </div>
     {% endfor %}
-    <img src="{% static 'resource/create.jpg' %}" onclick="create_task()">
+    <img src="{% static 'images/create.jpg' %}" onclick="create_task()">
 {% else %}
-    <img src="{% static 'resource/create.jpg' %}" onclick="create_task()">
+    <img src="{% static 'images/create.jpg' %}" onclick="create_task()">
 {% endif %}
 </body>
 </html>

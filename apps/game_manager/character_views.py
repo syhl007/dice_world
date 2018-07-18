@@ -7,7 +7,7 @@ from xml.etree import ElementTree as ET
 
 from dice_world.standard import JsonResponse
 from game_manager.controlor import xml_file_check
-from game_manager.models import Character, Group, GroupMember, Room
+from game_manager.models import Character, Group, GroupMember, Room, Task
 
 
 class CreateCharacter(generic.CreateView):
@@ -87,4 +87,23 @@ class LinkCharacter(generic.View):
         GroupMember.objects.filter(group=group).filter(user=user).update(character=character)
         return JsonResponse(state=0)
 
+
+class ListNPC(generic.ListView):
+    template_name = 'character/task_npc_list.html'
+
+    def get(self, request, *args, **kwargs):
+        self.queryset = Character.objects.filter(Q(creator=request.user) | Q(private=False))
+        self.object_list = self.get_queryset()
+        context = self.get_context_data()
+        context['task_id'] = kwargs['task_id']
+        return self.render_to_response(context)
+
+
+class AddNPC(generic.View):
+
+    def post(self, request, *args, **kwargs):
+        character = Character.objects.get(id=request.POST['character_id'])
+        task = Task.objects.get(id=request.POST['task_id'])
+        task.npc.add(character)
+        return JsonResponse(state=0, msg='添加成功')
 

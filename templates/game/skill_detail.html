@@ -1,32 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/game/detail.css' %}"/>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
 <div>
     {% if skill %}
-        <div style="float: left">
-            <img class="avatar size-L thumbnail" src=/{{ skill.pic }}>
+        <div style="float: right">
+            <img class="avatar size-XXL thumbnail" src=/{{ skill.pic }}>
         </div>
         <div>
             <ul>
                 <h4>{{ skill.name }}</h4>
                 <p>{% if skill.unique %} 独特 {% else %} 普通 {% endif %}<br></p>
                 <HR>
-                <p>{{ skill.detail }}<br></p>
+                <p class="detail"><i>{{ skill.detail }}</i><br></p>
                 <HR>
-                <p>创作者：{{ skill.creator.username }}<br></p>
+                <p><b>创作者：</b>{{ skill.creator.username }}<br></p>
                 <HR>
-                <p>创作时间：{{ skill.add_time }}<br></p>
+                <p><b>创作时间：</b>{{ skill.add_time }}<br></p>
                 <HR>
-                <p>技能描述：{{ skill.description }}<br></p>
+                <p><b>技能描述：</b>{{ skill.description }}<br></p>
                 <HR>
             </ul>
+            <HR>
             {% for k,v in skill_info.items %}
                 <ul>
-                    {{ k }}: {{ v }}
+                    <p><b>{{ k }}：</b> {{ v }}</p>
                     <HR>
                 </ul>
             {% endfor %}

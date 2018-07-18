@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        function add_task_npc(character_id, task_id) {
+            $.ajax({
+                url: '{% url 'character:add_npc' %}',
+                method: 'post',
+                data: {'character_id': character_id, 'task_id': task_id, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                dataType: 'json',
+                success: function (data) {
+                    $.Huimodalalert(data.msg, 1500)
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+<div class="before_main_page" style="display: none">
+    <h6 class="title"></h6>
+</div>
+<div class="main_page">
+    <h6 class="title"></h6>
+    {% if character_list %}
+        {% for character in character_list %}
+            <div style="float: left">
+                <img id="{{ character.id }}" src=/{{ character.head }}
+                     class="img-responsive avatar size-XL thumbnail"
+                     alt="{{ character.name }}">
+                <p>{{ character.name }}</p>
+                <button class="btn btn-primary size-MINI radio" group_id={{ group_id }} character_id={{ character.id }}
+                        onclick="add_task_npc('{{ character.id }}', '{{ task_id }}')">
+                    添加
+                </button>
+            </div>
+        {% endfor %}
+        <div style="clear: both"></div>
+    {% else %}
+        <p>No character are available.</p>
+    {% endif %}
+    <HR>
+</div>
+<div class="after_main_page" style="display: none">
+    <h6 class="title"></h6>
+</div>
+</body>
+</html>

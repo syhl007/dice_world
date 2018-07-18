@@ -32,7 +32,7 @@
             $('div#dialog').find('div.modal-body').load('{% url 'character:character_detail'  '00000000-0000-0000-0000-000000000000' %}'.replace('00000000-0000-0000-0000-000000000000', character_id));
             $('div#dialog').find('button.sure').css("display", "inline");
             $('div#dialog').find('button.sure').text("返回");
-            $('div#dialog').find('button.sure').click(list_charater_from_room);
+            $('div#dialog').find('button.sure').click(list_character_from_room);
         }
     </script>
 </head>
@@ -90,7 +90,7 @@
                      alt="{{ character.name }}" onclick="character_dialog_detail(this.id)">
                 <p>{{ character.name }}</p>
                 {% if group_id %}
-                    <button group_id={{ group_id }} character_id={{ character.id }} onclick="link_character(this)">
+                    <button class="btn btn-primary size-MINI radio" group_id={{ group_id }} character_id={{ character.id }} onclick="link_character(this)">
                         关联
                     </button>
                 {% endif %}

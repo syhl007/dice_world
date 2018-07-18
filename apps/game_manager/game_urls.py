@@ -11,5 +11,5 @@ urlpatterns = [
     path('item/<uuid:item_id>/', login_required(game_views.ItemDetail.as_view()), name='item_detail'),
     path('task/<uuid:task_id>/', login_required(game_views.TaskDetail.as_view()), name='task_detail'),
     path('task_record/<uuid:task_id>/', login_required(game_views.TaskRecordDetail.as_view()), name='task_record_detail'),
-    path('item/<uuid:skill_id>/', login_required(game_views.SkillDetail.as_view()), name='skill_detail'),
+    path('skill/<uuid:skill_id>/', login_required(game_views.SkillDetail.as_view()), name='skill_detail'),
 ]
