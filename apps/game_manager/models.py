@@ -1,12 +1,10 @@
-import random
 import time
-import uuid
 from datetime import datetime
 
 from django.db import models
+from user_manager.models import User
 
 from dice_world.standard import JSONField, create_uuid, create_id
-from user_manager.models import User
 
 
 class Character(models.Model):
@@ -50,7 +48,7 @@ class Task(models.Model):
     name = models.CharField(verbose_name=u"任务模组名", max_length=127)
     creator = models.ForeignKey(verbose_name=u"创作者", to=User, related_name='task_creator', on_delete=models.CASCADE)
     description = models.TextField(verbose_name=u"描述", max_length=256, null=True, blank=True)
-    npc = models.ManyToManyField(verbose_name=u"剧情人物",related_name='task_npc', to=Character)
+    npc = models.ManyToManyField(verbose_name=u"剧情人物", related_name='task_npc', to=Character)
     init_file = models.FileField(verbose_name=u"任务模组文件(必须)", upload_to="static/resource/game/tasks/")
     private = models.BooleanField(verbose_name=u"是否公开", default=False)
     add_time = models.DateTimeField(verbose_name=u"创建时间", default=datetime.now)
@@ -165,7 +163,7 @@ class GameTxt(models.Model):
     id = models.UUIDField(verbose_name="UUID", max_length=64, primary_key=True, default=create_uuid)
     room_id = models.CharField(verbose_name=u"游戏房间", max_length=64, unique=True)
     user = models.ForeignKey(verbose_name=u"上传者", to=User, related_name="text_uploader", on_delete=models.CASCADE)
-    file = models.FileField(verbose_name=u"游戏记录文件", max_length=512)
+    file = models.FileField(verbose_name=u"游戏记录文件", max_length=256)
     add_time = models.DateTimeField(verbose_name=u"创建时间", default=datetime.now)
 
     class Meta:

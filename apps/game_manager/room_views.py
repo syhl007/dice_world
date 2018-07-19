@@ -68,10 +68,10 @@ class CreateRoom(generic.CreateView):
                 bystanders.save()
             if not form.data.get('password'):
                 Group.objects.create(room=room, type=2)
-            dir_path = os.path.join(BASE_DIR, "txt/" + room.gm.username)
+            dir_path = os.path.join(BASE_DIR, "static/resource/txt/" + room.gm.username)
             os.makedirs(dir_path, exist_ok=True)
             txt_path = os.path.join(dir_path, "[" + str(int(time.time())) + "]" + room.id.hex + ".txt")
-            with open(txt_path, 'w') as txt:
+            with open(txt_path, 'w'):
                 pass
             GameTxt.objects.create(room_id=str(room.id), user=room.gm, file=txt_path)
             txt_board_storeroom[room.id] = GameTxtPhantom()
@@ -326,6 +326,8 @@ class StartTask(generic.CreateView):
         os.makedirs(dir_path, exist_ok=True)
         txt_path = os.path.join(dir_path, "[" + str(int(time.time())) + "]" + form.instance.id + ".txt")
         with open(txt_path, 'w', encoding='utf-8') as f:
+            f.write(str(datetime.now()))
+            f.write('\n')
             f.write(start)
         form.instance.file = txt_path
         form.save()
@@ -341,6 +343,8 @@ class RecordTask(generic.View):
         task_record.save()
         record = request.POST.get('record')
         with open(task_record.file.path, 'a') as f:
+            f.write(str(datetime.now()))
+            f.write('\n')
             f.write(record)
             f.write('\n')
         return JsonResponse(state=0)
@@ -532,6 +536,5 @@ class TaskRecordDetail(generic.View):
         task_record = TaskRecord.objects.select_related('room', 'task').get(id=task_record_id)
         with open(task_record.file.path, 'r', encoding='utf-8') as f:
             task_record_txt = f.readlines()
-        return render(request, 'room/executing_task_detail.html', context={'task_record': task_record, 'task_record_txt': task_record_txt})
-
-
+        return render(request, 'room/executing_task_detail.html',
+                      context={'task_record': task_record, 'task_record_txt': task_record_txt})

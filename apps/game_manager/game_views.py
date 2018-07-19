@@ -70,8 +70,12 @@ class TaskDetail(generic.View):
         is_creator = False
         if task.creator == request.user:
             is_creator = True
-            task_record_list = TaskRecord.objects.select_related('room', 'room__gm').only('id', 'room__name', 'room__gm__username').filter(task_id=task_id)
-        return render(request, 'game/task_detail.html', context={'task': task, 'task_npc_list': task_npc_list, 'task_record_list': task_record_list, 'is_creator': is_creator})
+            task_record_list = TaskRecord.objects.select_related('room', 'room__gm').only('id', 'room__name',
+                                                                                          'room__gm__username').filter(
+                task_id=task_id)
+        return render(request, 'game/task_detail.html',
+                      context={'task': task, 'task_npc_list': task_npc_list, 'task_record_list': task_record_list,
+                               'is_creator': is_creator})
 
 
 class CreateSkill(generic.CreateView):
