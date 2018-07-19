@@ -1,0 +1,131 @@
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        var record_task_form = $('<form id="record_task" type="post"><p><textarea rows="4" cols="50" name="start" form="record_task" maxlength="512" placeholder="任务记录(256字以内)"></textarea></p><button id="task_record_submit" class="btn btn-primary size-MINI radio">提交</button></form>')
+
+        function task_record_dialog_detail(task_record_id) {
+            $('div#dialog').find('div.modal-body').load('{% url 'room:record_task_detail' room_id '00000000-0000-0000-0000-000000000000' %}'.replace('00000000-0000-0000-0000-000000000000', task_record_id), function () {
+                $('div#dialog').find('div.modal-body').append(record_task_form)
+            });
+            $('div#dialog').find('button.sure').css("display", "inline");
+            $('div#dialog').find('button.sure').text("返回");
+            $('div#dialog').find('button.sure').unbind('click');
+            $('div#dialog').find('button.sure').click(list_task_from_room);
+        }
+
+        function task_dialog_detail(task_id) {
+            $('div#dialog').find('div.modal-body').load('{% url 'game:task_detail' '00000000-0000-0000-0000-000000000000' %}'.replace('00000000-0000-0000-0000-000000000000', task_id), function () {
+                $('div#dialog').find('div.create_icon').css("display", "none");
+                $('div#dialog').find('div.task_record_list').css("display", "none");
+            });
+            $('div#dialog').find('button.sure').css("display", "inline");
+            $('div#dialog').find('button.sure').text("返回");
+            $('div#dialog').find('button.sure').unbind('click');
+            $('div#dialog').find('button.sure').click(list_task_from_room);
+        }
+
+        function task_add_room(task_id) {
+            $.ajax({
+                url: '{% url 'room:add_task' room_id %}',
+                method: 'post',
+                data: {'task_id': task_id, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                dataType: 'json',
+                success: function (data) {
+                    if (data.state == 2) {
+                        $.Huimodalalert(data.msg, 1500);
+                    }
+                    list_task_from_room();
+                }
+            });
+        }
+
+        function task_start(task_id) {
+            record_task_form.attr('action', '{% url 'room:start_task' room_id %}');
+            record_task_form.find('input#task_id_dom').attr('value', task_id);
+            record_task_form.find('button#task_record_submit').unbind('click');
+            record_task_form.find('button#task_record_submit').click(function (e) {
+                e.preventDefault();
+                console.log(record_task_form.find('textarea'));
+                console.log(record_task_form.find('textarea').val());
+                $.ajax({
+                    url: '{% url 'room:start_task' room_id %}',
+                    method: 'post',
+                    data: {
+                        'room_id': '{{ room_id }}',
+                        'task_id': task_id,
+                        'csrfmiddlewaretoken': '{{ csrf_token }}',
+                        'start': record_task_form.find('textarea').val()
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        if(data.state == 0) {
+                            list_task_from_room();
+                        }
+                    }
+                });
+            });
+
+            $('div.main_page').append(record_task_form);
+        }
+    </script>
+</head>
+<body>
+<div class="before_main_page" style="display: none">
+    <h6 class="title"></h6>
+    {% if task_before_list %}
+        {% for task_record in task_before_list %}
+            <div style="float: left">
+                <img class="avatar size-L thumbnail" src="{% static 'images/task_background.jpg' %}"
+                     onclick="task_record_dialog_detail('{{ task_record.id }}')">
+                <p>{{ task_record.task.name }}</p>
+                {% if task_record.done %}(done){% endif %}
+            </div>
+        {% endfor %}
+        <div style="clear: both"></div>
+    {% else %}
+        <p>No task are available.</p>
+    {% endif %}
+    <HR>
+</div>
+<div class="main_page">
+    <h6 class="title"></h6>
+    {% if task_list %}
+        {% for task in task_list %}
+            <div>
+                <img class="avatar size-L thumbnail" src="{% static 'images/task_background.jpg' %}"
+                     onclick="task_dialog_detail('{{ task.id }}')">
+                <p>{{ task.name }}</p>
+                <button class="btn btn-primary size-MINI radio" onclick="task_start('{{ task.id }}')">
+                    开始任务
+                </button>
+            </div>
+        {% endfor %}
+        <div style="clear: both"></div>
+    {% else %}
+        <p>No task are available.</p>
+    {% endif %}
+    <HR>
+</div>
+<div class="after_main_page" style="display: none">
+    <h6 class="title"></h6>
+    {% if task_after_list %}
+        {% for task in task_after_list %}
+            <div>
+                <img class="avatar size-L thumbnail" src="{% static 'images/task_background.jpg' %}"
+                     onclick="task_dialog_detail('{{ task.id }}')">
+                <p>{{ task.name }}</p>
+                <button class="btn btn-primary size-MINI radio" onclick="task_add_room('{{ task.id }}')">加入预选
+                </button>
+            </div>
+        {% endfor %}
+        <div style="clear: both"></div>
+    {% else %}
+        <p>No task are available.</p>
+    {% endif %}
+    <HR>
+</div>
+</body>
+
+

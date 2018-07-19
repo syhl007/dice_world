@@ -68,24 +68,10 @@ class TaskDetail(generic.View):
         task_record_list = []
         task_npc_list = task.npc.all()
         is_creator = False
-        if task.creator == request.user and not request.POST.get('room_id'):
+        if task.creator == request.user:
             is_creator = True
             task_record_list = TaskRecord.objects.select_related('room', 'room__gm').only('id', 'room__name', 'room__gm__username').filter(task_id=task_id)
         return render(request, 'game/task_detail.html', context={'task': task, 'task_npc_list': task_npc_list, 'task_record_list': task_record_list, 'is_creator': is_creator})
-
-
-class TaskRecordDetail(generic.View):
-
-    def get(self, request, *args, **kwargs):
-        task_id = kwargs['task_id']
-        room_id = request.POST['room_id']
-        room = Room.objects.get(id=room_id)
-        if room.gm != request.user:
-            return JsonResponse(state=2, msg='不具有房主权限')
-        task_record = TaskRecord.objects.select_related('room', 'task').get(task_id=task_id, room_id=room_id)
-        with open(task_record.file.path, 'r') as f:
-            task_record_txt = f.readlines()
-        return render(request, 'room/executing_task_detail.html', context={'task_record': task_record, 'task_record_txt': task_record_txt})
 
 
 class CreateSkill(generic.CreateView):

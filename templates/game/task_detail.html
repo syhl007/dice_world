@@ -5,6 +5,16 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script>
+        function npc_detail(character_id) {
+            $('div#create_dialog').find('h3.modal-title').text('人物信息');
+            $('div#create_dialog').find('div.modal-body').load('{% url 'character:character_detail' '00000000-0000-0000-0000-000000000000' %}'.replace('00000000-0000-0000-0000-000000000000', character_id), function () {
+                $('div#create_dialog').find('button.sure').css('display', 'none');
+                $('div#create_dialog').find('img#character_head').removeClass('character_detail_head');
+                $('div#create_dialog').find('img#character_head').addClass('avatar size-XXXL');
+                $('div#create_dialog').modal('show');
+            });
+        }
+
         function add_task_npc(task_id) {
             $('div#create_dialog').find('h3.modal-title').text('添加NPC');
             $('div#create_dialog').find('div.modal-body').load('{% url 'character:list_npc' '00000000-0000-0000-0000-000000000000' %}'.replace('00000000-0000-0000-0000-000000000000', task_id), function () {
@@ -34,18 +44,18 @@
             <p><b>涉及人物:</b></p><br>
             {% for character in task_npc_list %}
                 <div style="float: left">
-                    <img id="{{ character.id }}" src=/{{ character.head }}
+                    <img src=/{{ character.head }}
                          class="img-responsive avatar size-XXXL thumbnail"
-                         alt="{{ character.name }}" onclick="character_detail(this.id)">
+                         alt="{{ character.name }}" onclick="npc_detail('{{ character.id }}')">
                     <p>{{ character.name }}</p>
                 </div>
             {% endfor %}
             {% if is_creator %}
-                <div style="float: left">
+                <div class="create_icon" style="float: left">
                     <img src="{% static 'images/create.jpg' %}" onclick="add_task_npc('{{ task.id }}')">
                 </div>
             {% endif %}
-            <div style="clear: both"></div>
+            <div class="task_record_list" style="clear: both"></div>
             <HR>
             {% for record in task_record_list %}
                 <div style="float: left">

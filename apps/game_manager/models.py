@@ -138,7 +138,7 @@ class TaskRecord(models.Model):
     room = models.ForeignKey(verbose_name=u"房间", to=Room, related_name="tesk_belong_room", on_delete=models.CASCADE)
     task = models.ForeignKey(verbose_name=u"任务", to=Task, related_name="task", on_delete=models.CASCADE)
     done = models.BooleanField(verbose_name=u"是否完成", default=False)
-    file = models.FileField(verbose_name=u"日志记录", upload_to="static/resource/game/records/", null=True)
+    file = models.FileField(verbose_name=u"日志记录", max_length=127, upload_to="static/resource/game/records/", null=True)
     add_time = models.DateTimeField(verbose_name=u"创建时间", default=datetime.now)
     update_time = models.DateTimeField(verbose_name=u"更新时间", default=datetime.now)
 

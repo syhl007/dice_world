@@ -19,9 +19,13 @@
                 <HR>
                 <HR>
             </ul>
-            {% for line in task_record_txt %}
-                    {{ line }}<br>
-            {% endfor %}
+            {% if task_record_txt %}
+                任务日志：
+                {% for line in task_record_txt %}
+                    <p>{{ line }}</p><br>
+                    <HR>
+                {% endfor %}
+            {% endif %}
         </div>
     {% else %}
         No task are available

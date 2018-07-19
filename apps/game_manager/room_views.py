@@ -292,7 +292,7 @@ class SaveRoomChat(generic.View):
 
 
 class ListTask(generic.ListView):
-    template_name = 'room/task_list.html'
+    template_name = 'room/dialog_task_list.html'
 
     def get(self, request, *args, **kwargs):
         room_id = kwargs['room_id']
@@ -322,13 +322,14 @@ class StartTask(generic.CreateView):
         task_id = form.data.get('task_id')
         form.instance.task = Task.objects.get(id=task_id)
         start = form.data.get('start')
-        dir_path = os.path.join(BASE_DIR, "task/" + room_id)
+        dir_path = os.path.join(BASE_DIR, "static/resource/game/records/")
         os.makedirs(dir_path, exist_ok=True)
         txt_path = os.path.join(dir_path, "[" + str(int(time.time())) + "]" + form.instance.id + ".txt")
-        with open(txt_path, 'w') as f:
+        with open(txt_path, 'w', encoding='utf-8') as f:
             f.write(start)
         form.instance.file = txt_path
         form.save()
+        return JsonResponse(state=0)
 
 
 class RecordTask(generic.View):
@@ -346,7 +347,7 @@ class RecordTask(generic.View):
 
 
 class ListItem(generic.ListView):
-    template_name = 'room/item_list.html'
+    template_name = 'room/dialog_item_list.html'
 
     def get(self, request, *args, **kwargs):
         room = Room.objects.get(id=kwargs['room_id'])
@@ -438,7 +439,7 @@ class ItemAdd(generic.View):
 
 
 class ListSkill(generic.ListView):
-    template_name = 'room/skill_list.html'
+    template_name = 'room/dialog_skill_list.html'
 
     def get(self, request, *args, **kwargs):
         room = Room.objects.get(id=kwargs['room_id'])
@@ -474,11 +475,11 @@ class SkillGet(generic.View):
             try:
                 RoomSkillRecord.objects.get(Q(room_id=room_id) & Q(skill_id=skill_id))
                 return JsonResponse(state=2, msg='已存在该独有技能')
-            except RoomItemRecord.MultipleObjectsReturned:
+            except RoomSkillRecord.MultipleObjectsReturned:
                 return JsonResponse(state=2, msg='多于两个独有技能')
-            except RoomItemRecord.DoesNotExist:
+            except RoomSkillRecord.DoesNotExist:
                 pass
-        skill_record_list = [RoomItemRecord(player_id=player_id, room_id=room_id, skill_id=skill_id) for player_id in
+        skill_record_list = [RoomSkillRecord(player_id=player_id, room_id=room_id, skill=skill) for player_id in
                              player_ids]
         RoomSkillRecord.objects.bulk_create(skill_record_list)
         return JsonResponse(state=0)
@@ -505,7 +506,7 @@ class SkillAdd(generic.View):
         room = Room.objects.get(id=kwargs['room_id'])
         if room.gm != request.user:
             return JsonResponse(state=2, msg='没有房主权限')
-        room.items.add(Skill.objects.get(id=request.POST.get('skill_id')))
+        room.skills.add(Skill.objects.get(id=request.POST.get('skill_id')))
         return JsonResponse(state=0)
 
 
@@ -516,10 +517,21 @@ class TaskAdd(generic.View):
         if room.gm != request.user:
             return JsonResponse(state=2, msg='没有房主权限')
         task_id = request.POST.get('task_id')
-        dir_path = os.path.join(BASE_DIR, "static/resource/game/records/" + room.gm.username)
-        os.makedirs(dir_path, exist_ok=True)
-        txt_path = os.path.join(dir_path, "[" + str(int(time.time())) + "]" + task_id + ".txt")
-        with open(txt_path, 'w') as txt:
-            pass
-        TaskRecord.objects.create(room_id=room.id, task_id=task_id, file=txt_path)
+        task = Task.objects.get(id=task_id)
+        room.tasks.add(task)
         return JsonResponse(state=0)
+
+
+class TaskRecordDetail(generic.View):
+
+    def get(self, request, *args, **kwargs):
+        task_record_id = kwargs['task_record_id']
+        room = Room.objects.get(id=kwargs['room_id'])
+        if room.gm != request.user:
+            return JsonResponse(state=2, msg='不具有房主权限')
+        task_record = TaskRecord.objects.select_related('room', 'task').get(id=task_record_id)
+        with open(task_record.file.path, 'r', encoding='utf-8') as f:
+            task_record_txt = f.readlines()
+        return render(request, 'room/executing_task_detail.html', context={'task_record': task_record, 'task_record_txt': task_record_txt})
+
+

@@ -9,7 +9,7 @@
                 method: 'get',
                 dataType: 'json',
                 success: function (data) {
-                    var players = data.data;
+                    var players = JSON.parse(data.data);
                     form.attr('method', 'post');
                     for (var i in players) {
                         var player_id = $('<input type="checkbox" name="player_ids" />');
@@ -47,13 +47,16 @@
                         url: form.attr("action"),
                         type: form.attr("method"),
                         data: form.serialize(),
-                        dataType: "html",
+                        dataType: "json",
                         success: function (data) {
-                            {% if is_gm %}
-                                list_skill_from_room();
-                            {% else %}
-                                list_personal_skill_from_room();
-                            {% endif %}
+                            if (data.state == 2) {
+                                $.Huimodalalert(data.msg, 1500);
+                            }
+                                {% if is_gm %}
+                                    list_skill_from_room();
+                                {% else %}
+                                    list_personal_skill_from_room();
+                                {% endif %}
                         }
                     });
                 });
@@ -75,8 +78,8 @@
                             list_personal_skill_from_room();
                         {% endif %}
                     }
-                    else if(data.state == 2) {
-                       $.Huimodalalert(data.msg, 1500);
+                    else if (data.state == 2) {
+                        $.Huimodalalert(data.msg, 1500);
                     }
                 }
             });
@@ -84,7 +87,7 @@
 
         function skill_add_room(skill_id) {
             $.ajax({
-                url: '{% url 'room:add_item' room_id %}',
+                url: '{% url 'room:add_skill' room_id %}',
                 method: 'post',
                 data: {'skill_id': skill_id, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
                 dataType: 'json',
@@ -93,7 +96,7 @@
                     if (data.state == 0) {
                         list_skill_from_room();
                     }
-                    else if(data.state == 2) {
+                    else if (data.state == 2) {
                         $.Huimodalalert(data.msg, 1500);
                     }
                 }
@@ -105,6 +108,7 @@
             $('div#dialog').find('div.modal-body').load('{% url 'game:skill_detail' '00000000-0000-0000-0000-000000000000' %}'.replace('00000000-0000-0000-0000-000000000000', skill_id));
             $('div#dialog').find('button.sure').css("display", "inline");
             $('div#dialog').find('button.sure').text("返回");
+            $('div#dialog').find('button.sure').unbind('click');
             $('div#dialog').find('button.sure').click(list_skill_from_room);
         }
     </script>
@@ -119,13 +123,14 @@
                      class="img-responsive avatar size-XL thumbnail"
                      alt="{{ skill.name }}" onclick="skill_dialog_detail(this.id)">
                 <p>{{ skill.name }}</p>
+                {% if is_gm %}
+                    <div>
+                        <button class="btn btn-primary size-MINI radio" onclick="skill_get(this,'{{ skill.id }}')">习得
+                        </button>
+                        <div skill_id="{{ skill.id }}" class="player_list"></div>
+                    </div>
+                {% endif %}
             </div>
-            {% if is_gm %}
-                <div>
-                    <button onclick="skill_get(this,'{{ skill.id }}')">习得</button>
-                    <div skill_id="{{ skill.id }}" class="player_list"></div>
-                </div>
-            {% endif %}
         {% endfor %}
         <div style="clear: both"></div>
     {% else %}
@@ -143,7 +148,9 @@
                      alt="{{ skill.name }}" onclick="skill_dialog_detail(this.id)">
                 <p>{{ skill.skill.name }}</p>{% if is_gm %}({{ skill.player.name }}){% endif %}
                 <div>
-                    <button onclick="skill_lost('{{ skill.skill_id }}', '{{ skill.player.id }}')">遗忘</button>
+                    <button class="btn btn-primary size-MINI radio"
+                            onclick="skill_lost('{{ skill.skill_id }}', '{{ skill.player.id }}')">遗忘
+                    </button>
                 </div>
             </div>
         {% endfor %}
@@ -164,7 +171,8 @@
                 <p>{{ skill.name }}</p>
                 {% if is_gm %}
                     <div>
-                        <button onclick="skill_add_room('{{ skill.id }}')">添加到房间</button>
+                        <button class="btn btn-primary size-MINI radio" onclick="skill_add_room('{{ skill.id }}')">加入预选
+                        </button>
                     </div>
                 {% endif %}
             </div>

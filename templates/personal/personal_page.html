@@ -168,7 +168,9 @@
                     })
                 });
             });
-            $('div#create_dialog').find('button.sure').click(function () {
+            $('div#create_dialog').find('button.sure').unbind('click');
+            $('div#create_dialog').find('button.sure').click(function (e) {
+                e.preventDefault();
                 $(this).attr("disabled", true);
                 $(this).removeClass("btn-primary");
                 $(this).addClass("disabled");
@@ -206,7 +208,9 @@
                     })
                 });
             });
-            $('div#create_dialog').find('button.sure').click(function () {
+            $('div#create_dialog').find('button.sure').unbind('click');
+            $('div#create_dialog').find('button.sure').click(function (e) {
+                e.preventDefault();
                 $(this).attr("disabled", true);
                 $(this).removeClass("btn-primary");
                 $(this).addClass("disabled");
@@ -244,7 +248,9 @@
                     })
                 });
             });
-            $('div#create_dialog').find('button.sure').click(function () {
+            $('div#create_dialog').find('button.sure').unbind('click');
+            $('div#create_dialog').find('button.sure').click(function (e) {
+                e.preventDefault();
                 $(this).attr("disabled", true);
                 $(this).removeClass("btn-primary");
                 $(this).addClass("disabled");
@@ -282,7 +288,9 @@
                     })
                 });
             });
-            $('div#create_dialog').find('button.sure').click(function () {
+            $('div#create_dialog').find('button.sure').unbind('click');
+            $('div#create_dialog').find('button.sure').click(function (e) {
+                e.preventDefault();
                 $(this).attr("disabled", true);
                 $(this).removeClass("btn-primary");
                 $(this).addClass("disabled");

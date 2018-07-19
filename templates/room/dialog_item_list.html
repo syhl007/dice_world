@@ -9,7 +9,7 @@
                 method: 'get',
                 dataType: 'json',
                 success: function (data) {
-                    var players = data.data;
+                    var players = JSON.parse(data.data);
                     form.attr('method', 'post');
                     for (var i in players) {
                         var player_id = $('<input type="checkbox" name="player_ids" />');
@@ -57,8 +57,11 @@
                         url: form.attr("action"),
                         type: form.attr("method"),
                         data: form.serialize(),
-                        dataType: "html",
+                        dataType: "json",
                         success: function (data) {
+                            if (data.state == 2) {
+                                $.Huimodalalert(data.msg, 1500);
+                            }
                             {% if is_gm %}
                                 list_item_from_room();
                             {% else %}
@@ -115,6 +118,7 @@
             $('div#dialog').find('div.modal-body').load('{% url 'game:item_detail' '00000000-0000-0000-0000-000000000000' %}'.replace('00000000-0000-0000-0000-000000000000', item_id));
             $('div#dialog').find('button.sure').css("display", "inline");
             $('div#dialog').find('button.sure').text("返回");
+            $('div#dialog').find('button.sure').unbind('click');
             $('div#dialog').find('button.sure').click(list_item_from_room);
         }
     </script>
