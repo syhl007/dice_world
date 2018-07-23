@@ -69,11 +69,7 @@ class CreateRoom(generic.CreateView):
                 bystanders.save()
             if not form.data.get('password'):
                 Group.objects.create(room=room, type=2)
-<<<<<<< HEAD
             dir_path = "static/resource/txt/" + room.gm.username
-=======
-            dir_path = os.path.join(BASE_DIR, "static/resource/txt/" + room.gm.username)
->>>>>>> e93d0be6fd8032eda7e9ee158f0c91e5b06f52e8
             os.makedirs(dir_path, exist_ok=True)
             txt_path = os.path.join(dir_path, "[" + str(int(time.time())) + "]" + room.id.hex + ".txt")
             with open(txt_path, 'w'):
@@ -363,13 +359,8 @@ class StartTask(generic.CreateView):
         os.makedirs(dir_path, exist_ok=True)
         txt_path = os.path.join(dir_path, "[" + str(int(time.time())) + "]" + form.instance.id + ".txt")
         with open(txt_path, 'w', encoding='utf-8') as f:
-<<<<<<< HEAD
             f.write(str(datetime.now())+':'+'\n')
-=======
             f.write(str(datetime.now()))
-            f.write('\n')
->>>>>>> e93d0be6fd8032eda7e9ee158f0c91e5b06f52e8
-            f.write(start)
             f.write('\n')
         form.instance.file = txt_path
         form.save()
@@ -384,14 +375,8 @@ class RecordTask(generic.View):
         task_record.update_time = datetime.now()
         task_record.save()
         record = request.POST.get('record')
-<<<<<<< HEAD
         with open(task_record.file.path, 'a', encoding='utf-8') as f:
             f.write(str(datetime.now()) + ':' + '\n')
-=======
-        with open(task_record.file.path, 'a') as f:
-            f.write(str(datetime.now()))
-            f.write('\n')
->>>>>>> e93d0be6fd8032eda7e9ee158f0c91e5b06f52e8
             f.write(record)
             f.write('\n')
         return JsonResponse(state=0)

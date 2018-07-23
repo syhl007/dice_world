@@ -217,6 +217,18 @@
                             $('div#dialog').find('div.modal-body').append('<a href="/'+txt_data[k]+'"target= _blank>'+k+'</a>');
                             $('div#dialog').find('div.modal-body').append('<br>');
                         }
+                        $('div#dialog').find('button.sure').unbind('click');
+                        $('div#dialog').find('button.sure').click(function (e) {
+                            window.location.reload();
+                        });
+                        $('div#dialog').keydown(function (e) {
+                            if(e.keyCode == 27) {
+                                window.location.reload();
+                            }
+                        });
+                        $('div#dialog').find('button.sure').css('display','inline');
+                        $('div#dialog').find('button.cancel').css('display','none');
+                        $('div#dialog').find('a.close').css('display','none');
                         $('div#dialog').modal('show');
                     }
                     else if (data.state == 2) {
