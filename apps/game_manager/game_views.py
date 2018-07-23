@@ -76,6 +76,7 @@ class TaskDetail(generic.View):
         return render(request, 'game/task_detail.html',
                       context={'task': task, 'task_npc_list': task_npc_list, 'task_record_list': task_record_list,
                                'is_creator': is_creator})
+<<<<<<< HEAD
 
 
 class TaskRecordDetail(generic.View):
@@ -85,6 +86,8 @@ class TaskRecordDetail(generic.View):
         with open(record.file.path) as f:
             txt = f.readlines()
         return JsonResponse(state=0, data=txt)
+=======
+>>>>>>> e93d0be6fd8032eda7e9ee158f0c91e5b06f52e8
 
 
 class CreateSkill(generic.CreateView):

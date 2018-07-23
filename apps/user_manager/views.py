@@ -7,6 +7,8 @@ from django.views import generic
 
 from user_manager.models import User
 
+from dice_world.standard import JsonResponse
+
 
 class Login(generic.View):
 
@@ -28,3 +30,20 @@ class ListUser(generic.ListView):
 
     def get(self, request, *args, **kwargs):
         return super(ListUser, self).get(request, *args, **kwargs)
+
+
+class Register(generic.View):
+    model = User
+    template_name = 'user/user_create.html'
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name)
+
+    def post(self, request, *args, **kwargs):
+        username = request.POST['username']
+        password = request.POST['password']
+        try:
+            User.objects.create_user(username=username, password=password)
+        except Exception as e:
+            return JsonResponse(state=2, msg='注册失败')
+        return JsonResponse(state=0)
