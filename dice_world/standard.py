@@ -118,7 +118,6 @@ class JSONField(models.Field):
     #     return super().formfield(**defaults)
 
 
-
 class JsonResponse(HttpResponse):
     '''
         {'state':0,'msg':'xxxx', 'data': 'JsonObj'}

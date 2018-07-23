@@ -25,6 +25,28 @@
             $('div#create_dialog').find('button.sure').css("display", "none");
             $("div#create_dialog").modal("show");
         }
+
+        function get_record_detail(record_id) {
+            $.ajax({
+                url:'{% url 'game:task_record_detail' %}',
+                method:'post',
+                data:{'record_id':record_id,'csrfmiddlewaretoken':'{{ csrf_token }}'},
+                dataType:'json',
+                success:function (data) {
+                    if(data.state == 0){
+                        $('div.record_txt').css('display', 'block');
+                        $('div.record_txt_main').text('');
+                        var txts = JSON.parse(data.data);
+                        for(var i in txts) {
+                            $('div.record_txt_main').append(txts[i]);
+                            $('div.record_txt_main').append('<br>');
+                        }
+                    }
+                }
+            });
+
+
+        }
     </script>
 </head>
 <body>
@@ -57,13 +79,23 @@
             {% endif %}
             <div class="task_record_list" style="clear: both"></div>
             <HR>
+            <p><b>游玩模组的房间：</b></p>
             {% for record in task_record_list %}
                 <div style="float: left">
-                    <button id="{{ record.id }}"
-                            class="btn btn-primary">{{ record.room__name }}({{ record.room__gm__username }})
+                    <button class="btn btn-primary" onclick="get_record_detail('{{ record.id }}')">{{ record.room.name }}({{ record.room.gm.username }})
                     </button>
                 </div>
             {% endfor %}
+            <div style="clear: both"></div>
+            <HR>
+            <div class="record_txt" style="display: none">
+                <b>任务日志：</b><br>
+                <HR>
+                <div class="record_txt_main"></div>
+                <button class="btn btn-primary size-MINI radio" onclick="$('div.record_txt').css('display', 'none');">
+                    收起
+                </button>
+            </div>
             <div style="clear: both"></div>
         </div>
     {% else %}

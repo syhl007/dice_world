@@ -6,7 +6,7 @@ from django.views import generic
 
 from dice_world.standard import JsonResponse
 from game_manager.controlor import xml_file_check
-from game_manager.models import Task, Item, Room, Skill, TaskRecord
+from game_manager.models import Task, Item, Skill, TaskRecord
 
 
 class CreateItem(generic.CreateView):
@@ -70,8 +70,21 @@ class TaskDetail(generic.View):
         is_creator = False
         if task.creator == request.user:
             is_creator = True
-            task_record_list = TaskRecord.objects.select_related('room', 'room__gm').only('id', 'room__name', 'room__gm__username').filter(task_id=task_id)
-        return render(request, 'game/task_detail.html', context={'task': task, 'task_npc_list': task_npc_list, 'task_record_list': task_record_list, 'is_creator': is_creator})
+            task_record_list = TaskRecord.objects.select_related('room', 'room__gm').only('id', 'room__name',
+                                                                                          'room__gm__username').filter(
+                task_id=task_id)
+        return render(request, 'game/task_detail.html',
+                      context={'task': task, 'task_npc_list': task_npc_list, 'task_record_list': task_record_list,
+                               'is_creator': is_creator})
+
+
+class TaskRecordDetail(generic.View):
+
+    def post(self, request, *args, **kwargs):
+        record = TaskRecord.objects.get(id=request.POST['record_id'])
+        with open(record.file.path) as f:
+            txt = f.readlines()
+        return JsonResponse(state=0, data=txt)
 
 
 class CreateSkill(generic.CreateView):

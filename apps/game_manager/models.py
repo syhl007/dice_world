@@ -42,6 +42,7 @@ class Skill(models.Model):
     detail = models.CharField(verbose_name=u"灰字", max_length=127, null=True, blank=True)
     description = models.TextField(verbose_name=u"描述", max_length=512, null=True, blank=True)
     private = models.BooleanField(verbose_name=u"是否公开", default=False)
+    state = models.SmallIntegerField(verbose_name=u"技能状态", default=0)
     add_time = models.DateTimeField(verbose_name=u"创建时间", default=datetime.now)
 
 
@@ -53,6 +54,7 @@ class Task(models.Model):
     npc = models.ManyToManyField(verbose_name=u"剧情人物",related_name='task_npc', to=Character)
     init_file = models.FileField(verbose_name=u"任务模组文件(必须)", upload_to="static/resource/game/tasks/")
     private = models.BooleanField(verbose_name=u"是否公开", default=False)
+    state = models.SmallIntegerField(verbose_name=u"任务状态", default=0)
     add_time = models.DateTimeField(verbose_name=u"创建时间", default=datetime.now)
 
 
@@ -67,6 +69,7 @@ class Item(models.Model):
     file = models.FileField(verbose_name=u"物品资料文件(可选)", upload_to="static/resource/game/items/", null=True, blank=True)
     private = models.BooleanField(verbose_name=u"是否公开", default=False)
     unique = models.BooleanField(verbose_name=u"是否唯一", default=False)
+    state = models.SmallIntegerField(verbose_name=u"物品状态", default=0)
     add_time = models.DateTimeField(verbose_name=u"创建时间", default=datetime.now)
 
 
@@ -79,7 +82,7 @@ class Room(models.Model):
     items = models.ManyToManyField(verbose_name=u"物品列表", to=Item, related_name='room_item')
     skills = models.ManyToManyField(verbose_name=u"技能列表", to=Skill, related_name='room_skill')
     tasks = models.ManyToManyField(verbose_name=u"任务列表", to=Task, related_name='room_task')
-    # 0——游戏准备中
+    # 0——游戏暂停
     # 1——游戏进行中
     # -1——游戏结束
     state = models.SmallIntegerField(verbose_name=u"房间状态", default=0)
@@ -175,7 +178,9 @@ class GameTxt(models.Model):
 
 # 临时文本记录器
 class GameTxtPhantom:
-    txt_dict = {}
+
+    def __init__(self):
+        self.txt_dict = {}
 
     def get_by_state(self, state):
         if not self.txt_dict.get(state):
@@ -194,4 +199,4 @@ class CharacterTxt:
         self.time = time
 
     def __str__(self):
-        return self.name + "(" + str(self.time) + ")" + ":" + self.content
+        return "<b>"+self.name + "(" + str(self.time) + ")" + "</b>:" + self.content

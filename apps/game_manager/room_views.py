@@ -55,6 +55,7 @@ class CreateRoom(generic.CreateView):
             if form.data.get('password'):
                 form.instance.password = form.data.get('password')
             form.instance.gm = self.request.user
+            form.instance.sidelines = form.data.get('sidelines') == 'on'
             form.save()
             room = Room.objects.get(id=form.instance.id)
             game_players = Group.objects.create(room=room, type=0)
@@ -68,7 +69,7 @@ class CreateRoom(generic.CreateView):
                 bystanders.save()
             if not form.data.get('password'):
                 Group.objects.create(room=room, type=2)
-            dir_path = os.path.join(BASE_DIR, "txt/" + room.gm.username)
+            dir_path = "static/resource/txt/" + room.gm.username
             os.makedirs(dir_path, exist_ok=True)
             txt_path = os.path.join(dir_path, "[" + str(int(time.time())) + "]" + room.id.hex + ".txt")
             with open(txt_path, 'w') as txt:
@@ -97,7 +98,9 @@ class JoinRoom(generic.View):
             pass
         if room.password:
             password = request.POST.get('password')
-            if not password or password != room.password:
+            if not password:
+                return JsonResponse(state=2, msg="请输入密码")
+            if password != room.password:
                 return JsonResponse(state=2, msg="密码错误")
             if room.state == 1 and room.sidelines:
                 group = Group.objects.get(Q(room=room) & Q(type=1))
@@ -107,13 +110,19 @@ class JoinRoom(generic.View):
                 group = Group.objects.get(Q(room=room) & Q(type=0))
                 GroupMember.objects.create(user=request.user, group=group)
                 return JsonResponse(state=0, data={'group_id': str(group.id)})
+            elif room.state == -1:
+                return JsonResponse(state=2, msg="已结团")
             else:
                 return JsonResponse(state=2, msg="加入房间失败")
         else:
-            if room.state != -1:
+            if room.sidelines:
                 group = Group.objects.get(Q(room=room) & Q(type=2))
                 GroupMember.objects.create(user=request.user, group=group)
                 return JsonResponse(state=2, msg="已提交申请")
+            elif room.state == 1 and not room.sidelines:
+                return JsonResponse(state=2, msg="跑团中，禁止旁观")
+            elif room.state == -1:
+                return JsonResponse(state=2, msg="已结团")
             else:
                 return JsonResponse(state=2, msg="加入房间失败")
 
@@ -202,6 +211,8 @@ class RoomChat(generic.View):
             return JsonResponse(state=2, msg="群组禁言中")
         text = request.POST.get('text')
         state = request.POST.get('state')
+        if not text:
+            return JsonResponse(state=1, msg="空白信息")
         if state == 'game':
             try:
                 group_member = GroupMember.objects.filter(group=group).get(user=user)
@@ -216,20 +227,7 @@ class RoomChat(generic.View):
         else:
             name = user.username
         if text.startswith('.'):
-            text_group = DiceFilter.handle(text)
-            if text_group:
-                if text_group.group(1):
-                    dice_num = int(text_group.group(1))
-                else:
-                    dice_num = 1
-                dice_face = 1 if int(text_group.group(2)) == 0 else int(text_group.group(2))
-                if text_group.group(4):
-                    reason = text_group.group(4)
-                else:
-                    reason = '测手气'
-                dice_list = [random.randint(1, dice_face) for i in range(dice_num)]
-                total = sum(dice_list)
-                text = '因为【' + reason + '】骰出：' + str(dice_list) + '=' + str(total)
+            text = DiceFilter.handle(text)
         text = WordFilter.handle(text)
         t = datetime.now()
         game_txt_phantom = txt_board_storeroom.get(room_id)
@@ -247,6 +245,8 @@ class StartGame(generic.View):
         room = Room.objects.get(id=room_id)
         if room.gm != request.user:
             return JsonResponse(state=2, msg='不是房主权限')
+        room.state = 1
+        room.save()
         t = datetime.now()
         game_txt_phantom = txt_board_storeroom.get(room_id)
         if not game_txt_phantom:
@@ -268,6 +268,8 @@ class SaveRoomChat(generic.View):
         room = Room.objects.get(id=room_id)
         if room.gm != user:
             return JsonResponse(state=2, msg='不具有权限')
+        room.state = 0
+        room.save()
         game_txt_phantom = txt_board_storeroom.get(room_id)
         if game_txt_phantom:
             game_txt_phantom.get_by_state('game').append(CharacterTxt(name='GM',
@@ -286,9 +288,40 @@ class SaveRoomChat(generic.View):
                 Group.objects.filter(Q(room=room) & Q(users=user)).update(send_msg=False)
                 return JsonResponse(state=0)
             else:
-                return JsonResponse(state=1, msg="没有消息记录")
+                return JsonResponse(state=2, msg="没有消息记录")
         else:
-            return JsonResponse(state=1, msg="没有消息记录")
+            return JsonResponse(state=2, msg="没有消息记录")
+
+
+class EndGame(generic.View):
+
+    def post(self, request, *args, **kwargs):
+        room_id = kwargs['room_id']
+        room = Room.objects.get(id=room_id)
+        if room.gm != request.user:
+            return JsonResponse(state=2, msg="不具有房主权限")
+        game_txt_phantom = txt_board_storeroom.get(room_id)
+        if game_txt_phantom:
+            game_txt_phantom.get_by_state('game').append(CharacterTxt(name='GM',
+                                                                      content='\n-------------------------\n结团时间：' + str(
+                                                                          datetime.now()) + '\n-------------------------\n',
+                                                                      time=datetime.now()))
+            Group.objects.filter(room=room).update(send_msg=False)
+            txt_list = [str(txt) for txt in game_txt_phantom.get_by_state('game')]
+            if txt_list:
+                game_txt = GameTxt.objects.filter(user=request.user).get(room_id=room_id)
+                with open(game_txt.file.path, 'a') as f:
+                    for t in txt_list:
+                        f.write(t)
+                        f.write('\n')
+        txt_board_storeroom['room_id'] = None
+        record_dict = {}
+        record_dict['游戏文本'] = str(GameTxt.objects.get(room_id=room_id).file)
+        for task_record in TaskRecord.objects.select_related('task').filter(room_id=room_id):
+            record_dict[task_record.task.name] = str(task_record.file)
+        room.state = -1
+        room.save()
+        return JsonResponse(state=0, data=record_dict)
 
 
 class ListTask(generic.ListView):
@@ -322,11 +355,13 @@ class StartTask(generic.CreateView):
         task_id = form.data.get('task_id')
         form.instance.task = Task.objects.get(id=task_id)
         start = form.data.get('start')
-        dir_path = os.path.join(BASE_DIR, "static/resource/game/records/")
+        dir_path = "static/resource/game/records/"
         os.makedirs(dir_path, exist_ok=True)
         txt_path = os.path.join(dir_path, "[" + str(int(time.time())) + "]" + form.instance.id + ".txt")
         with open(txt_path, 'w', encoding='utf-8') as f:
+            f.write(str(datetime.now())+':'+'\n')
             f.write(start)
+            f.write('\n')
         form.instance.file = txt_path
         form.save()
         return JsonResponse(state=0)
@@ -340,7 +375,8 @@ class RecordTask(generic.View):
         task_record.update_time = datetime.now()
         task_record.save()
         record = request.POST.get('record')
-        with open(task_record.file.path, 'a') as f:
+        with open(task_record.file.path, 'a', encoding='utf-8') as f:
+            f.write(str(datetime.now()) + ':' + '\n')
             f.write(record)
             f.write('\n')
         return JsonResponse(state=0)
@@ -532,6 +568,5 @@ class TaskRecordDetail(generic.View):
         task_record = TaskRecord.objects.select_related('room', 'task').get(id=task_record_id)
         with open(task_record.file.path, 'r', encoding='utf-8') as f:
             task_record_txt = f.readlines()
-        return render(request, 'room/executing_task_detail.html', context={'task_record': task_record, 'task_record_txt': task_record_txt})
-
-
+        return render(request, 'room/executing_task_detail.html',
+                      context={'task_record': task_record, 'task_record_txt': task_record_txt})

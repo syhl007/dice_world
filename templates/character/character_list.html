@@ -21,7 +21,7 @@
                             $('div#dialog').modal('hide');
                             $("div#nav_main").load("{% url 'group:list_character' group_id %}");
                         }
-                        else if(data.state == 2) {
+                        else if (data.state == 2) {
                             $.Huimodalalert(data.msg, 1500);
                         }
                     }
@@ -47,7 +47,8 @@
                      alt="{{ character.name }}" onclick="character_dialog_detail(this.id)">
                 <p>{{ character.name }}</p>
                 {% if group_id %}
-                    <button group_id={{ group_id }} character_id={{ character.id }} onclick="link_character(this)">关联
+                    <button class="btn btn-primary size-MINI radio"
+                            group_id={{ group_id }} character_id={{ character.id }} onclick="link_character(this)">关联
                     </button>
                 {% endif %}
             </div>
@@ -68,7 +69,8 @@
                      alt="{{ character.name }}" onclick="character_dialog_detail(this.id)">
                 <p>{{ character.name }}</p>
                 {% if group_id %}
-                    <button group_id={{ group_id }} character_id={{ character.id }}
+                    <button class="btn btn-primary size-MINI radio"
+                            group_id={{ group_id }} character_id={{ character.id }}
                             onclick="link_character('{{ character.id }}')">关联
                     </button>
                 {% endif %}
@@ -90,7 +92,8 @@
                      alt="{{ character.name }}" onclick="character_dialog_detail(this.id)">
                 <p>{{ character.name }}</p>
                 {% if group_id %}
-                    <button class="btn btn-primary size-MINI radio" group_id={{ group_id }} character_id={{ character.id }} onclick="link_character(this)">
+                    <button class="btn btn-primary size-MINI radio"
+                            group_id={{ group_id }} character_id={{ character.id }} onclick="link_character(this)">
                         关联
                     </button>
                 {% endif %}

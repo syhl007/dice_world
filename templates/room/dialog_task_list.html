@@ -7,7 +7,30 @@
 
         function task_record_dialog_detail(task_record_id) {
             $('div#dialog').find('div.modal-body').load('{% url 'room:record_task_detail' room_id '00000000-0000-0000-0000-000000000000' %}'.replace('00000000-0000-0000-0000-000000000000', task_record_id), function () {
-                $('div#dialog').find('div.modal-body').append(record_task_form)
+                $('div#dialog').find('div.modal-body').append(record_task_form);
+                $('form#record_task').find('button#task_record_submit').unbind('click');
+                $('form#record_task').find('button#task_record_submit').click(function (e) {
+                    e.preventDefault();
+                    $('form#record_task').submit();
+                });
+                $('form#record_task').submit(function (e) {
+                    e.preventDefault();
+                    $.ajax({
+                        url:'{% url 'room:record_task' room_id %}',
+                        method:'post',
+                        data:{'record':$('form#record_task').find('textarea').val(),'task_record_id':task_record_id,'csrfmiddlewaretoken':'{{ csrf_token }}'},
+                        dataType:'json',
+                        success:function (data) {
+                            if(data.state == 0) {
+                                $('form#record_task').find('textarea').val('');
+                                task_record_dialog_detail(task_record_id);
+                            }
+                            else if(data.state == 2) {
+                                $.Huimodalalert(data.msg, 1500)
+                            }
+                        }
+                    });
+                });
             });
             $('div#dialog').find('button.sure').css("display", "inline");
             $('div#dialog').find('button.sure').text("返回");

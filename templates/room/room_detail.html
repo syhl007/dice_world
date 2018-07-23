@@ -68,6 +68,7 @@
                 dataType: 'json',
                 success: function (data) {
                     if (data.state == 0) {
+                        $('input.chat_box').val('');
                         clearInterval(refresh_txt);
                         setTimeout("refresh_txt_board(room_chat_form.attr('action'))", 1);
                         refresh_txt = setInterval("refresh_txt_board(room_chat_form.attr('action'))", 2000);
@@ -200,6 +201,30 @@
                 }
             });
         }
+
+        function end_game() {
+            $.ajax({
+                url: '{% url 'room:game_end' room_id %}',
+                method: 'post',
+                data: {'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                dataType: 'json',
+                success: function (data) {
+                    if (data.state == 0) {
+                        txt_data = JSON.parse(data.data);
+                        $('div#dialog').find('h3.modal-title').text('结团撒花');
+                        $('div#dialog').find('div.modal-body').text('');
+                        for(var k in txt_data) {
+                            $('div#dialog').find('div.modal-body').append('<a href="/'+txt_data[k]+'"target= _blank>'+k+'</a>');
+                            $('div#dialog').find('div.modal-body').append('<br>');
+                        }
+                        $('div#dialog').modal('show');
+                    }
+                    else if (data.state == 2) {
+                        $.Huimodalalert(data.msg, 1500);
+                    }
+                }
+            });
+        }
     </script>
 </head>
 <body>
@@ -221,20 +246,25 @@
 </div>
 {% if room %}
     <div class="room_info">
-        {{ room.id }} ||【{{ room.num }}】{{ room.name }}
+        <b>【{{ room.num }}】||<i>{{ room.name }}</i></b>
     </div>
-    <div class="room_text_board">
-    </div>
+    <div class="room_text_board"></div>
     <div class="room_funcation_list">
         ---------------------------------------
         {% if is_gm %}
             <div class="gm_box" style="float: right">
-                <button id="start_game" class="btn btn-primary" onclick="start_game()">开始游戏</button>
-                <button id="save_game" style="display: none" class="btn btn-primary" onclick="save_game()">保存记录</button>
+                {% if room.state == 0 %}
+                    <button id="start_game" class="btn btn-primary" onclick="start_game()">开始游戏</button>
+                    <button id="save_game" style="display: none" class="btn btn-primary" onclick="save_game()">保存记录</button>
+                {% elif room.state == 1 %}
+                    <button id="save_game" class="btn btn-primary" onclick="save_game()">保存记录</button>
+                    <button id="start_game" style="display: none" class="btn btn-primary" onclick="start_game()">开始游戏</button>
+                {% endif %}
                 <button class="btn btn-primary" onclick="list_character_from_room()">NPC管理</button>
                 <button class="btn btn-primary" onclick="list_task_from_room()">任务管理</button>
                 <button class="btn btn-primary" onclick="list_item_from_room()">物品管理</button>
                 <button class="btn btn-primary" onclick="list_skill_from_room()">技能管理</button>
+                <button class="btn btn-danger" onclick="end_game()">结团</button>
             </div>
         {% else %}
             <div class="player_box" style="float: right">
@@ -247,7 +277,8 @@
         <form method="post" action="" class="room_post_msg">
             <input type="radio" name="state" value="game" onclick="room_change_state('game')" checked>游戏发言
             <input type="radio" name="state" value="other" onclick="room_change_state('other')">闲聊发言<br>
-            <input type="text" name="text" class="room_chat_content chat_box" style="width:95%;">
+            <input type="text" name="text" class="room_chat_content chat_box" style="width:95%;"
+                   onkeydown="if(event.keyCode==13){event.keyCode=0;event.returnValue=false;post_message();}">
             {% csrf_token %}
             <input class="btn btn-primary size-MINI radius" type="button" onclick="post_message()" value="发送">
         </form>

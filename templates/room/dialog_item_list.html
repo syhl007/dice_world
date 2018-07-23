@@ -135,7 +135,7 @@
                 <p>{{ item.name }}</p>
             {% if is_gm %}
                 <div>
-                    <button onclick="handle_with_item(this,'{{ item.id }}',type='get')">分配</button>
+                    <button class="btn btn-primary size-MINI radio" onclick="handle_with_item(this,'{{ item.id }}',type='get')">分配</button>
                     <div item_id="{{ item.id }}" class="player_list"></div>
                 </div>
             {% endif %}
@@ -157,8 +157,8 @@
                      alt="{{ item.name }}" onclick="item_dialog_detail(this.id)">
                 <p>{{ item.item.name }}</p>{% if is_gm %}({{ item.player.name }}){% endif %}
                 <div>
-                    <button onclick="item_lost('{{ item.item_id }}', '{{ item.player.id }}')">丢弃</button>
-                    <button onclick="handle_with_item(this, '{{ item.item_id }}', '{{ item.player.id }}', type='change')">
+                    <button class="btn btn-danger size-MINI radio" onclick="item_lost('{{ item.item_id }}', '{{ item.player.id }}')">丢弃</button>
+                    <button class="btn btn-primary size-MINI radio" onclick="handle_with_item(this, '{{ item.item_id }}', '{{ item.player.id }}', type='change')">
                         转交
                     </button>
                     <div item_id="{{ item.id }}" class="player_list"></div>
@@ -182,7 +182,7 @@
                 <p>{{ item.name }}</p>
                 {% if is_gm %}
                     <div>
-                        <button onclick="item_add_room('{{ item.id }}')">添加到房间</button>
+                        <button  class="btn btn-primary size-MINI radio" onclick="item_add_room('{{ item.id }}')">添加到房间</button>
                     </div>
                 {% endif %}
             </div>

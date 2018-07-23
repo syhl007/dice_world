@@ -148,7 +148,7 @@
                      alt="{{ skill.name }}" onclick="skill_dialog_detail(this.id)">
                 <p>{{ skill.skill.name }}</p>{% if is_gm %}({{ skill.player.name }}){% endif %}
                 <div>
-                    <button class="btn btn-primary size-MINI radio"
+                    <button class="btn btn-danger size-MINI radio"
                             onclick="skill_lost('{{ skill.skill_id }}', '{{ skill.player.id }}')">遗忘
                     </button>
                 </div>

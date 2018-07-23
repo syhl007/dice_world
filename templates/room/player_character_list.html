@@ -170,7 +170,7 @@
                     <div class="player_character_item" user_id="{{ groupmember.user.id }}">
                         <p>{{ groupmember.user.username }}{% if not groupmember.is_online %} (不在房间){% endif %}</p>
                         {% if user_id == groupmember.user.id %}
-                            <button onclick="list_charater_from_group()">关联角色
+                            <button class="btn btn-primary size-MINI radio" onclick="list_charater_from_group()">关联角色
                             </button>
                         {% endif %}
                     </div>

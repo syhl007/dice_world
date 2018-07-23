@@ -4,6 +4,25 @@
     {% load static %}
     <meta charset="UTF-8">
     <title>Title</title>
+    <script>
+        function del_skill(id) {
+            $.ajax({
+                url: '{% url 'personal:delete_skill' %}',
+                method: 'post',
+                data: {'skill_id': id, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                dataType: 'json',
+                success: function (data) {
+                    if (data.state == 0) {
+                        $('div#personal_main').load('{% url 'personal:list_skill'%}');
+                    }
+                    else {
+                        $.Huimodalalert(data.msg, 1500);
+                    }
+                }
+            });
+
+        }
+    </script>
 </head>
 <body>
 <h3>已创建的技能</h3>
@@ -16,6 +35,7 @@
             {% if skill.unique %}<p><i>{{ skill.name }}</i></p>
             {% else %}<p>{{ skill.name }}</p>
             {% endif %}
+            <button class="btn btn-danger size-MINI radio" onclick="del_skill('{{ skill.id }}')">删除</button>
         </div>
     {% endfor %}
     <div style="float: left">

@@ -1699,3 +1699,11 @@ SystemError: error return without exception set
 最后是通过设计两个按钮来阻止了冒泡。。蛋疼。记得之前在做项目的时候前端同事也为冒泡烦恼了一段时间。。。自己遇到也是蛋疼。
 
 ---
+
+##2018.07.23
+
+基本弄得差不多了。
+记录一点，HTML的input中有个针对回车键的响应，会默认提交表单，屏蔽方式如下(主要是防止冒泡处理))：
+```html
+onkeydown="if(event.keyCode==13){event.keyCode=0;event.returnValue=false;post_message();}"
+```

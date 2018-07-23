@@ -12,6 +12,7 @@ urlpatterns = [
     path('<uuid:room_id>/join/', login_required(room_views.JoinRoom.as_view()), name='room_join'),
     path('<uuid:room_id>/chat/', login_required(room_views.RoomChat.as_view()), name='room_chat'),
     path('<uuid:room_id>/start/', login_required(room_views.StartGame.as_view()), name='game_start'),
+    path('<uuid:room_id>/end/', login_required(room_views.EndGame.as_view()), name='game_end'),
     path('<uuid:room_id>/chat/save/', login_required(room_views.SaveRoomChat.as_view()), name='game_save'),
     path('<uuid:room_id>/list/group/', login_required(room_views.ListGroup.as_view()), name='list_group'),
     path('<uuid:room_id>/list/player/', login_required(room_views.ListPlayer.as_view()), name='list_player'),

@@ -107,3 +107,5 @@ class AddNPC(generic.View):
         task.npc.add(character)
         return JsonResponse(state=0, msg='添加成功')
 
+
+

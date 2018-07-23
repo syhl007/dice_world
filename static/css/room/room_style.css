@@ -4,3 +4,8 @@
     width: 100%;
     overflow:auto;
 }
+
+.room_rest_board {
+    height:380px;
+    width: 100%;
+}

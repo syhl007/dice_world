@@ -17,74 +17,74 @@
             $("#main_window").load('/room/list/');
         });
 
-            function create_room() {
-                $("input.create_room").hide();
-                $("input.exit_room").attr('value', "取消");
-                $("input.exit_room").show();
-                $("#main_window").load('/room/create/', function () {
-                    $("span.title").text("创建房间");
-                    $("form#create_room").submit(function (e) {
-                        e.preventDefault();
-                        var form = $(this);
-                        $.ajax({
-                            url: form.attr("action"),
-                            method: form.attr("method"),
-                            data: form.serialize(),
-                            dataType: "json",
-                            success: function (data) {
-                                if (data.state == 0) {
-                                    var room_id = JSON.parse(data.data).room_id
-                                    join_room(room_id);
-                                }
-                                else if (data.state == 2) {
-                                    $.Huimodalalert(data.msg, 1500);
-                                }
+        function create_room() {
+            $("input.create_room").hide();
+            $("input.exit_room").attr('value', "取消");
+            $("input.exit_room").show();
+            $("#main_window").load('/room/create/', function () {
+                $("span.title").text("创建房间");
+                $("form#create_room").submit(function (e) {
+                    e.preventDefault();
+                    var form = $(this);
+                    $.ajax({
+                        url: form.attr("action"),
+                        method: form.attr("method"),
+                        data: form.serialize(),
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.state == 0) {
+                                var room_id = JSON.parse(data.data).room_id
+                                join_room(room_id);
                             }
-                        })
-                    });
-                });
-            }
-
-            function join_room(room_id, group_id) {
-                $('div#personal_manager').css('display', 'none');
-                var url = '/room/' + room_id + '/';
-                $("#main_window").load(url, function () {
-                    $("form.room_post_msg").attr("action", "/room/" + room_id + "/chat/");
-                });
-                $("span.title").text("房间详情");
-                $("input.create_room").hide();
-                $("input.exit_room").show();
-                $("div#nav_label_box").toggle();
-                if (group_id) {
-                    $("div#nav_label_box").load("/room/" + room_id + "/list/group/", function () {
-                            $('div.hor_label_main div').removeClass("hover");
-                            $('div.hor_label_main').find('div[group_id="' + group_id + '"]').addClass("hover");
-                            $("div#nav_main").load("/group/" + group_id + "/list/character/");
+                            else if (data.state == 2) {
+                                $.Huimodalalert(data.msg, 1500);
+                            }
                         }
-                    );
-                }
-                else {
-                    $("div#nav_label_box").load("/room/" + room_id + "/list/group/", function () {
-                        $('div.hor_label_main div:first-child').addClass("hover");
-                        var group_id = $('div.hor_label_main div:first-child').attr('group_id');
+                    })
+                });
+            });
+        }
+
+        function join_room(room_id, group_id) {
+            $('div#personal_manager').css('display', 'none');
+            var url = '/room/' + room_id + '/';
+            $("#main_window").load(url, function () {
+                $("form.room_post_msg").attr("action", "/room/" + room_id + "/chat/");
+            });
+            $("span.title").text("房间详情");
+            $("input.create_room").hide();
+            $("input.exit_room").show();
+            $("div#nav_label_box").toggle();
+            if (group_id) {
+                $("div#nav_label_box").load("/room/" + room_id + "/list/group/", function () {
+                        $('div.hor_label_main div').removeClass("hover");
+                        $('div.hor_label_main').find('div[group_id="' + group_id + '"]').addClass("hover");
                         $("div#nav_main").load("/group/" + group_id + "/list/character/");
-                    });
-                }
+                    }
+                );
             }
-
-            function back_room_list() {
-                var r = confirm("确定要返回大厅？");
-                if (r) {
-                    window.location.reload();
-                }
-            }
-
-            function personal_page() {
-                $('div#section').load('/html/personal/personal_page.html/', function() {
-                    $('button#personal_manager_button').css('display', 'none');
-                    $('button#back_to_main').css('display', 'inline');
+            else {
+                $("div#nav_label_box").load("/room/" + room_id + "/list/group/", function () {
+                    $('div.hor_label_main div:first-child').addClass("hover");
+                    var group_id = $('div.hor_label_main div:first-child').attr('group_id');
+                    $("div#nav_main").load("/group/" + group_id + "/list/character/");
                 });
             }
+        }
+
+        function back_room_list() {
+            var r = confirm("确定要返回大厅？");
+            if (r) {
+                window.location.reload();
+            }
+        }
+
+        function personal_page() {
+            $('div#section').load('/html/personal/personal_page.html/', function () {
+                $('button#personal_manager_button').css('display', 'none');
+                $('button#back_to_main').css('display', 'inline');
+            });
+        }
     </script>
 </head>
 <body>
@@ -93,7 +93,8 @@
     <div id="personal_manager" style="float: right">
         <button id="personal_manager_button" class="btn btn-primary size-MINI radius" onclick="personal_page()">个人主页
         </button>
-        <button id="back_to_main" class="btn btn-primary size-MINI radius" style="display: none" onclick="back_room_list()">返回大厅
+        <button id="back_to_main" class="btn btn-primary size-MINI radius" style="display: none"
+                onclick="back_room_list()">返回大厅
         </button>
     </div>
     <h1>Dice World</h1>

@@ -49,8 +49,9 @@
         }
 
         function room_password_box(dom) {
-            var room_id = $(dom).parent().parent().attr('room_id');
-            $("#" + room_id).toggle();
+            apply_to_game(dom);
+            var room_id = "#" + $(dom).parent().parent().attr('room_id');
+            $(room_id).toggle();
         }
 
     </script>
@@ -59,6 +60,7 @@
 <table class="table table-border table-bg">
     <thead>
     <tr>
+        <th>状态</th>
         <th>房间号</th>
         <th>房间名</th>
         <th>创建者</th>
@@ -70,6 +72,7 @@
         <tbody>
         {% for room in room_list %}
             <tr room_id="{{ room.id }}">
+                {% if room.password %}<td>[加密]</td>{% elif room.sidelines == 1 %}<td>[旁观]</td>{% else %}<td>[ ]</td>{% endif %}
                 <td> {{ room.num }}</td>
                 <!--<td><a href="{% url 'room:room_detail' room.id %}"> 【{{ room.name }}】 </a></td>-->
                 <td> 【{{ room.name }}】</td>
@@ -78,10 +81,8 @@
                 <td>
                     {% if room.state == -1 %}
                         已结团
-                    {% elif room.state == 1 and not room.sidelines %}
-                        跑团中，禁止旁观
                     {% elif room.password %}
-                        <button class="btn btn-primary room_password_box" onclick="room_password_box(this)">输入密码
+                        <button class="btn btn-primary room_password_box" onclick="room_password_box(this)">加入
                         </button>
                         <form id="{{ room.id }}" method="post"
                               style="display:none; float: right">
@@ -89,7 +90,7 @@
                             <input class="btn btn-primary size-MINI radius" type="button" onclick="password_to_game(this)" value="加入">
                         </form>
                     {% else %}
-                        <button class="btn btn-primary join_room" onclick="apply_to_game(this)">加入房间
+                        <button class="btn btn-primary join_room" onclick="apply_to_game(this)">加入
                         </button>
                     {% endif %}
                 </td>
